@@ -26,6 +26,10 @@ dependencies:
   custom_navigation_bar: ^0.8.1
   rolling_nav_bar: ^0.0.4
   dot_navigation_bar: ^0.2.0
+  firebase_core: ^1.2.0
+  firebase_analytics: ^8.1.0
+  firebase_auth: ^1.2.0
+  cloud_firestore: ^2.2.0
 
 
   flutter:
