@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">Pepper</string>
+    <string name="facebook_app_id">887769808826512</string>
+    <string name="fb_login_protocol_scheme">fb887769808826512</string>
+</resources>

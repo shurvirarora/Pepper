@@ -17,7 +17,7 @@ class MyApp extends StatelessWidget {
       scaffoldBackgroundColor: Color(0xff44d083),
     );
     return MaterialApp(
-      title: 'Flutter Layout Demo',
+      title: 'Pepper',
       theme: themeData,
       //Defines home
       initialRoute: '/login',

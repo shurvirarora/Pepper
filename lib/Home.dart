@@ -6,6 +6,8 @@ import 'login.dart';
 // import 'package:ff_navigation_bar/ff_navigation_bar.dart';
 // import 'package:custom_navigation_bar/custom_navigation_bar.dart';
 import 'package:dot_navigation_bar/dot_navigation_bar.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 
 Widget homePage = Column(children: [
   Expanded(
@@ -27,6 +29,8 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   // var _selectedTab = _SelectedTab.home;
+  // final _auth = FirebaseAuth.instance;
+
   int _selectedTab = 1;
 
   final List<Widget> _children = [editPage, homePage, chatPage];
