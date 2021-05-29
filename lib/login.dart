@@ -1,13 +1,18 @@
+import 'dart:async';
+
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:myapp/ForgotPassword.dart';
 import 'package:myapp/Home.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:myapp/blocs/auth_bloc.dart';
 // import com.facebook.FacebookSdk;
 // import com.facebook.appevents.AppEventsLogger;
 // import 'package:flutter_login_facebook/flutter_login_facebook.dart';
-// import 'package:provider/provider.dart';
+import 'package:provider/provider.dart';
+import 'Home.dart';
 
-class Login extends StatelessWidget {
+class Login extends StatefulWidget {
   static Text myText(
       String text,
       double size,
@@ -25,7 +30,36 @@ class Login extends StatelessWidget {
   }
 
   @override
+  _LoginState createState() => _LoginState();
+}
+
+class _LoginState extends State<Login> {
+  StreamSubscription<User> loginStateSubscription;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    var authBloc = Provider.of<AuthBloc>(context, listen: false);
+    loginStateSubscription = authBloc.currentUser.listen((fbUser) {
+      if (fbUser != null) {
+        Navigator.of(context)
+            .pushReplacement(MaterialPageRoute(builder: (context) => Home()));
+      }
+    });
+
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    loginStateSubscription.cancel();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
+    var authBloc = Provider.of<AuthBloc>(context);
+
     return SafeArea(
       child: Scaffold(
         backgroundColor: Color(0xff44d083),
@@ -44,12 +78,12 @@ class Login extends StatelessWidget {
             // Icon(Icons.people_sharp),
             Padding(
               padding: EdgeInsets.only(bottom: 5),
-              child: myText('pepper', 36, 1.5, Colors.white, 'Righteous'),
+              child: Login.myText('pepper', 36, 1.5, Colors.white, 'Righteous'),
             ),
             Padding(
               padding: EdgeInsets.only(bottom: 130),
-              child: myText('Spice up your life', 21, 0, Color(0xfffe3c72),
-                  'DancingScript'),
+              child: Login.myText('Spice up your life', 21, 0,
+                  Color(0xfffe3c72), 'DancingScript'),
             ),
             Padding(
                 padding: EdgeInsets.fromLTRB(0, 60, 0, 0),
@@ -63,6 +97,10 @@ class Login extends StatelessWidget {
             Center(
                 child: LoginButton(
                     'LOG IN WITH FACEBOOK', FontAwesomeIcons.facebook)),
+            OutlinedButton(
+              child: Text('Facebook'),
+              onPressed: () => authBloc.loginFacebook(),
+            ),
             TextButton(
                 onPressed: () {
                   Navigator.push(

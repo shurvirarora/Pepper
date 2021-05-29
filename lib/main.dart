@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:myapp/blocs/auth_bloc.dart';
 import 'package:myapp/login.dart';
 // import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:myapp/Home.dart';
+import 'package:provider/provider.dart';
 import 'Home.dart';
 import 'login.dart';
 import 'PhoneLogin.dart';
@@ -23,18 +25,21 @@ class MyApp extends StatelessWidget {
       primaryColor: Color(0xff44d083),
       scaffoldBackgroundColor: Color(0xff44d083),
     );
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'Pepper',
-      theme: themeData,
-      //Defines home
-      initialRoute: '/Email',
-      routes: {
-        '/main': (context) => Home(),
-        '/login': (context) => Login(),
-        '/Phone': (context) => PhoneLogin(),
-        '/Email': (context) => EmailLogin(),
-      },
+    return Provider(
+      create: (context) => AuthBloc(),
+      child: MaterialApp(
+        debugShowCheckedModeBanner: false,
+        title: 'Pepper',
+        theme: themeData,
+        //Defines home
+        initialRoute: '/login',
+        routes: {
+          '/main': (context) => Home(),
+          '/login': (context) => Login(),
+          '/Phone': (context) => PhoneLogin(),
+          '/Email': (context) => EmailLogin(),
+        },
+      ),
     );
   }
 }

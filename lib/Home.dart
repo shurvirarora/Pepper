@@ -1,14 +1,22 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'login.dart';
+import 'package:myapp/blocs/auth_bloc.dart';
+
+import 'package:dot_navigation_bar/dot_navigation_bar.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+// import 'package:firebase_core/firebase_core.dart';
+import 'package:provider/provider.dart';
+import 'editPage.dart';
+import 'chatPage.dart';
+
 // import 'package:google_nav_bar/google_nav_bar.dart';
 // import 'package:ff_navigation_bar/ff_navigation_bar.dart';
 // import 'package:custom_navigation_bar/custom_navigation_bar.dart';
-import 'package:dot_navigation_bar/dot_navigation_bar.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
-
+final List<Widget> _children = [editPage(), homePage, chatPage];
 Widget homePage = Column(children: [
   Expanded(
     child: MyRow(),
@@ -18,28 +26,33 @@ Widget homePage = Column(children: [
   )
 ]);
 
-Widget editPage = Container(color: Colors.black);
-
-Widget chatPage = Container(color: Colors.black);
-
 class Home extends StatefulWidget {
   @override
   _HomeState createState() => _HomeState();
 }
 
 class _HomeState extends State<Home> {
+  StreamSubscription<User> homeStateSubscription;
+
   final _auth = FirebaseAuth.instance;
   User loggedInUser; //Firebase user
-
-  int _selectedTab = 1;
-
-  final List<Widget> _children = [editPage, homePage, chatPage];
-
-  void _handleIndexChanged(int i) {
-    setState(() {
-      // _selectedTab = _SelectedTab.values[i];
-      _selectedTab = i;
+  @override
+  void initState() {
+    // TODO: implement initState
+    var authBloc = Provider.of<AuthBloc>(context, listen: false);
+    homeStateSubscription = authBloc.currentUser.listen((fbUser) {
+      if (fbUser == null) {
+        Navigator.of(context)
+            .pushReplacement(MaterialPageRoute(builder: (context) => Login()));
+      }
     });
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    homeStateSubscription.cancel();
+    super.dispose();
   }
 
   void getCurrentUser() async {
@@ -52,6 +65,14 @@ class _HomeState extends State<Home> {
     } catch (e) {
       print(e);
     }
+  }
+
+  int _selectedTab = 1;
+
+  void _handleIndexChanged(int i) {
+    setState(() {
+      _selectedTab = i;
+    });
   }
 
   @override
@@ -70,7 +91,9 @@ class _HomeState extends State<Home> {
             ),
           ],
         ),
-        body: _children[_selectedTab], //renders the page based on the icon
+        body: _children[_selectedTab],
+
+        //renders the page based on the icon
         bottomNavigationBar: DotNavigationBar(
           itemPadding: EdgeInsets.symmetric(vertical: 10, horizontal: 16),
           margin: EdgeInsets.symmetric(vertical: 0, horizontal: 8),
