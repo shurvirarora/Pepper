@@ -31,10 +31,6 @@ class ForgotPassword extends StatelessWidget {
                     filled: true,
                     fillColor: Colors.white,
                     border: OutlineInputBorder(
-                      // borderSide: BorderSide(
-                      //     width: 50,
-                      //     color: Colors.red,
-                      //     style: BorderStyle.solid),
                       borderRadius: BorderRadius.circular(40),
                     ),
                   ),

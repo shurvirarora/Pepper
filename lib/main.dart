@@ -4,8 +4,15 @@ import 'package:myapp/login.dart';
 import 'package:myapp/Home.dart';
 import 'Home.dart';
 import 'login.dart';
+import 'PhoneLogin.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'EmailLogin.dart';
 
-void main() => runApp(MyApp());
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
+  runApp(MyApp());
+}
 
 class MyApp extends StatelessWidget {
   // This widget is the root of your application.
@@ -17,13 +24,16 @@ class MyApp extends StatelessWidget {
       scaffoldBackgroundColor: Color(0xff44d083),
     );
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       title: 'Pepper',
       theme: themeData,
       //Defines home
-      initialRoute: '/login',
+      initialRoute: '/Email',
       routes: {
         '/main': (context) => Home(),
         '/login': (context) => Login(),
+        '/Phone': (context) => PhoneLogin(),
+        '/Email': (context) => EmailLogin(),
       },
     );
   }

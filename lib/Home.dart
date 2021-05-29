@@ -28,8 +28,8 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-  // var _selectedTab = _SelectedTab.home;
-  // final _auth = FirebaseAuth.instance;
+  final _auth = FirebaseAuth.instance;
+  User loggedInUser; //Firebase user
 
   int _selectedTab = 1;
 
@@ -40,6 +40,18 @@ class _HomeState extends State<Home> {
       // _selectedTab = _SelectedTab.values[i];
       _selectedTab = i;
     });
+  }
+
+  void getCurrentUser() async {
+    try {
+      final user = _auth.currentUser;
+      if (user != null) {
+        loggedInUser = user;
+        print(loggedInUser.email);
+      }
+    } catch (e) {
+      print(e);
+    }
   }
 
   @override

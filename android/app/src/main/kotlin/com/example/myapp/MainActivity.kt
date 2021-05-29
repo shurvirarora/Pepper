@@ -1,4 +1,4 @@
-package com.example.myapp
+package com.orbital.pepper
 
 import io.flutter.embedding.android.FlutterActivity
 

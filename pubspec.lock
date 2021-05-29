@@ -99,13 +99,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.2.0"
-  ff_navigation_bar:
-    dependency: "direct main"
-    description:
-      name: ff_navigation_bar
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "0.1.5"
   firebase:
     dependency: transitive
     description:
@@ -304,12 +297,12 @@ packages:
     source: hosted
     version: "1.0.2"
   provider:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: provider
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "4.3.3"
+    version: "5.0.0"
   quiver:
     dependency: transitive
     description:

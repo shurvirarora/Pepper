@@ -62,6 +62,4 @@
 
 </manifest>
 
-      
-keytool -exportcert -alias androiddebugkey -keystore "C:\Users\user\.android\debug.keystore" | "PATH_TO_OPENSSL_LIBRARY\bin\openssl" sha1 -binary | "PATH_TO_OPENSSL_LIBRARY\bin\openssl" base64
-      
+          
