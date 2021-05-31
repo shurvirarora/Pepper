@@ -39,7 +39,7 @@ class _editPageState extends State<editPage> {
     var authBloc = Provider.of<AuthBloc>(context);
     return Container(
       child: OutlinedButton(
-          child: Text('Facebook'), onPressed: () => authBloc.logout()),
+          child: Text('Log Out'), onPressed: () => authBloc.logout()),
     );
   }
 }

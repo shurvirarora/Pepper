@@ -1,16 +1,15 @@
 import 'dart:async';
-
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:myapp/ForgotPassword.dart';
 import 'package:myapp/Home.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:myapp/blocs/auth_bloc.dart';
+import 'package:provider/provider.dart';
+import 'Home.dart';
 // import com.facebook.FacebookSdk;
 // import com.facebook.appevents.AppEventsLogger;
 // import 'package:flutter_login_facebook/flutter_login_facebook.dart';
-import 'package:provider/provider.dart';
-import 'Home.dart';
 
 class Login extends StatefulWidget {
   static Text myText(
@@ -38,7 +37,6 @@ class _LoginState extends State<Login> {
 
   @override
   void initState() {
-    // TODO: implement initState
     var authBloc = Provider.of<AuthBloc>(context, listen: false);
     loginStateSubscription = authBloc.currentUser.listen((fbUser) {
       if (fbUser != null) {
@@ -56,6 +54,19 @@ class _LoginState extends State<Login> {
     super.dispose();
   }
 
+  void oldButtonFunction() {
+    print(hasBeenPressed);
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => Home()),
+    );
+    setState(() {
+      hasBeenPressed = !hasBeenPressed;
+    });
+  }
+
+  bool hasBeenPressed = true;
+
   @override
   Widget build(BuildContext context) {
     var authBloc = Provider.of<AuthBloc>(context);
@@ -65,7 +76,6 @@ class _LoginState extends State<Login> {
         backgroundColor: Color(0xff44d083),
         body: Column(
           mainAxisAlignment: MainAxisAlignment.center,
-          // crossAxisAlignment: CrossAxisAlignment.cen,
           children: [
             Padding(
               padding: EdgeInsets.fromLTRB(0, 260, 0, 10),
@@ -75,7 +85,6 @@ class _LoginState extends State<Login> {
                 color: Color(0xfffe3c72),
               ),
             ),
-            // Icon(Icons.people_sharp),
             Padding(
               padding: EdgeInsets.only(bottom: 5),
               child: Login.myText('pepper', 36, 1.5, Colors.white, 'Righteous'),
@@ -88,19 +97,11 @@ class _LoginState extends State<Login> {
             Padding(
                 padding: EdgeInsets.fromLTRB(0, 60, 0, 0),
                 child: Center(
-                    child: LoginButton(
-                        "LOG IN WITH PHONE", FontAwesomeIcons.mobileAlt))),
-            // Padding(
-            //   padding: const EdgeInsets.all(8.0),
-            //   child: Center(child: LoginButton('')),
-            // ),
+                    child: LoginButton("LOG IN WITH PHONE",
+                        FontAwesomeIcons.mobileAlt, oldButtonFunction))),
             Center(
-                child: LoginButton(
-                    'LOG IN WITH FACEBOOK', FontAwesomeIcons.facebook)),
-            OutlinedButton(
-              child: Text('Facebook'),
-              onPressed: () => authBloc.loginFacebook(),
-            ),
+                child: LoginButton('LOG IN WITH FACEBOOK',
+                    FontAwesomeIcons.facebook, () => authBloc.loginFacebook())),
             TextButton(
                 onPressed: () {
                   Navigator.push(
@@ -122,8 +123,9 @@ class _LoginState extends State<Login> {
 class LoginButton extends StatefulWidget {
   final String name;
   final IconData myIcon;
+  Function onPressed;
 
-  LoginButton(this.name, this.myIcon);
+  LoginButton(this.name, this.myIcon, this.onPressed);
 
   @override
   LoginButtonState createState() {
@@ -132,42 +134,29 @@ class LoginButton extends StatefulWidget {
 }
 
 class LoginButtonState extends State<LoginButton> {
-  bool hasBeenPressed = true;
-
   @override
   Widget build(BuildContext context) {
     return OutlinedButton.icon(
         onPressed: () {
-          print(hasBeenPressed);
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => Home()),
-          );
-          setState(() {
-            hasBeenPressed = !hasBeenPressed;
-          });
+          this.widget.onPressed();
         },
         icon: Icon(
-          this.widget.myIcon, semanticLabel: "rvervtbtrbtrr",
-          // FontAwesomeIcons.facebook,
+          this.widget.myIcon,
+          semanticLabel: "rvervtbtrbtrr",
           textDirection: TextDirection.rtl,
           size: 15,
         ),
         label: Text(
           this.widget.name,
           style: TextStyle(letterSpacing: 2),
-          // textAlign: TextAlign.justify,
         ),
         style: OutlinedButton.styleFrom(
           minimumSize: Size(310, 40),
-          // shadowColor: Colors.red,
-          // elevation: 1,
-          // tapTargetSize: MaterialTapTargetSize.padded,
           primary: Colors.white,
           onSurface: Colors.white,
           side: BorderSide(
             width: 2,
-            color: hasBeenPressed ? Colors.white : Color(0xfffe3c72),
+            color: Colors.white,
           ),
           shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.all(Radius.circular(20))),
