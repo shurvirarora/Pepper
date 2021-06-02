@@ -12,24 +12,26 @@ class _homePageState extends State<homePage> with TickerProviderStateMixin {
   List<String> welcomeImages = [
     "images/image1.jpg",
     "images/image2.jpg",
-    "images/image3.jpg",
-    "images/image4.jpg",
+    "images/kpop.png",
+    "images/puppy.png",
+    "images/selena.png",
   ];
 
   @override
   Widget build(BuildContext context) {
     CardController controller;
     return Container(
-      height: MediaQuery.of(context).size.height * 0.6,
+      height: MediaQuery.of(context).size.height * 1,
       child: new TinderSwapCard(
+        allowVerticalMovement: true,
         swipeUp: true,
-        swipeDown: true,
+        swipeDown: false,
         orientation: AmassOrientation.BOTTOM,
         totalNum: welcomeImages.length,
         stackNum: 3,
         swipeEdge: 4.0,
-        maxWidth: MediaQuery.of(context).size.width * 0.9,
-        maxHeight: MediaQuery.of(context).size.width * 0.9,
+        maxWidth: MediaQuery.of(context).size.width * 1,
+        maxHeight: MediaQuery.of(context).size.width * 2.2,
         minWidth: MediaQuery.of(context).size.width * 0.8,
         minHeight: MediaQuery.of(context).size.width * 0.8,
         cardBuilder: (context, index) => Card(
