@@ -1,30 +1,32 @@
 import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'login.dart';
 import 'package:myapp/blocs/auth_bloc.dart';
-
 import 'package:dot_navigation_bar/dot_navigation_bar.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-// import 'package:firebase_core/firebase_core.dart';
 import 'package:provider/provider.dart';
+// Responsible for logging in/out of account
+import 'login.dart';
+// Navigate through the different tabs
 import 'editPage.dart';
 import 'chatPage.dart';
+import 'homePage.dart';
 
+// import 'package:firebase_core/firebase_core.dart';
 // import 'package:google_nav_bar/google_nav_bar.dart';
 // import 'package:ff_navigation_bar/ff_navigation_bar.dart';
 // import 'package:custom_navigation_bar/custom_navigation_bar.dart';
-final List<Widget> _children = [editPage(), homePage, chatPage];
-Widget homePage = Column(children: [
-  Expanded(
-    child: MyRow(),
-  ),
-  Expanded(
-    child: MyRow(),
-  )
-]);
+
+final List<Widget> _children = [editPage(), homePage(), chatPage];
+// Widget homePage = Column(children: [
+//   Expanded(
+//     child: MyRow(),
+//   ),
+//   Expanded(
+//     child: MyRow(),
+//   )
+// ]);
 
 class Home extends StatefulWidget {
   @override
