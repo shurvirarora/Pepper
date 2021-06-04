@@ -83,13 +83,23 @@ class _HomeState extends State<Home> {
       child: Scaffold(
         backgroundColor: Colors.white,
         appBar: AppBar(
-          title: Login.myText('pepper', 36, 3, Color(0xfffe3c72), 'PoiretOne'),
+          leading: Container(
+            margin: EdgeInsets.only(left: 6),
+            padding: EdgeInsets.fromLTRB(0, 15, 10, 10),
+            child:
+                Icon(FontAwesomeIcons.heart, size: 22.5, color: Colors.white),
+          ),
+          title: Login.myText('pepper', 30, 1.5, Colors.white, 'Righteous'),
           centerTitle: true,
           actions: [
-            Icon(
-              FontAwesomeIcons.pepperHot,
-              size: 25,
-              color: Color(0xfffe3c72),
+            Container(
+              margin: EdgeInsets.only(right: 6),
+              padding: EdgeInsets.fromLTRB(0, 15, 10, 10),
+              child: Icon(
+                FontAwesomeIcons.slidersH,
+                size: 22.5,
+                color: Colors.white,
+              ),
             ),
           ],
         ),
@@ -97,25 +107,35 @@ class _HomeState extends State<Home> {
 
         //renders the page based on the icon
         bottomNavigationBar: DotNavigationBar(
-          itemPadding: EdgeInsets.symmetric(vertical: 10, horizontal: 16),
-          margin: EdgeInsets.symmetric(vertical: 0, horizontal: 8),
+          itemPadding: EdgeInsets.symmetric(vertical: 10, horizontal: 17),
+          margin: EdgeInsets.symmetric(vertical: 0, horizontal: 40),
           curve: Curves.easeOutQuint,
           currentIndex: _selectedTab,
           onTap: _handleIndexChanged,
           // dotIndicatorColor: Colors.black,
           items: [
             DotNavigationBarItem(
-              icon: Icon(Icons.person),
+              icon: Icon(
+                Icons.person,
+                size: 25,
+              ),
               selectedColor: Color(0xfffe3c72),
             ),
 
             /// Home
             DotNavigationBarItem(
-                icon: Icon(Icons.home), selectedColor: Color(0xfffe3c72)),
+                icon: Icon(
+                  Icons.home,
+                  size: 25,
+                ),
+                selectedColor: Color(0xfffe3c72)),
 
             /// Search
             DotNavigationBarItem(
-              icon: Icon(Icons.message_outlined),
+              icon: Icon(
+                FontAwesomeIcons.comment,
+                size: 25,
+              ),
               selectedColor: Color(0xfffe3c72),
             ),
 
@@ -126,8 +146,6 @@ class _HomeState extends State<Home> {
     );
   }
 }
-
-// enum _SelectedTab { person, home, message_outlined }
 
 class MyRow extends StatelessWidget {
   const MyRow({
