@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_tindercard/flutter_tindercard.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 // import 'package:flutter_swipable/flutter_swipable.dart';
 import 'Decorations/constants.dart';
 
@@ -11,13 +12,13 @@ class swipePage extends StatefulWidget {
 }
 
 class _swipePageState extends State<swipePage> {
-  List<ScrollableCard> welcomeImages = [
-    ScrollableCard([Image.asset("images/sample2.jpg")]),
-    ScrollableCard(
+  List<UserCard> welcomeImages = [
+    UserCard([Image.asset("images/sample2.jpg")]),
+    UserCard(
         [Image.asset("images/image2.jpg"), Image.asset("images/selena.jpg")]),
-    ScrollableCard(
+    UserCard(
         [Image.asset("images/sample1.jpg"), Image.asset("images/image2.jpg")]),
-    ScrollableCard(
+    UserCard(
         [Image.asset("images/selena.jpg"), Image.asset("images/sample3.jpg")]),
   ];
 
@@ -57,7 +58,7 @@ class _swipePageState extends State<swipePage> {
   }
 }
 
-class ScrollableCard extends StatelessWidget {
+class UserCard extends StatefulWidget {
   // Made to distinguish cards
   // Add your own applicable data here
   // final Color color;
@@ -68,15 +69,55 @@ class ScrollableCard extends StatelessWidget {
 
   Container bottomProfile = Container(
       child: Column(children: [
-    ElevatedButton.icon(
-        onPressed: null, icon: Icon(Icons.ac_unit), label: Text('Like')),
+    Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Padding(
+          padding: EdgeInsets.all(20.0),
+          child: ElevatedButton(
+            onPressed: () {},
+            child: Icon(
+              FontAwesomeIcons.times,
+              size: 45,
+            ),
+            style: ElevatedButton.styleFrom(
+              onPrimary: Color(0xfffe3c72),
+              primary: Colors.white,
+              shape: CircleBorder(),
+              padding: EdgeInsets.all(20),
+            ),
+          ),
+        ),
+        Padding(
+          padding: EdgeInsets.all(20.0),
+          child: ElevatedButton(
+            onPressed: () {},
+            child: Icon(
+              FontAwesomeIcons.heart,
+              size: 45,
+            ),
+            style: ElevatedButton.styleFrom(
+              onPrimary: Color(0xff44d083),
+              primary: Colors.white,
+              shape: CircleBorder(),
+              padding: EdgeInsets.all(20),
+            ),
+          ),
+        )
+      ],
+    )
   ]));
 
-  // ScrollableCard(this.image1, {this.image2});
-  ScrollableCard(List<Widget> items) {
+  UserCard(List<Widget> items) {
     this.items = items;
     this.items.add(bottomProfile);
   }
+
+  @override
+  _UserCardState createState() => _UserCardState();
+}
+
+class _UserCardState extends State<UserCard> {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -91,7 +132,7 @@ class ScrollableCard extends StatelessWidget {
         // padding: EdgeInsets.all(20),
         child: ListView(
           // child: Column(
-          children: items,
+          children: widget.items,
         ),
       ),
       // ),

@@ -9,16 +9,16 @@ import 'package:provider/provider.dart';
 // Responsible for logging in/out of account
 import 'login.dart';
 // Navigate through the different tabs
-import 'editPage.dart';
-import 'chatPage.dart';
-import 'homePage.dart';
+import 'profilePage.dart';
+import 'messagePage.dart';
+import 'swipePage.dart';
 
 // import 'package:firebase_core/firebase_core.dart';
 // import 'package:google_nav_bar/google_nav_bar.dart';
 // import 'package:ff_navigation_bar/ff_navigation_bar.dart';
 // import 'package:custom_navigation_bar/custom_navigation_bar.dart';
 
-final List<Widget> _children = [editPage(), homePage(), chatPage];
+final List<Widget> _children = [profilePage(), swipePage(), messages];
 // Widget homePage = Column(children: [
 //   Expanded(
 //     child: MyRow(),

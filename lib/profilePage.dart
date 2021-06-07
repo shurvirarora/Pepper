@@ -7,12 +7,12 @@ import 'package:provider/provider.dart';
 import 'package:myapp/blocs/auth_bloc.dart';
 import 'login.dart';
 
-class editPage extends StatefulWidget {
+class profilePage extends StatefulWidget {
   @override
-  _editPageState createState() => _editPageState();
+  _profilePageState createState() => _profilePageState();
 }
 
-class _editPageState extends State<editPage> {
+class _profilePageState extends State<profilePage> {
   StreamSubscription<User> editStateSubscription;
 
   @override

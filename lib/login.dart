@@ -1,12 +1,12 @@
 import 'dart:async';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:myapp/ForgotPassword.dart';
-import 'package:myapp/Home.dart';
+import 'package:myapp/forgotPassword.dart';
+import 'package:myapp/home.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:myapp/blocs/auth_bloc.dart';
 import 'package:provider/provider.dart';
-import 'Home.dart';
+import 'home.dart';
 
 // import com.facebook.FacebookSdk;
 // import com.facebook.appevents.AppEventsLogger;

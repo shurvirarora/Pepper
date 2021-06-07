@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:myapp/blocs/auth_bloc.dart';
 import 'package:myapp/login.dart';
-import 'package:myapp/Home.dart';
+import 'package:myapp/home.dart';
 import 'package:provider/provider.dart';
-import 'Home.dart';
+import 'home.dart';
 import 'login.dart';
-import 'PhoneLogin.dart';
+import 'phoneLogin.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'EmailLogin.dart';
+import 'emailLogin.dart';
 
 // import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 void main() async {
