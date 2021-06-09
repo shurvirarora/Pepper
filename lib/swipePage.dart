@@ -143,21 +143,24 @@ class _UserCardState extends State<UserCard> {
     List<Widget> filterImages;
     List<String> filterText;
 
-    Text name = Text(filterText[0]);
-    Image img1 = filterImages[0];
-    List<Widget> userData = [name, img1];
+    // Text name = Text(filterText[0]);
+    // Image img1 = filterImages[0];
+    List<Widget> userData = [widget.img1];
 
-    for (Widget w in userImages) {
-      if (w != null) {
-        filterImages.add(w);
-      }
-      for (String w in userText) {
-        if (w != null) {
-          filterText.add(w);
-        }
-        return userData;
-      }
-    }
+    // for (Widget w in userImages) {
+    //   if (w != null) {
+    //     print(w);
+    //     filterImages.add(w);
+    //   }
+    // }
+
+    // for (String w in userText) {
+    //   if (w != null) {
+    //     filterText.add(w);
+    //   }
+    // }
+
+    return userData;
   }
 
   @override

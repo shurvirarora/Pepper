@@ -37,9 +37,11 @@ class _profilePageState extends State<profilePage> {
   @override
   Widget build(BuildContext context) {
     var authBloc = Provider.of<AuthBloc>(context);
-    return Container(
-      child: OutlinedButton(
-          child: Text('Log Out'), onPressed: () => authBloc.logout()),
-    );
+    return Column(children: [
+      Container(
+        child: OutlinedButton(
+            child: Text('Log Out'), onPressed: () => authBloc.logout()),
+      ),
+    ]);
   }
 }

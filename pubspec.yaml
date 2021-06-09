@@ -31,10 +31,12 @@ dependencies:
   firebase_analytics: ^8.1.0
   firebase_auth: ^1.2.0
   cloud_firestore: ^2.2.0
+  firebase_storage: ^8.1.1
   provider: ^5.0.0
   flutter_login_facebook: ^1.0.1
   flutter_tindercard: ^0.1.7
   flutter_swipable: ^0.1.1
+  image_picker: ^0.8.0+3
   flutter:
     sdk: flutter
 

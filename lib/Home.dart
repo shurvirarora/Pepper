@@ -77,32 +77,69 @@ class _HomeState extends State<Home> {
     });
   }
 
+  AppBar myNav(int index) {
+    if (index == 0) {
+      return AppBar(
+        elevation: 0,
+        backgroundColor: Colors.white,
+        actions: [
+          Container(
+            margin: EdgeInsets.only(right: 6),
+            padding: EdgeInsets.fromLTRB(0, 20, 15, 10),
+            child: Icon(
+              FontAwesomeIcons.cog,
+              size: 27.5,
+              color: Color(0xff808080),
+            ),
+          ),
+        ],
+      );
+    } else if (index == 1) {
+      return AppBar(
+        leading: Container(
+          margin: EdgeInsets.only(left: 6),
+          padding: EdgeInsets.fromLTRB(0, 15, 10, 10),
+          child: Icon(FontAwesomeIcons.heart, size: 22.5, color: Colors.white),
+        ),
+        title: Login.myText('pepper', 30, 1.5, Colors.white, 'Righteous'),
+        centerTitle: true,
+        actions: [
+          Container(
+            margin: EdgeInsets.only(right: 6),
+            padding: EdgeInsets.fromLTRB(0, 15, 10, 10),
+            child: Icon(
+              FontAwesomeIcons.slidersH,
+              size: 22.5,
+              color: Colors.white,
+            ),
+          ),
+        ],
+      );
+    } else if (index == 2) {
+      return AppBar(
+        elevation: 0,
+        backgroundColor: Colors.white,
+        actions: [
+          Container(
+            margin: EdgeInsets.only(right: 6),
+            padding: EdgeInsets.fromLTRB(0, 20, 15, 10),
+            child: Icon(
+              FontAwesomeIcons.search,
+              size: 27.5,
+              color: Color(0xff808080),
+            ),
+          ),
+        ],
+      );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
         backgroundColor: Colors.white,
-        appBar: AppBar(
-          leading: Container(
-            margin: EdgeInsets.only(left: 6),
-            padding: EdgeInsets.fromLTRB(0, 15, 10, 10),
-            child:
-                Icon(FontAwesomeIcons.heart, size: 22.5, color: Colors.white),
-          ),
-          title: Login.myText('pepper', 30, 1.5, Colors.white, 'Righteous'),
-          centerTitle: true,
-          actions: [
-            Container(
-              margin: EdgeInsets.only(right: 6),
-              padding: EdgeInsets.fromLTRB(0, 15, 10, 10),
-              child: Icon(
-                FontAwesomeIcons.slidersH,
-                size: 22.5,
-                color: Colors.white,
-              ),
-            ),
-          ],
-        ),
+        appBar: myNav(_selectedTab),
         body: _children[_selectedTab],
 
         //renders the page based on the icon
