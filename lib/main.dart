@@ -53,7 +53,7 @@ class Apple extends StatelessWidget {
         child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
           CircleAvatar(
             radius: 50,
-            backgroundImage: AssetImage('images/profilePic.jpg'),
+            backgroundImage: AssetImage('assets/images/profilePic.jpg'),
           ),
           Container(
             width: double.infinity,
