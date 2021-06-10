@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:myapp/commons/radial_progress.dart';
 import 'package:myapp/styleguide/colors.dart';
 import 'package:myapp/styleguide/textstyle.dart';
 import 'package:myapp/commons/rounded_image.dart';
@@ -15,9 +16,12 @@ class MyInfo extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          RoundedImage(
-            imagePath: "assets/images/charli.jpg",
-            size: Size.fromWidth(120.0),
+          RadialProgress(
+            width: 6,
+            child: RoundedImage(
+              imagePath: "assets/images/charli.jpg",
+              size: Size.fromWidth(120.0),
+            ),
           ),
           SizedBox(
             height: 10,

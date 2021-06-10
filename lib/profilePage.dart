@@ -3,7 +3,9 @@ import 'dart:async';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:myapp/commons/my_info.dart';
+import 'package:myapp/commons/profile_info_big_card.dart';
 // import 'package:firebase_core/firebase_core.dart';
 import 'package:provider/provider.dart';
 import 'package:myapp/blocs/auth_bloc.dart';
@@ -47,7 +49,7 @@ class _profilePageState extends State<profilePage> {
           Column(
             children: <Widget>[
               Expanded(
-                flex: 4,
+                flex: 5,
                 child: Stack(
                   children: <Widget>[
                     OpaqueImage(
@@ -77,8 +79,27 @@ class _profilePageState extends State<profilePage> {
               Expanded(
                 flex: 5,
                 child: Container(
-                  color: Colors.white,
-                ),
+                    color: primaryColor,
+                    child: Table(children: [
+                      TableRow(children: [
+                        ProfileInfoBigCard(
+                            firstText: "13",
+                            secondText: "New Matches",
+                            icon: Icon(
+                              FontAwesomeIcons.heart,
+                              color: secondaryColor,
+                            )),
+                      ]),
+                      TableRow(children: [
+                        ProfileInfoBigCard(
+                            firstText: "2",
+                            secondText: "Groups",
+                            icon: Icon(
+                              FontAwesomeIcons.users,
+                              color: secondaryColor,
+                            )),
+                      ])
+                    ])),
               ),
             ],
           ),
