@@ -3,8 +3,13 @@ import 'dart:async';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/services.dart';
+
+// import 'package:flutter/services.dart';
+
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+
 import 'package:myapp/commons/my_info.dart';
+import 'package:myapp/commons/profile_info_big_card.dart';
 // import 'package:firebase_core/firebase_core.dart';
 import 'package:provider/provider.dart';
 import 'package:myapp/blocs/auth_bloc.dart';
@@ -44,47 +49,68 @@ class _profilePageState extends State<profilePage> {
   Widget build(BuildContext context) {
     var authBloc = Provider.of<AuthBloc>(context);
 
-    return Stack(
-      children: <Widget>[
-        Column(
-          children: <Widget>[
-            Expanded(
-              flex: 4,
-              child: Stack(
-                children: <Widget>[
-                  OpaqueImage(
-                    imageUrl: "assets/images/charli.jpg",
-                  ),
-                  SafeArea(
-                    child: Padding(
-                      padding: const EdgeInsets.all(35),
-                      child: Column(
-                        children: [
-                          Align(
-                            //alignment: Alignment.centerLeft,
-                            child: Text(
-                              "My Profile",
-                              textAlign: TextAlign.center,
-                              style: headingTextStyle,
+    return Scaffold(
+      body: Stack(
+        children: <Widget>[
+          Column(
+            children: <Widget>[
+              Expanded(
+                flex: 5,
+                child: Stack(
+                  children: <Widget>[
+                    OpaqueImage(
+                      imageUrl: "assets/images/charli.jpg",
+                    ),
+                    SafeArea(
+                      child: Padding(
+                        padding: const EdgeInsets.all(35),
+                        child: Column(
+                          children: [
+                            Align(
+                              //alignment: Alignment.centerLeft,
+                              child: Text(
+                                "My Profile",
+                                textAlign: TextAlign.center,
+                                style: headingTextStyle,
+                              ),
                             ),
-                          ),
-                          MyInfo(),
-                        ],
+                            MyInfo(),
+                          ],
+                        ),
                       ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
-            ),
-            Expanded(
-              flex: 4,
-              child: Container(
-                color: Colors.white,
+              Expanded(
+                flex: 5,
+                child: Container(
+                    color: primaryColor,
+                    child: Table(children: [
+                      TableRow(children: [
+                        ProfileInfoBigCard(
+                            firstText: "13",
+                            secondText: "New Matches",
+                            icon: Icon(
+                              FontAwesomeIcons.heart,
+                              color: secondaryColor,
+                            )),
+                      ]),
+                      TableRow(children: [
+                        ProfileInfoBigCard(
+                            firstText: "2",
+                            secondText: "Groups",
+                            icon: Icon(
+                              FontAwesomeIcons.users,
+                              color: secondaryColor,
+                            )),
+                      ])
+                    ])),
               ),
-            ),
-          ],
-        ),
-      ],
+            ],
+          ),
+        ],
+      ),
     );
   }
 }

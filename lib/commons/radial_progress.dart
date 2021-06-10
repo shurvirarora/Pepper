@@ -54,10 +54,10 @@ class _RadialProgressState extends State<RadialProgress>
   }
 
   @override
-  Widget build(BuildContext context) {
+Widget build(BuildContext context) {
     return CustomPaint(
       child: Padding(
-        padding: const EdgeInsets.all(8.0),
+        padding: const EdgeInsets.all(2.0),
         child: widget.child,
       ),
       painter: RadialPainter(
