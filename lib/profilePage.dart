@@ -38,6 +38,9 @@ class _profilePageState extends State<profilePage> {
   Widget build(BuildContext context) {
     var authBloc = Provider.of<AuthBloc>(context);
     return Column(children: [
+      SizedBox(
+        height: 3,
+      ),
       Container(
         child: OutlinedButton(
             child: Text('Log Out'), onPressed: () => authBloc.logout()),
