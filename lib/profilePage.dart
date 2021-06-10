@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/services.dart';
 import 'package:myapp/commons/my_info.dart';
 // import 'package:firebase_core/firebase_core.dart';
 import 'package:provider/provider.dart';
@@ -43,49 +44,47 @@ class _profilePageState extends State<profilePage> {
   Widget build(BuildContext context) {
     var authBloc = Provider.of<AuthBloc>(context);
 
-    return Scaffold(
-      body: Stack(
-        children: <Widget>[
-          Column(
-            children: <Widget>[
-              Expanded(
-                flex: 4,
-                child: Stack(
-                  children: <Widget>[
-                    OpaqueImage(
-                      imageUrl: "assets/images/charli.jpg",
-                    ),
-                    SafeArea(
-                      child: Padding(
-                        padding: const EdgeInsets.all(35),
-                        child: Column(
-                          children: [
-                            Align(
-                              //alignment: Alignment.centerLeft,
-                              child: Text(
-                                "My Profile",
-                                textAlign: TextAlign.center,
-                                style: headingTextStyle,
-                              ),
+    return Stack(
+      children: <Widget>[
+        Column(
+          children: <Widget>[
+            Expanded(
+              flex: 4,
+              child: Stack(
+                children: <Widget>[
+                  OpaqueImage(
+                    imageUrl: "assets/images/charli.jpg",
+                  ),
+                  SafeArea(
+                    child: Padding(
+                      padding: const EdgeInsets.all(35),
+                      child: Column(
+                        children: [
+                          Align(
+                            //alignment: Alignment.centerLeft,
+                            child: Text(
+                              "My Profile",
+                              textAlign: TextAlign.center,
+                              style: headingTextStyle,
                             ),
-                            MyInfo(),
-                          ],
-                        ),
+                          ),
+                          MyInfo(),
+                        ],
                       ),
                     ),
-                  ],
-                ),
+                  ),
+                ],
               ),
-              Expanded(
-                flex: 5,
-                child: Container(
-                  color: Colors.white,
-                ),
+            ),
+            Expanded(
+              flex: 4,
+              child: Container(
+                color: Colors.white,
               ),
-            ],
-          ),
-        ],
-      ),
+            ),
+          ],
+        ),
+      ],
     );
   }
 }
@@ -99,4 +98,27 @@ Widget build(BuildContext context) {
           child: Text('Log Out'), onPressed: () => authBloc.logout()),
     ),
   ]);
+}
+
+Widget buildTextField(String labelText, String placeholder) {
+  return Padding(
+    padding: const EdgeInsets.only(bottom: 35.0),
+    child: TextField(
+      obscureText: false,
+      decoration: InputDecoration(
+          border: OutlineInputBorder(
+              borderRadius: const BorderRadius.all(
+            const Radius.circular(15.0),
+          )),
+          contentPadding: EdgeInsets.only(bottom: 3),
+          labelText: labelText,
+          floatingLabelBehavior: FloatingLabelBehavior.always,
+          hintText: placeholder,
+          hintStyle: TextStyle(
+            fontSize: 10,
+            fontWeight: FontWeight.normal,
+            color: Colors.black,
+          )),
+    ),
+  );
 }
