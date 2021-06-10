@@ -65,28 +65,20 @@ flutter:
   fonts:
     - family: PoiretOne
       fonts:
-         - asset: fonts/PoiretOne-Regular.ttf
+         - asset: assets/fonts/PoiretOne-Regular.ttf
     - family: Righteous
       fonts:
-         - asset: fonts/Righteous-Regular.ttf      
+         - asset: assets/fonts/Righteous-Regular.ttf      
     - family: Pattaya
       fonts:
-         - asset: fonts/Pattaya-Regular.ttf      
+         - asset: assets/fonts/Pattaya-Regular.ttf      
     - family: DancingScript
       fonts:
-         - asset: fonts/DancingScript-VariableFont_wght.ttf    
+         - asset: assets/fonts/DancingScript-VariableFont_wght.ttf    
     
   assets:
-    - images/image1.jpg
-    - images/image2.jpg
-    - images/kpop.png
-    - images/puppy.png
-    - images/selena.png
-    - images/selena.jpg
-    - images/sample1.jpg
-    - images/sample2.jpg
-    - images/sample3.jpg
-    
+    - assets/images/
+    - assets/icons/
   # To add assets to your application, add an assets section, like this:
   # assets:
   #   - images/a_dot_burr.jpeg

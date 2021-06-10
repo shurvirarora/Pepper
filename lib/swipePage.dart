@@ -50,13 +50,13 @@ class swipePage extends StatefulWidget {
 
 class _swipePageState extends State<swipePage> {
   List<UserCard> welcomeImages = [
-    UserCard(Image.asset("images/sample2.jpg")),
-    UserCard(Image.asset("images/image2.jpg"),
-        userBio: 'lol', img2: Image.asset("images/selena.jpg")),
-    UserCard(Image.asset("images/sample1.jpg"),
-        img2: Image.asset("images/image2.jpg"), userBio: 'hello'),
-    UserCard(Image.asset("images/selena.jpg"),
-        userBio: 'asdfghjkl', img2: Image.asset("images/sample3.jpg")),
+    UserCard(Image.asset("assets/images/sample2.jpg")),
+    UserCard(Image.asset("assets/images/image2.jpg"),
+        userBio: 'lol', img2: Image.asset("assets/images/selena.jpg")),
+    UserCard(Image.asset("assets/images/sample1.jpg"),
+        img2: Image.asset("assets/images/image2.jpg"), userBio: 'hello'),
+    UserCard(Image.asset("assets/images/selena.jpg"),
+        userBio: 'asdfghjkl', img2: Image.asset("assets/images/sample3.jpg")),
   ];
 
   @override

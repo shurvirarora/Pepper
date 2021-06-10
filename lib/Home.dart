@@ -18,15 +18,8 @@ import 'swipePage.dart';
 // import 'package:ff_navigation_bar/ff_navigation_bar.dart';
 // import 'package:custom_navigation_bar/custom_navigation_bar.dart';
 
+// RESPONSIBLE FOR NAVIGATION BETWEEN THE 3 MAIN TABS
 final List<Widget> _children = [profilePage(), swipePage(), messages];
-// Widget homePage = Column(children: [
-//   Expanded(
-//     child: MyRow(),
-//   ),
-//   Expanded(
-//     child: MyRow(),
-//   )
-// ]);
 
 class Home extends StatefulWidget {
   @override
@@ -78,7 +71,7 @@ class _HomeState extends State<Home> {
   }
 
   AppBar myNav(int index) {
-    if (index == 0) {
+    /* if (index == 0) {
       return AppBar(
         elevation: 0,
         backgroundColor: Colors.white,
@@ -94,7 +87,8 @@ class _HomeState extends State<Home> {
           ),
         ],
       );
-    } else if (index == 1) {
+    } else */
+    if (index == 1) {
       return AppBar(
         leading: Container(
           margin: EdgeInsets.only(left: 6),
@@ -196,7 +190,7 @@ class MyRow extends StatelessWidget {
         Expanded(
           child: Container(
             child: CircleAvatar(
-              backgroundImage: AssetImage('images/profilePic.jpg'),
+              backgroundImage: AssetImage('assets/images/profilePic.jpg'),
               radius: 115,
             ),
             margin: EdgeInsets.symmetric(horizontal: 15),
@@ -209,7 +203,7 @@ class MyRow extends StatelessWidget {
         Expanded(
           child: Container(
             child: CircleAvatar(
-              backgroundImage: AssetImage('images/profilePic.jpg'),
+              backgroundImage: AssetImage('assets/images/profilePic.jpg'),
               radius: 115,
             ),
             margin: EdgeInsets.symmetric(horizontal: 15),
