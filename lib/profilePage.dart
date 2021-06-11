@@ -85,66 +85,40 @@ class _profilePageState extends State<profilePage> {
               Expanded(
                 flex: 5,
                 child: Container(
-                    color: primaryColor,
-                    child: Table(children: [
-                      TableRow(children: [
-                        ProfileInfoBigCard(
-                            firstText: "13",
-                            secondText: "New Matches",
-                            icon: Icon(
-                              FontAwesomeIcons.heart,
-                              color: secondaryColor,
-                            )),
-                      ]),
-                      TableRow(children: [
-                        ProfileInfoBigCard(
-                            firstText: "2",
-                            secondText: "Groups",
-                            icon: Icon(
-                              FontAwesomeIcons.users,
-                              color: secondaryColor,
-                            )),
-                      ])
-                    ])),
+                  color: primaryColor,
+                  child: Table(children: [
+                    TableRow(children: [
+                      ProfileInfoBigCard(
+                          firstText: "13",
+                          secondText: "New Matches",
+                          icon: Icon(
+                            FontAwesomeIcons.heart,
+                            color: secondaryColor,
+                          )),
+                    ]),
+                    TableRow(children: [
+                      ProfileInfoBigCard(
+                          firstText: "2",
+                          secondText: "Groups",
+                          icon: Icon(
+                            FontAwesomeIcons.users,
+                            color: secondaryColor,
+                          )),
+                    ])
+                  ]),
+                ),
               ),
+              Column(children: [
+                Container(
+                  child: OutlinedButton(
+                      child: Text('Log Out'),
+                      onPressed: () => authBloc.logout()),
+                ),
+              ])
             ],
           ),
         ],
       ),
     );
   }
-}
-
-@override
-Widget build(BuildContext context) {
-  var authBloc = Provider.of<AuthBloc>(context);
-  return Column(children: [
-    Container(
-      child: OutlinedButton(
-          child: Text('Log Out'), onPressed: () => authBloc.logout()),
-    ),
-  ]);
-}
-
-Widget buildTextField(String labelText, String placeholder) {
-  return Padding(
-    padding: const EdgeInsets.only(bottom: 35.0),
-    child: TextField(
-      obscureText: false,
-      decoration: InputDecoration(
-          border: OutlineInputBorder(
-              borderRadius: const BorderRadius.all(
-            const Radius.circular(15.0),
-          )),
-          contentPadding: EdgeInsets.only(bottom: 3),
-          labelText: labelText,
-          floatingLabelBehavior: FloatingLabelBehavior.always,
-          hintText: placeholder,
-          hintStyle: TextStyle(
-            fontSize: 10,
-            fontWeight: FontWeight.normal,
-            color: Colors.black,
-          )),
-    ),
-  );
 }

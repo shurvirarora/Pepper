@@ -19,7 +19,7 @@ import 'swipePage.dart';
 // import 'package:custom_navigation_bar/custom_navigation_bar.dart';
 
 // RESPONSIBLE FOR NAVIGATION BETWEEN THE 3 MAIN TABS
-final List<Widget> _children = [profilePage(), swipePage(), messages];
+final List<Widget> _children = [profilePage(), swipePage(), Messages()];
 
 class Home extends StatefulWidget {
   @override
