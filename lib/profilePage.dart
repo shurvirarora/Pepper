@@ -10,10 +10,13 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import 'package:myapp/commons/my_info.dart';
 import 'package:myapp/commons/profile_info_big_card.dart';
+import 'package:myapp/commons/profile_info_small_card.dart';
+import 'package:myapp/commons/radial_progress.dart';
+import 'package:myapp/commons/rounded_image.dart';
 // import 'package:firebase_core/firebase_core.dart';
 import 'package:provider/provider.dart';
 import 'package:myapp/blocs/auth_bloc.dart';
-import 'login.dart';
+import 'loginPage.dart';
 import 'package:myapp/styleguide/colors.dart';
 import 'package:myapp/styleguide/textstyle.dart';
 import 'package:myapp/commons/opaque_image.dart';
@@ -49,76 +52,140 @@ class _profilePageState extends State<profilePage> {
   Widget build(BuildContext context) {
     var authBloc = Provider.of<AuthBloc>(context);
 
-    return Scaffold(
-      body: Stack(
-        children: <Widget>[
-          Column(
-            children: <Widget>[
-              Expanded(
-                flex: 5,
-                child: Stack(
-                  children: <Widget>[
-                    OpaqueImage(
-                      imageUrl: "assets/images/charli.jpg",
-                    ),
-                    SafeArea(
-                      child: Padding(
-                        padding: const EdgeInsets.all(35),
-                        child: Column(
-                          children: [
-                            Align(
-                              //alignment: Alignment.centerLeft,
-                              child: Text(
-                                "My Profile",
-                                textAlign: TextAlign.center,
-                                style: headingTextStyle,
-                              ),
-                            ),
-                            MyInfo(),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              Expanded(
-                flex: 5,
-                child: Container(
-                  color: primaryColor,
-                  child: Table(children: [
-                    TableRow(children: [
-                      ProfileInfoBigCard(
-                          firstText: "13",
-                          secondText: "New Matches",
-                          icon: Icon(
-                            FontAwesomeIcons.heart,
-                            color: secondaryColor,
-                          )),
-                    ]),
-                    TableRow(children: [
-                      ProfileInfoBigCard(
-                          firstText: "2",
-                          secondText: "Groups",
-                          icon: Icon(
-                            FontAwesomeIcons.users,
-                            color: secondaryColor,
-                          )),
-                    ])
-                  ]),
-                ),
-              ),
-              Column(children: [
-                Container(
-                  child: OutlinedButton(
-                      child: Text('Log Out'),
-                      onPressed: () => authBloc.logout()),
-                ),
-              ])
+    return ListView(
+      children: [
+        Container(
+          color: primaryColor,
+          child: Padding(
+            child: MyInfo(),
+            padding: EdgeInsets.all(30),
+          ),
+        ),
+        Container(
+          color: primaryColor,
+          child: Column(
+            children: [
+              Table(children: [
+                TableRow(children: [
+                  ProfileInfoBigCard(
+                      firstText: "13",
+                      secondText: "New Matches",
+                      icon: Icon(
+                        FontAwesomeIcons.heart,
+                        color: secondaryColor,
+                      )),
+                  ProfileInfoBigCard(
+                      firstText: "2",
+                      secondText: "Groups",
+                      icon: Icon(
+                        FontAwesomeIcons.users,
+                        color: secondaryColor,
+                      )),
+                ]),
+              ]),
+              Table(children: [
+                TableRow(children: [
+                  ProfileInfoBigCard(
+                      firstText: "Hellooooo",
+                      secondText: "About Me",
+                      icon: Icon(
+                        FontAwesomeIcons.info,
+                        color: secondaryColor,
+                      )),
+                ]),
+                TableRow(children: [
+                  ProfileInfoSmallCard(
+                      text: "Female",
+                      icon: Icon(
+                        FontAwesomeIcons.genderless,
+                        color: secondaryColor,
+                        size: 20,
+                      )),
+                ]),
+                TableRow(children: [
+                  ProfileInfoSmallCard(
+                      text: "Female",
+                      icon: Icon(
+                        FontAwesomeIcons.genderless,
+                        color: secondaryColor,
+                        size: 20,
+                      )),
+                ]),
+                TableRow(children: [
+                  ProfileInfoSmallCard(
+                      text: "Female",
+                      icon: Icon(
+                        FontAwesomeIcons.genderless,
+                        color: secondaryColor,
+                        size: 20,
+                      )),
+                ]),
+                TableRow(children: [
+                  ProfileInfoSmallCard(
+                      text: "Female",
+                      icon: Icon(
+                        FontAwesomeIcons.genderless,
+                        color: secondaryColor,
+                        size: 20,
+                      )),
+                ]),
+                TableRow(children: [
+                  ProfileInfoSmallCard(
+                      text: "Female",
+                      icon: Icon(
+                        FontAwesomeIcons.genderless,
+                        color: secondaryColor,
+                        size: 20,
+                      )),
+                ]),
+                TableRow(children: [
+                  ProfileInfoSmallCard(
+                      text: "Female",
+                      icon: Icon(
+                        FontAwesomeIcons.genderless,
+                        color: secondaryColor,
+                        size: 20,
+                      )),
+                ]),
+                TableRow(children: [
+                  ProfileInfoSmallCard(
+                      text: "Female",
+                      icon: Icon(
+                        FontAwesomeIcons.genderless,
+                        color: secondaryColor,
+                        size: 20,
+                      )),
+                ]),
+                TableRow(children: [
+                  ProfileInfoSmallCard(
+                      text: "Female",
+                      icon: Icon(
+                        FontAwesomeIcons.genderless,
+                        color: secondaryColor,
+                        size: 20,
+                      )),
+                ]),
+                TableRow(children: [
+                  ProfileInfoSmallCard(
+                      text: "Female",
+                      icon: Icon(
+                        FontAwesomeIcons.genderless,
+                        color: secondaryColor,
+                        size: 20,
+                      )),
+                ]),
+              ]),
             ],
           ),
-        ],
-      ),
+        ),
+        // ),
+        Column(children: [
+          Container(
+            child: OutlinedButton(
+                child: Text('Log Out'), onPressed: () => authBloc.logout()),
+          ),
+        ]),
+      ],
     );
   }
 }

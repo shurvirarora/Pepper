@@ -12,7 +12,8 @@ class MyInfo extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Expanded(
+    return Container(
+      color: primaryColor,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [

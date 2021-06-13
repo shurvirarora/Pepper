@@ -7,7 +7,7 @@ import 'package:dot_navigation_bar/dot_navigation_bar.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:provider/provider.dart';
 // Responsible for logging in/out of account
-import 'login.dart';
+import 'loginPage.dart';
 // Navigate through the different tabs
 import 'profilePage.dart';
 import 'messagePage.dart';

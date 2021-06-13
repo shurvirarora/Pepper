@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:myapp/blocs/auth_bloc.dart';
-import 'package:myapp/login.dart';
+import 'package:myapp/loginPage.dart';
 import 'package:myapp/home.dart';
 import 'package:provider/provider.dart';
 import 'home.dart';
-import 'login.dart';
+import 'loginPage.dart';
 import 'phoneLogin.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'emailLogin.dart';
