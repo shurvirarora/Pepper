@@ -7,11 +7,11 @@ import 'package:dot_navigation_bar/dot_navigation_bar.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:provider/provider.dart';
 // Responsible for logging in/out of account
-import 'loginPage.dart';
-// Navigate through the different tabs
-import 'profilePage.dart';
-import 'messagePage.dart';
-import 'swipePage.dart';
+import 'pages/loginPage.dart';
+// Navigate through the different
+import 'pages/profilePage.dart';
+import 'pages/messagePage.dart';
+import 'pages/swipePage.dart';
 
 // import 'package:firebase_core/firebase_core.dart';
 // import 'package:google_nav_bar/google_nav_bar.dart';

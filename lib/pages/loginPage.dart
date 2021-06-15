@@ -6,7 +6,7 @@ import 'package:myapp/home.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:myapp/blocs/auth_bloc.dart';
 import 'package:provider/provider.dart';
-import 'home.dart';
+import '../home.dart';
 
 // import com.facebook.FacebookSdk;
 // import com.facebook.appevents.AppEventsLogger;

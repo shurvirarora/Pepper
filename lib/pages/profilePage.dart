@@ -104,36 +104,36 @@ class _profilePageState extends State<profilePage> {
                 ]),
                 TableRow(children: [
                   ProfileInfoSmallCard(
-                      text: "Female",
+                      text: "NUS",
                       icon: Icon(
-                        FontAwesomeIcons.genderless,
+                        FontAwesomeIcons.graduationCap,
+                        color: secondaryColor,
+                        size: 20,
+                      )),
+                ]),
+                TableRow(children: [
+                  ProfileInfoBigCard(
+                      firstText: "Football, Tiktok Dances, Computer Science",
+                      secondText: "My Interests",
+                      icon: Icon(
+                        FontAwesomeIcons.info,
+                        color: secondaryColor,
+                      )),
+                ]),
+                TableRow(children: [
+                  ProfileInfoSmallCard(
+                      text: "175cm",
+                      icon: Icon(
+                        FontAwesomeIcons.rulerVertical,
                         color: secondaryColor,
                         size: 20,
                       )),
                 ]),
                 TableRow(children: [
                   ProfileInfoSmallCard(
-                      text: "Female",
+                      text: "Looking for: Clout",
                       icon: Icon(
-                        FontAwesomeIcons.genderless,
-                        color: secondaryColor,
-                        size: 20,
-                      )),
-                ]),
-                TableRow(children: [
-                  ProfileInfoSmallCard(
-                      text: "Female",
-                      icon: Icon(
-                        FontAwesomeIcons.genderless,
-                        color: secondaryColor,
-                        size: 20,
-                      )),
-                ]),
-                TableRow(children: [
-                  ProfileInfoSmallCard(
-                      text: "Female",
-                      icon: Icon(
-                        FontAwesomeIcons.genderless,
+                        FontAwesomeIcons.search,
                         color: secondaryColor,
                         size: 20,
                       )),
