@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "589137596205",
+    "project_id": "pepper-e9a17",
+    "storage_bucket": "pepper-e9a17.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:589137596205:android:cea2d8bc302e4f92900da4",
+        "android_client_info": {
+          "package_name": "com.orbital.pepper"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "589137596205-98em5eievumj4iheo0r4fi8169ljfesb.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBi_RzV8_tuz6kyjWHFz0m5fISxHgHY5og"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "589137596205-98em5eievumj4iheo0r4fi8169ljfesb.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
