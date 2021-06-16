@@ -6,9 +6,14 @@ import 'package:myapp/commons/rounded_image.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class MyInfo extends StatelessWidget {
-  const MyInfo({
-    Key key,
-  }) : super(key: key);
+  // const MyInfo({
+  //   Key key,
+  // }) : super(key: key);
+
+  String name;
+  String age;
+
+  MyInfo(this.name, this.age);
 
   @override
   Widget build(BuildContext context) {
@@ -31,11 +36,11 @@ class MyInfo extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               Text(
-                "Charli Amelio",
+                name,
                 style: whiteNameTextStyle,
               ),
               Text(
-                ", 21",
+                age,
                 style: whiteNameTextStyle,
               ),
             ],

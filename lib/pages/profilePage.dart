@@ -36,13 +36,13 @@ class profilePage extends StatefulWidget {
 
 class _profilePageState extends State<profilePage> {
   StreamSubscription<User> editStateSubscription;
-  Map data;
-  String gender;
-  String aboutMe;
-  String education;
-  String work;
-  int height;
-  int age;
+  // Map data;
+  // String gender;
+  // String aboutMe;
+  // String education;
+  // String work;
+  // int height;
+  // int age;
 
   @override
   void initState() {
@@ -63,28 +63,28 @@ class _profilePageState extends State<profilePage> {
     super.dispose();
   }
 
-  fetchData() {
-    CollectionReference collectionReference =
-        FirebaseFirestore.instance.collection('User');
+  // fetchData() {
+  //   CollectionReference collectionReference =
+  //       FirebaseFirestore.instance.collection('User');
 
-    collectionReference
-        .where("User", isEqualTo: uid.toString())
-        .snapshots()
-        .listen((snapshot) {
-      setState(() {
-        data = snapshot.docs[0].data();
-        //Assigns data to local variables
-        gender = data['Gender'];
-        aboutMe = data['About Me'];
-        education = data['Education'];
-        work = data['Work'];
-        height = data["Height"];
-        age = data['Age'];
-        // print(gender);
-        // print(data.toString());
-      });
-    });
-  }
+  //   collectionReference
+  //       .where("User", isEqualTo: uid.toString())
+  //       .snapshots()
+  //       .listen((snapshot) {
+  //     setState(() {
+  //       data = snapshot.docs[0].data();
+  //       //Assigns data to local variables
+  //       gender = data['Gender'];
+  //       aboutMe = data['About Me'];
+  //       education = data['Education'];
+  //       work = data['Work'];
+  //       height = data["Height"];
+  //       age = data['Age'];
+  //       // print(gender);
+  //       // print(data.toString());
+  //     });
+  //   });
+  // }
 
   // Stream<QuerySnapshot> dataStream() async*{
   //   CollectionReference collectionReference =
@@ -104,7 +104,7 @@ class _profilePageState extends State<profilePage> {
         Container(
           color: primaryColor,
           child: Padding(
-            child: MyInfo(),
+            child: MyInfo("Amelio", "12"),
             padding: EdgeInsets.all(30),
           ),
         ),
