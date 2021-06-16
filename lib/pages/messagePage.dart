@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'loginPage.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
+//Gets user id
 final FirebaseAuth firebaseAuth = FirebaseAuth.instance;
 final User user = firebaseAuth.currentUser;
 final String uid = user.uid.toString();
@@ -41,7 +42,6 @@ class _MessagesState extends State<Messages> {
   }
 
   fetchData() {
-    //Fetches first document
     CollectionReference collectionReference =
         FirebaseFirestore.instance.collection('User');
 
