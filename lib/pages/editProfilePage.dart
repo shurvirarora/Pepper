@@ -30,6 +30,7 @@ class _editProfileState extends State<editProfile> {
     // print("dsadsadsadas" + uid.toString());
     DocumentReference collectionReference =
         FirebaseFirestore.instance.collection('User').doc(user.uid);
+    Navigator.pop(context);
     return collectionReference.set({
       'User': uid.toString(), //stores unique user id
       'Age': age,
@@ -58,57 +59,61 @@ class _editProfileState extends State<editProfile> {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-        child: ListView(
-      children: [
-        buildTextField('Age', 'Its just a number...', 30, TextInputType.number),
-        Text(
-          "Gender",
-          style: TextStyle(color: Color(0xfffe3c72)),
-        ),
-        Padding(
-          padding: EdgeInsets.all(10),
-          child: DropdownButtonFormField(
-            decoration: InputDecoration(border: OutlineInputBorder()),
-            hint: Text('Gender'),
-            onChanged: (input) {
-              setState(() {
-                gender = input;
-              });
-              print(input);
-            },
-            items: [
-              DropdownMenuItem(
-                value: 'Male',
-                child: Text('Male'),
-              ),
-              DropdownMenuItem(
-                value: 'Female',
-                child: Text('Female'),
-              ),
-            ],
+    return Scaffold(
+      backgroundColor: Colors.white,
+      body: SafeArea(
+          child: ListView(
+        children: [
+          buildTextField(
+              'Age', 'Its just a number...', 30, TextInputType.number),
+          Text(
+            "Gender",
+            style: TextStyle(color: Color(0xfffe3c72)),
           ),
-        ),
-        // buildTextField('Gender', '', 30, TextInputType.text),
-        buildTextField(
-            'About Me', 'Tell us about yourself...', 70, TextInputType.text),
-        SizedBox(
-          height: 50,
-        ),
-        buildTextField('Education', '', 30, TextInputType.text),
-        buildTextField('Work', '', 30, TextInputType.text),
-        buildTextField('Height', 'cm', 30, TextInputType.number),
-        // FloatingActionButton(onPressed: addUser),
-        Padding(
-          padding: EdgeInsets.symmetric(horizontal: 30),
-          child: LoginButton(
-              'Update', Icons.update, addUser, Color(0xfffe3c72), Colors.black),
-        ),
-        // BackButton(
-        //   onPressed: fetchData,
-        // ),
-      ],
-    ));
+          Padding(
+            padding: EdgeInsets.all(10),
+            child: DropdownButtonFormField(
+              decoration: InputDecoration(border: OutlineInputBorder()),
+              hint: Text('Gender'),
+              onChanged: (input) {
+                setState(() {
+                  gender = input;
+                });
+                print(input);
+              },
+              items: [
+                DropdownMenuItem(
+                  value: 'Male',
+                  child: Text('Male'),
+                ),
+                DropdownMenuItem(
+                  value: 'Female',
+                  child: Text('Female'),
+                ),
+              ],
+            ),
+          ),
+          // buildTextField('Gender', '', 30, TextInputType.text),
+          buildTextField(
+              'About Me', 'Tell us about yourself...', 70, TextInputType.text),
+          SizedBox(
+            height: 50,
+          ),
+          buildTextField('Education', '', 30, TextInputType.text),
+          buildTextField('Work', '', 30, TextInputType.text),
+          buildTextField('Height', 'cm', 30, TextInputType.number),
+          // FloatingActionButton(onPressed: addUser),
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: 30),
+            child: LoginButton('Update', Icons.update, addUser,
+                Color(0xfffe3c72), Colors.black),
+          ),
+          // BackButton(
+          //   onPressed: fetchData,
+          // ),
+        ],
+      )),
+    );
   }
 
   Widget buildTextField(
@@ -120,7 +125,7 @@ class _editProfileState extends State<editProfile> {
         children: [
           Text(
             label,
-            style: TextStyle(color: Color(0xfffe3c72)),
+            style: TextStyle(color: secondaryColor),
           ),
           SizedBox(
             height: 10,
@@ -177,7 +182,6 @@ class _editProfileState extends State<editProfile> {
   }
 }
 
-
 // BASIC INFO
 // Name
 // Age
@@ -196,8 +200,6 @@ class _editProfileState extends State<editProfile> {
 // Lookingfor ==> Is a drop down
 //Excercise ==> Drop down
 //Drinking smoking
-
-
 
 // PROFILE PROMPTS
 // Add 3 prompt buttons

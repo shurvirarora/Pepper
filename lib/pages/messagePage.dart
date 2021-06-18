@@ -208,6 +208,7 @@ class _MessagesState extends State<Messages> {
   }
 }
 
+// <<<<<<< HEAD
 class ImageCapture extends StatefulWidget {
   // const ImageCapture({ Key? key }) : super(key: key);
 
@@ -357,6 +358,7 @@ class _UploaderState extends State<Uploader> {
   }
 }
 
+
 // BASIC INFO
 // Name
 // Age
@@ -375,8 +377,6 @@ class _UploaderState extends State<Uploader> {
 // Lookingfor ==> Is a drop down
 //Excercise ==> Drop down
 //Drinking smoking
-
-
 
 // PROFILE PROMPTS
 // Add 3 prompt buttons
