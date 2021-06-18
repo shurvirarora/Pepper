@@ -1,4 +1,3 @@
-// import 'dart:html';
 import 'dart:io';
 
 import 'package:firebase_core/firebase_core.dart';
@@ -57,6 +56,7 @@ class _MessagesState extends State<Messages> {
       print("passes");
       DocumentReference collectionReference =
           FirebaseFirestore.instance.collection('User').doc(user.uid);
+          Navigator.pop(context);
       return collectionReference.set({
         'User': uid.toString(), //stores unique user id
         'Age': age,
