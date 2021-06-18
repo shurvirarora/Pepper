@@ -16,6 +16,7 @@ import 'package:myapp/commons/profile_info_big_card.dart';
 import 'package:myapp/commons/profile_info_small_card.dart';
 import 'package:myapp/commons/radial_progress.dart';
 import 'package:myapp/commons/rounded_image.dart';
+import 'package:myapp/pages/editProfilePage.dart';
 // import 'package:firebase_core/firebase_core.dart';
 import 'package:provider/provider.dart';
 import 'package:myapp/blocs/auth_bloc.dart';
@@ -23,6 +24,7 @@ import 'loginPage.dart';
 import 'package:myapp/styleguide/colors.dart';
 import 'package:myapp/styleguide/textstyle.dart';
 import 'package:myapp/commons/opaque_image.dart';
+import 'package:myapp/pages/editProfilePage.dart';
 
 //Gets user id
 final FirebaseAuth firebaseAuth = FirebaseAuth.instance;
@@ -104,8 +106,36 @@ class _profilePageState extends State<profilePage> {
         Container(
           color: primaryColor,
           child: Padding(
-            child: MyInfo("Amelio", "12"),
-            padding: EdgeInsets.all(30),
+            child: MyInfo("Charlie Amelio", "12"),
+            padding: EdgeInsets.fromLTRB(30, 30, 30, 5),
+          ),
+        ),
+        Container(
+          color: primaryColor,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              TextButton(
+                style: TextButton.styleFrom(
+                    backgroundColor: primaryColor,
+                    minimumSize: Size(1, 1),
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(18.0),
+                        side: BorderSide(width: 1.25, color: Colors.blue))),
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => editProfile()),
+                  );
+                },
+                child: Text('Edit Profile',
+                    style: TextStyle(
+                      fontSize: 15,
+                      color: Colors.blue,
+                      fontWeight: FontWeight.bold,
+                    )),
+              ),
+            ],
           ),
         ),
         Container(
@@ -402,4 +432,3 @@ class _profilePageState extends State<profilePage> {
 //         ],
 //       )
 //     ;
-

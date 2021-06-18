@@ -177,7 +177,6 @@ class _MessagesState extends State<Messages> {
   }
 }
 
-
 // BASIC INFO
 // Name
 // Age
@@ -196,8 +195,6 @@ class _MessagesState extends State<Messages> {
 // Lookingfor ==> Is a drop down
 //Excercise ==> Drop down
 //Drinking smoking
-
-
 
 // PROFILE PROMPTS
 // Add 3 prompt buttons

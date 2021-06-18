@@ -40,7 +40,7 @@ class MyInfo extends StatelessWidget {
                 style: whiteNameTextStyle,
               ),
               Text(
-                age,
+                ", " + age,
                 style: whiteNameTextStyle,
               ),
             ],
