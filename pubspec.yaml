@@ -37,6 +37,7 @@ dependencies:
   flutter_tindercard: ^0.1.7
   flutter_swipable: ^0.1.1
   image_picker: ^0.8.0+3
+  image_cropper: ^1.4.0
   flutter:
     sdk: flutter
 

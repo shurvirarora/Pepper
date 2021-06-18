@@ -1,9 +1,11 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_tindercard/flutter_tindercard.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 // import 'package:flutter_swipable/flutter_swipable.dart';
 import '../Decorations/constants.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 
 ElevatedButton Heartbutton = ElevatedButton(
   onPressed: () => liked(),
@@ -48,17 +50,45 @@ class swipePage extends StatefulWidget {
   _swipePageState createState() => _swipePageState();
 }
 
-class _swipePageState extends State<swipePage> {
-  List<UserCard> welcomeImages = [
-    UserCard(Image.asset("assets/images/sample2.jpg")),
-    UserCard(Image.asset("assets/images/image2.jpg"),
-        userBio: 'lol', img2: Image.asset("assets/images/selena.jpg")),
-    UserCard(Image.asset("assets/images/sample1.jpg"),
-        img2: Image.asset("assets/images/image2.jpg"), userBio: 'hello'),
-    UserCard(Image.asset("assets/images/selena.jpg"),
-        userBio: 'asdfghjkl', img2: Image.asset("assets/images/sample3.jpg")),
-  ];
+List<dynamic> allData;
 
+CollectionReference collectionReference =
+    FirebaseFirestore.instance.collection('User');
+
+// List<DocumentReference> users = collectionReference.get().
+
+Future<void> getData() async {
+  // Get docs from collection reference
+  QuerySnapshot querySnapshot = await collectionReference.get();
+
+  // Get data from docs and convert map to List
+  allData = querySnapshot.docs.map((doc) => doc['DownloadUrl']).toList();
+
+  print(allData);
+}
+
+class _swipePageState extends State<swipePage> {
+  // List<UserCard> welcomeImages = [
+  //   //Images passed
+  //   UserCard(Image.asset("assets/images/sample2.jpg")),
+  //   UserCard(Image.asset("assets/images/image2.jpg"),
+  //       userBio: 'lol', img2: Image.asset("assets/images/selena.jpg")),
+  //   UserCard(Image.asset("assets/images/sample1.jpg"),
+  //       img2: Image.asset("assets/images/image2.jpg"), userBio: 'hello'),
+  //   UserCard(Image.asset("assets/images/selena.jpg"),
+  //       userBio: 'asdfghjkl', img2: Image.asset("assets/images/sample3.jpg")),
+  // ];
+
+  List<UserCard> welcomeImages = [
+    UserCard(
+      Image.network(
+          'https://firebasestorage.googleapis.com/v0/b/pepper-e9a17.appspot.com/o/images%2F2021-06-18%2000%3A26%3A53.662164.png?alt=media&token=9fe9a475-4f09-427d-8a1f-cde7368a01a6'),
+    ),
+    UserCard(
+      Image.network(
+          'https://firebasestorage.googleapis.com/v0/b/pepper-e9a17.appspot.com/o/images%2F2021-06-18%2000%3A26%3A53.662164.png?alt=media&token=9fe9a475-4f09-427d-8a1f-cde7368a01a6'),
+    )
+  ];
   @override
   Widget build(BuildContext context) {
     CardController controller;
@@ -145,7 +175,10 @@ class _UserCardState extends State<UserCard> {
 
     // Text name = Text(filterText[0]);
     // Image img1 = filterImages[0];
-    List<Widget> userData = [widget.img1];
+    List<Widget> userData = [
+      widget.img1,
+      TextButton(onPressed: () => getData(), child: Text("Retrieve user data"))
+    ];
 
     // for (Widget w in userImages) {
     //   if (w != null) {

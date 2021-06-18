@@ -167,7 +167,7 @@ class _profilePageState extends State<profilePage> {
               Table(children: [
                 TableRow(children: [
                   ProfileInfoBigCard(
-                      firstText: "Hellooooo",
+                      firstText: aboutMe,
                       secondText: "About Me",
                       icon: Icon(
                         FontAwesomeIcons.info,
@@ -237,15 +237,15 @@ class _profilePageState extends State<profilePage> {
                         size: 20,
                       )),
                 ]),
-                TableRow(children: [
-                  ProfileInfoSmallCard(
-                      text: aboutMe,
-                      icon: Icon(
-                        FontAwesomeIcons.genderless,
-                        color: secondaryColor,
-                        size: 20,
-                      )),
-                ]),
+                // TableRow(children: [
+                //   ProfileInfoSmallCard(
+                //       text: aboutMe,
+                //       icon: Icon(
+                //         FontAwesomeIcons.genderless,
+                //         color: secondaryColor,
+                //         size: 20,
+                //       )),
+                // ]),
                 TableRow(children: [
                   ProfileInfoSmallCard(
                       text: work,
