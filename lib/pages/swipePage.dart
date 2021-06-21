@@ -57,12 +57,22 @@ CollectionReference collectionReference =
 
 // List<DocumentReference> users = collectionReference.get().
 
+// Future<void> getData() async {
+//   // Get docs from collection reference
+//   QuerySnapshot querySnapshot = await collectionReference.get();
+
+//   // Get data from docs and convert map to List
+//   allData = querySnapshot.docs.map((doc) => doc['DownloadUrl']).toList();
+
+//   print(allData);
+// }
+
 Future<void> getData() async {
   // Get docs from collection reference
   QuerySnapshot querySnapshot = await collectionReference.get();
 
   // Get data from docs and convert map to List
-  allData = querySnapshot.docs.map((doc) => doc['DownloadUrl']).toList();
+  allData = querySnapshot.docs.map((doc) => doc.data()).toList();
 
   print(allData);
 }
@@ -79,52 +89,110 @@ class _swipePageState extends State<swipePage> {
   //       userBio: 'asdfghjkl', img2: Image.asset("assets/images/sample3.jpg")),
   // ];
 
-  List<UserCard> welcomeImages = [
-    UserCard(
-      Image.network(
-          'https://firebasestorage.googleapis.com/v0/b/pepper-e9a17.appspot.com/o/images%2F2021-06-18%2000%3A26%3A53.662164.png?alt=media&token=9fe9a475-4f09-427d-8a1f-cde7368a01a6'),
-    ),
-    UserCard(
-      Image.network(
-          'https://firebasestorage.googleapis.com/v0/b/pepper-e9a17.appspot.com/o/images%2F2021-06-18%2000%3A26%3A53.662164.png?alt=media&token=9fe9a475-4f09-427d-8a1f-cde7368a01a6'),
-    )
-  ];
   @override
   Widget build(BuildContext context) {
+    return myfuture();
+    // CardController controller;
+    // return Container(
+    //   padding: EdgeInsets.only(top: 10),
+    //   height: MediaQuery.of(context).size.height * 1,
+    //   child: new TinderSwapCard(
+    //     allowVerticalMovement: false,
+    //     swipeUp: false,
+    //     swipeDown: false,
+    //     orientation: AmassOrientation.TOP,
+    //     totalNum: welcomeImages.length,
+    //     stackNum: 3,
+    //     swipeEdge: 4.0,
+    //     maxWidth: MediaQuery.of(context).size.width * 1,
+    //     maxHeight: MediaQuery.of(context).size.width * 2.2,
+    //     minWidth: MediaQuery.of(context).size.width * 0.8,
+    //     minHeight: MediaQuery.of(context).size.width * 0.8,
+    //     cardBuilder: (context, index) => welcomeImages[index],
+    //     cardController: controller = CardController(),
+    //     swipeUpdateCallback: (DragUpdateDetails details, Alignment align) {
+    //       /// Get swiping card's alignment
+    //       if (align.x < -10) {
+    //         //Logic for swiping executed here
+    //         //Card is LEFT swiping
+    //         passed();
+    //       } else if (align.x > 10) {
+    //         //Card is RIGHT swiping
+    //         liked();
+    //       }
+    //     },
+    //     swipeCompleteCallback: (CardSwipeOrientation orientation, int index) {
+    //       /// Get orientation & index of swiped card!
+    //     },
+    //   ),
+    // );
+  }
+
+  List<UserCard> userCards(List<DocumentSnapshot> users) {
+    List<UserCard> cards = [];
+    for (DocumentSnapshot user in users) {
+      print(user['Age']);
+      UserCard card = UserCard(
+        Image.network(user['DownloadUrl']),
+        userBio: user['Age'].toString(),
+        education: user['Education'].toString(),
+      );
+      print(card.toString());
+      cards.add(card);
+    }
+    return cards;
+  }
+
+  Widget myfuture() {
     CardController controller;
-    return Container(
-      padding: EdgeInsets.only(top: 10),
-      height: MediaQuery.of(context).size.height * 1,
-      child: new TinderSwapCard(
-        allowVerticalMovement: false,
-        swipeUp: false,
-        swipeDown: false,
-        orientation: AmassOrientation.TOP,
-        totalNum: welcomeImages.length,
-        stackNum: 3,
-        swipeEdge: 4.0,
-        maxWidth: MediaQuery.of(context).size.width * 1,
-        maxHeight: MediaQuery.of(context).size.width * 2.2,
-        minWidth: MediaQuery.of(context).size.width * 0.8,
-        minHeight: MediaQuery.of(context).size.width * 0.8,
-        cardBuilder: (context, index) => welcomeImages[index],
-        cardController: controller = CardController(),
-        swipeUpdateCallback: (DragUpdateDetails details, Alignment align) {
-          /// Get swiping card's alignment
-          if (align.x < -10) {
-            //Logic for swiping executed here
-            //Card is LEFT swiping
-            passed();
-          } else if (align.x > 10) {
-            //Card is RIGHT swiping
-            liked();
+    return FutureBuilder(
+        future: FirebaseFirestore.instance.collection('User').get(),
+        // ignore: missing_return
+        builder: (BuildContext context, AsyncSnapshot snapshot) {
+          if (snapshot.hasData) {
+            List users = snapshot.data.docs; //Stores list of users
+            List<UserCard> cardList = userCards(users);
+            if (snapshot.data != null) {
+              return Container(
+                padding: EdgeInsets.only(top: 10),
+                height: MediaQuery.of(context).size.height * 1,
+                child: new TinderSwapCard(
+                  allowVerticalMovement: false,
+                  swipeUp: false,
+                  swipeDown: false,
+                  orientation: AmassOrientation.TOP,
+                  totalNum: cardList.length,
+                  stackNum: 3,
+                  swipeEdge: 4.0,
+                  maxWidth: MediaQuery.of(context).size.width * 1,
+                  maxHeight: MediaQuery.of(context).size.width * 2.2,
+                  minWidth: MediaQuery.of(context).size.width * 0.8,
+                  minHeight: MediaQuery.of(context).size.width * 0.8,
+                  cardBuilder: (context, index) => cardList[index],
+                  cardController: controller = CardController(),
+                  swipeUpdateCallback:
+                      (DragUpdateDetails details, Alignment align) {
+                    /// Get swiping card's alignment
+                    if (align.x < -10) {
+                      //Logic for swiping executed here
+                      //Card is LEFT swiping
+                      passed();
+                    } else if (align.x > 10) {
+                      //Card is RIGHT swiping
+                      liked();
+                    }
+                  },
+                  swipeCompleteCallback:
+                      (CardSwipeOrientation orientation, int index) {
+                    /// Get orientation & index of swiped card!
+                  },
+                ),
+              );
+            }
+          } else {
+            return CircularProgressIndicator();
           }
-        },
-        swipeCompleteCallback: (CardSwipeOrientation orientation, int index) {
-          /// Get orientation & index of swiped card!
-        },
-      ),
-    );
+        });
   }
 }
 
@@ -132,7 +200,7 @@ class UserCard extends StatefulWidget {
   // List<Widget> items;
   Image img1;
   Image img2;
-  Image img3;
+  String education;
   Image img4;
   String userBio;
 
@@ -148,11 +216,12 @@ class UserCard extends StatefulWidget {
     )
   ]));
 
-  UserCard(Image img1, {Image img2, Image img3, Image img4, String userBio}) {
+  UserCard(Image img1,
+      {Image img2, String education, Image img4, String userBio}) {
     this.img1 = img1;
     this.userBio = userBio;
     this.img2 = img2;
-    this.img3 = img3;
+    this.education = education;
     this.img4 = img4;
   }
 
@@ -163,12 +232,7 @@ class UserCard extends StatefulWidget {
 class _UserCardState extends State<UserCard> {
   List<Widget> userData() {
     List<String> userText = [widget.userBio];
-    List<Widget> userImages = [
-      widget.img1,
-      widget.img2,
-      widget.img3,
-      widget.img4
-    ];
+    List<Widget> userImages = [widget.img1, widget.img2, widget.img4];
 
     List<Widget> filterImages;
     List<String> filterText;
@@ -177,6 +241,8 @@ class _UserCardState extends State<UserCard> {
     // Image img1 = filterImages[0];
     List<Widget> userData = [
       widget.img1,
+      Text(widget.userBio),
+      Text(widget.education),
       TextButton(onPressed: () => getData(), child: Text("Retrieve user data"))
     ];
 

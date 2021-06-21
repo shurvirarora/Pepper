@@ -3,7 +3,7 @@ import 'dart:async';
 // import 'dart:html';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/gestures.dart';
+// import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
@@ -14,17 +14,17 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:myapp/commons/my_info.dart';
 import 'package:myapp/commons/profile_info_big_card.dart';
 import 'package:myapp/commons/profile_info_small_card.dart';
-import 'package:myapp/commons/radial_progress.dart';
-import 'package:myapp/commons/rounded_image.dart';
+// import 'package:myapp/commons/radial_progress.dart';
+// import 'package:myapp/commons/rounded_image.dart';
 import 'package:myapp/pages/editProfilePage.dart';
 // import 'package:firebase_core/firebase_core.dart';
 import 'package:provider/provider.dart';
 import 'package:myapp/blocs/auth_bloc.dart';
 import 'loginPage.dart';
 import 'package:myapp/styleguide/colors.dart';
-import 'package:myapp/styleguide/textstyle.dart';
-import 'package:myapp/commons/opaque_image.dart';
-import 'package:myapp/pages/editProfilePage.dart';
+// import 'package:myapp/styleguide/textstyle.dart';
+// import 'package:myapp/commons/opaque_image.dart';
+// import 'package:myapp/pages/editProfilePage.dart';
 
 //Gets user id
 final FirebaseAuth firebaseAuth = FirebaseAuth.instance;
