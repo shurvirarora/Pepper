@@ -5,6 +5,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:myapp/blocs/auth_bloc.dart';
 import 'package:dot_navigation_bar/dot_navigation_bar.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:myapp/styleguide/colors.dart';
 import 'package:provider/provider.dart';
 // Responsible for logging in/out of account
 import 'pages/loginPage.dart';
@@ -74,16 +75,16 @@ class _HomeState extends State<Home> {
     /* if (index == 0) {
       return AppBar(
         elevation: 0,
-        backgroundColor: Colors.white,
+        backgroundColor: primaryColor,
         actions: [
           Container(
             margin: EdgeInsets.only(right: 6),
-            padding: EdgeInsets.fromLTRB(0, 20, 15, 10),
-            child: Icon(
-              FontAwesomeIcons.cog,
-              size: 27.5,
-              color: Color(0xff808080),
-            ),
+            padding: EdgeInsets.fromLTRB(0, 20, 15, 0),
+            child: IconButton(
+                icon: const Icon(FontAwesomeIcons.cog),
+                iconSize: 27.5,
+                color: Colors.white //Color(0xff808080),
+                ),
           ),
         ],
       );

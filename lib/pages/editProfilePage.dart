@@ -2,10 +2,11 @@ import 'dart:io';
 
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import '../styleguide/colors.dart';
 import '../styleguide/textstyle.dart';
-import 'package:image_cropper/image_cropper.dart';
+// import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
@@ -92,6 +93,20 @@ class _editProfileState extends State<editProfile> {
       body: SafeArea(
           child: ListView(
         children: [
+          Container(
+            color: Colors.white,
+            alignment: Alignment.centerLeft,
+            padding: EdgeInsets.fromLTRB(10, 10, 0, 0),
+            child: IconButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              icon: Icon(
+                FontAwesomeIcons.times,
+                color: primaryColor,
+              ),
+            ),
+          ),
           ImageCapture(),
           buildTextField(
               'Age', 'Its just a number...', 30, TextInputType.number),
@@ -235,19 +250,19 @@ class _ImageCaptureState extends State<ImageCapture> {
     });
   }
 
-  Future cropImage() async {
-    File cropped = await ImageCropper.cropImage(
-        sourcePath: imageFile.path,
-        androidUiSettings: AndroidUiSettings(
-          toolbarColor: Colors.purple,
-          toolbarWidgetColor: Colors.white,
-          toolbarTitle: "Crop it",
-        ));
+  // Future cropImage() async {
+  //   File cropped = await ImageCropper.cropImage(
+  //       sourcePath: imageFile.path,
+  //       androidUiSettings: AndroidUiSettings(
+  //         toolbarColor: Colors.purple,
+  //         toolbarWidgetColor: Colors.white,
+  //         toolbarTitle: "Crop it",
+  //       ));
 
-    setState(() {
-      imageFile = cropped ?? imageFile;
-    });
-  }
+  //   setState(() {
+  //     imageFile = cropped ?? imageFile;
+  //   });
+  // }
 
   void clearImage() {
     setState(() {
@@ -277,7 +292,7 @@ class _ImageCaptureState extends State<ImageCapture> {
             onPressed: () => getImage(ImageSource.gallery)),
         Row(
           children: [
-            TextButton(onPressed: cropImage, child: Icon(Icons.crop)),
+            // TextButton(onPressed: cropImage, child: Icon(Icons.crop)),
             TextButton(onPressed: clearImage, child: Icon(Icons.refresh))
           ],
         ),
@@ -361,7 +376,6 @@ class _UploaderState extends State<Uploader> {
     }
   }
 }
-
 
 // BASIC INFO
 // Name

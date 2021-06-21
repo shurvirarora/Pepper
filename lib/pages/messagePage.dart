@@ -5,7 +5,7 @@ import 'package:firebase_storage/firebase_storage.dart';
 
 import '../styleguide/colors.dart';
 import '../styleguide/textstyle.dart';
-import 'package:image_cropper/image_cropper.dart';
+// import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
@@ -56,7 +56,7 @@ class _MessagesState extends State<Messages> {
       print("passes");
       DocumentReference collectionReference =
           FirebaseFirestore.instance.collection('User').doc(user.uid);
-          Navigator.pop(context);
+      Navigator.pop(context);
       return collectionReference.set({
         'User': uid.toString(), //stores unique user id
         'Age': age,
@@ -231,19 +231,19 @@ class _ImageCaptureState extends State<ImageCapture> {
     });
   }
 
-  Future cropImage() async {
-    File cropped = await ImageCropper.cropImage(
-        sourcePath: imageFile.path,
-        androidUiSettings: AndroidUiSettings(
-          toolbarColor: Colors.purple,
-          toolbarWidgetColor: Colors.white,
-          toolbarTitle: "Crop it",
-        ));
+  // Future cropImage() async {
+  //   File cropped = await ImageCropper.cropImage(
+  //       sourcePath: imageFile.path,
+  //       androidUiSettings: AndroidUiSettings(
+  //         toolbarColor: Colors.purple,
+  //         toolbarWidgetColor: Colors.white,
+  //         toolbarTitle: "Crop it",
+  //       ));
 
-    setState(() {
-      imageFile = cropped ?? imageFile;
-    });
-  }
+  //   setState(() {
+  //     imageFile = cropped ?? imageFile;
+  //   });
+  // }
 
   void clearImage() {
     setState(() {
@@ -273,7 +273,7 @@ class _ImageCaptureState extends State<ImageCapture> {
             onPressed: () => getImage(ImageSource.gallery)),
         Row(
           children: [
-            TextButton(onPressed: cropImage, child: Icon(Icons.crop)),
+            // TextButton(onPressed: cropImage, child: Icon(Icons.crop)),
             TextButton(onPressed: clearImage, child: Icon(Icons.refresh))
           ],
         ),
@@ -357,7 +357,6 @@ class _UploaderState extends State<Uploader> {
     }
   }
 }
-
 
 // BASIC INFO
 // Name
