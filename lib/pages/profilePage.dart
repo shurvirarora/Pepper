@@ -25,6 +25,7 @@ import 'package:myapp/styleguide/colors.dart';
 import 'package:myapp/styleguide/textstyle.dart';
 import 'package:myapp/commons/opaque_image.dart';
 import 'package:myapp/pages/editProfilePage.dart';
+import 'package:myapp/pages/settingsPage.dart';
 
 //Gets user id
 final FirebaseAuth firebaseAuth = FirebaseAuth.instance;
@@ -105,9 +106,25 @@ class _profilePageState extends State<profilePage> {
       children: [
         Container(
           color: primaryColor,
+          alignment: Alignment.centerRight,
+          padding: EdgeInsets.fromLTRB(0, 10, 10, 0),
+          child: IconButton(
+            icon: const Icon(FontAwesomeIcons.cog),
+            iconSize: 27.5,
+            color: Colors.white, //Color(0xff808080),
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => settingsPage()),
+              );
+            },
+          ),
+        ),
+        Container(
+          color: primaryColor,
           child: Padding(
             child: MyInfo("Charlie Amelio", "12"),
-            padding: EdgeInsets.fromLTRB(30, 30, 30, 5),
+            padding: EdgeInsets.fromLTRB(30, 5, 30, 30),
           ),
         ),
         Container(
@@ -145,12 +162,12 @@ class _profilePageState extends State<profilePage> {
 
         // FloatingActionButton(onPressed: fetchData),
         // ),
-        Column(children: [
-          Container(
-            child: OutlinedButton(
-                child: Text('Log Out'), onPressed: () => authBloc.logout()),
-          ),
-        ]),
+        // Column(children: [
+        //   Container(
+        //     child: OutlinedButton(
+        //         child: Text('Log Out'), onPressed: () => authBloc.logout()),
+        //   ),
+        // ]),
       ],
     );
   }
