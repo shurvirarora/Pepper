@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_tindercard/flutter_tindercard.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import '../styleguide/textstyle.dart';
 // import 'package:flutter_swipable/flutter_swipable.dart';
 import '../Decorations/constants.dart';
 import 'package:firebase_storage/firebase_storage.dart';
@@ -34,14 +35,25 @@ ElevatedButton CrossButton = ElevatedButton(
     padding: EdgeInsets.all(20),
   ),
 );
+final FirebaseAuth firebaseAuth = FirebaseAuth.instance;
+final User user = firebaseAuth.currentUser;
+final String uid = user.uid.toString();
+CollectionReference collectionReference =
+    FirebaseFirestore.instance.collection('User');
 
 void liked() {
+  //Add liked user to likes
   print('Liked');
+  controller.triggerRight();
+  // collectionReference.doc(user.uid).set(data)
 }
 
 void passed() {
   print('Rejected');
+  controller.triggerLeft();
 }
+
+CardController controller;
 
 class swipePage extends StatefulWidget {
   // const homePage({ Key? key }) : super(key: key);
@@ -51,9 +63,6 @@ class swipePage extends StatefulWidget {
 }
 
 List<dynamic> allData;
-
-CollectionReference collectionReference =
-    FirebaseFirestore.instance.collection('User');
 
 // List<DocumentReference> users = collectionReference.get().
 
@@ -92,59 +101,28 @@ class _swipePageState extends State<swipePage> {
   @override
   Widget build(BuildContext context) {
     return myfuture();
-    // CardController controller;
-    // return Container(
-    //   padding: EdgeInsets.only(top: 10),
-    //   height: MediaQuery.of(context).size.height * 1,
-    //   child: new TinderSwapCard(
-    //     allowVerticalMovement: false,
-    //     swipeUp: false,
-    //     swipeDown: false,
-    //     orientation: AmassOrientation.TOP,
-    //     totalNum: welcomeImages.length,
-    //     stackNum: 3,
-    //     swipeEdge: 4.0,
-    //     maxWidth: MediaQuery.of(context).size.width * 1,
-    //     maxHeight: MediaQuery.of(context).size.width * 2.2,
-    //     minWidth: MediaQuery.of(context).size.width * 0.8,
-    //     minHeight: MediaQuery.of(context).size.width * 0.8,
-    //     cardBuilder: (context, index) => welcomeImages[index],
-    //     cardController: controller = CardController(),
-    //     swipeUpdateCallback: (DragUpdateDetails details, Alignment align) {
-    //       /// Get swiping card's alignment
-    //       if (align.x < -10) {
-    //         //Logic for swiping executed here
-    //         //Card is LEFT swiping
-    //         passed();
-    //       } else if (align.x > 10) {
-    //         //Card is RIGHT swiping
-    //         liked();
-    //       }
-    //     },
-    //     swipeCompleteCallback: (CardSwipeOrientation orientation, int index) {
-    //       /// Get orientation & index of swiped card!
-    //     },
-    //   ),
-    // );
   }
 
   List<UserCard> userCards(List<DocumentSnapshot> users) {
     List<UserCard> cards = [];
     for (DocumentSnapshot user in users) {
-      print(user['Age']);
+      // print(user['Age']);
       UserCard card = UserCard(
         Image.network(user['DownloadUrl']),
-        userBio: user['Age'].toString(),
+        age: user['Age'].toString(),
         education: user['Education'].toString(),
+        gender: user['Gender'].toString(),
+        work: user['Work'].toString(),
+        aboutMe: user['About Me'].toString(),
+        height: user['Height'].toString(),
       );
-      print(card.toString());
+      // print(card.toString());
       cards.add(card);
     }
     return cards;
   }
 
   Widget myfuture() {
-    CardController controller;
     return FutureBuilder(
         future: FirebaseFirestore.instance.collection('User').get(),
         // ignore: missing_return
@@ -199,11 +177,34 @@ class _swipePageState extends State<swipePage> {
 class UserCard extends StatefulWidget {
   // List<Widget> items;
   Image img1;
-  Image img2;
+  String age;
+  String gender;
+  String height;
   String education;
-  Image img4;
-  String userBio;
+  String aboutMe;
+  String work;
 
+  UserCard(Image img1,
+      {String age,
+      String gender,
+      String height,
+      String education,
+      String aboutMe,
+      String work}) {
+    this.img1 = img1;
+    this.age = age;
+    this.gender = gender;
+    this.height = height;
+    this.education = education;
+    this.aboutMe = aboutMe;
+    this.work = work;
+  }
+
+  @override
+  _UserCardState createState() => _UserCardState();
+}
+
+class _UserCardState extends State<UserCard> {
   Container bottomProfile = Container(
       //Contains like and pass buttons
       child: Column(children: [
@@ -215,51 +216,89 @@ class UserCard extends StatefulWidget {
       ],
     )
   ]));
+  // List<Widget> userData() {
+  //   List<Widget> userData = [
+  //     Text(widget.age),
+  //     widget.img1,
+  //     Text(widget.gender),
+  //     Text(widget.height),
+  //     Text(widget.aboutMe),
+  //     Text(widget.education),
+  //     Text(widget.work),
+  //     TextButton(onPressed: () => getData(), child: Text("Retrieve user data"))
+  //   ];
+  //   return userData;
+  // }
 
-  UserCard(Image img1,
-      {Image img2, String education, Image img4, String userBio}) {
-    this.img1 = img1;
-    this.userBio = userBio;
-    this.img2 = img2;
-    this.education = education;
-    this.img4 = img4;
-  }
-
-  @override
-  _UserCardState createState() => _UserCardState();
-}
-
-class _UserCardState extends State<UserCard> {
-  List<Widget> userData() {
-    List<String> userText = [widget.userBio];
-    List<Widget> userImages = [widget.img1, widget.img2, widget.img4];
-
-    List<Widget> filterImages;
-    List<String> filterText;
-
-    // Text name = Text(filterText[0]);
-    // Image img1 = filterImages[0];
-    List<Widget> userData = [
-      widget.img1,
-      Text(widget.userBio),
-      Text(widget.education),
-      TextButton(onPressed: () => getData(), child: Text("Retrieve user data"))
+  List<Widget> newData() {
+    List<String> userText = [
+      widget.age,
+      widget.gender,
+      widget.height,
+      widget.aboutMe,
+      widget.education,
+      widget.work
     ];
-
-    // for (Widget w in userImages) {
-    //   if (w != null) {
-    //     print(w);
-    //     filterImages.add(w);
-    //   }
-    // }
-
-    // for (String w in userText) {
-    //   if (w != null) {
-    //     filterText.add(w);
-    //   }
-    // }
-
-    return userData;
+    List<Widget> newList = [
+      Container(
+        child: widget.img1,
+        padding: EdgeInsets.all(10),
+        margin: EdgeInsets.all(0),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(30),
+          border: Border.all(
+            color: Color(0xffdee2ff),
+            width: 10,
+          ),
+        ),
+      )
+    ];
+    for (String text in userText) {
+      if (text != 'null') {
+        if (text == widget.aboutMe) {
+          newList.add(Card(
+            // shadowColor: Colors.pink[500],
+            child: Column(
+              children: [
+                Padding(
+                  padding: EdgeInsets.fromLTRB(
+                      0, 10, MediaQuery.of(context).size.width * 0.7, 0),
+                  child: Text(
+                    'Bio',
+                    style: SwipingProfileHeaders,
+                  ),
+                ),
+                Text(
+                  text,
+                  style: SwipingProfileText,
+                ),
+              ],
+            ),
+            elevation: 3,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(30),
+            ),
+            margin: EdgeInsets.all(10),
+          ));
+          continue;
+        }
+        newList.add(Card(
+          color: Color(0xffdee2ff),
+          // shadowColor: Colors.pink[500],
+          child: Text(
+            text,
+            style: SwipingProfileText,
+          ),
+          elevation: 3,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(30),
+          ),
+          margin: EdgeInsets.all(10),
+        ));
+      }
+    }
+    newList.add(bottomProfile);
+    return newList;
   }
 
   @override
@@ -275,7 +314,7 @@ class _UserCardState extends State<UserCard> {
         // padding: EdgeInsets.all(20),
         child: ListView(
           // child: Column(
-          children: userData(),
+          children: newData(),
         ),
       ),
     );

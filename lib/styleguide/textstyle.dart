@@ -34,3 +34,17 @@ final TextStyle actionMenuStyle = TextStyle(
   fontWeight: FontWeight.w600,
   letterSpacing: 5,
 );
+
+final TextStyle SwipingProfileHeaders = TextStyle(
+  fontSize: 16.0,
+  color: Color(0xff8e9aaf),
+  fontWeight: FontWeight.w600,
+  letterSpacing: 3,
+);
+
+final TextStyle SwipingProfileText = TextStyle(
+  fontSize: 16.0,
+  color: Color(0xff8e9aaf),
+  fontWeight: FontWeight.w600,
+  letterSpacing: 2,
+);

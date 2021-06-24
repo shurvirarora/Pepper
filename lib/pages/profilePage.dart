@@ -268,7 +268,7 @@ class _profilePageState extends State<profilePage> {
                 ]),
                 TableRow(children: [
                   ProfileInfoSmallCard(
-                      text: gender,
+                      text: education,
                       icon: Icon(
                         FontAwesomeIcons.genderless,
                         color: secondaryColor,
