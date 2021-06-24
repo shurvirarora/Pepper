@@ -20,7 +20,7 @@ import 'pages/swipePage.dart';
 // import 'package:custom_navigation_bar/custom_navigation_bar.dart';
 
 // RESPONSIBLE FOR NAVIGATION BETWEEN THE 3 MAIN TABS
-final List<Widget> _children = [profilePage(), swipePage(), Messages()];
+final List<Widget> _children = [profilePage(), swipePage(), messagePage()];
 
 class Home extends StatefulWidget {
   @override
@@ -110,7 +110,7 @@ class _HomeState extends State<Home> {
           ),
         ],
       );
-    } else if (index == 2) {
+    } /*else if (index == 2) {
       return AppBar(
         elevation: 0,
         backgroundColor: Colors.white,
@@ -126,7 +126,7 @@ class _HomeState extends State<Home> {
           ),
         ],
       );
-    }
+    }*/
   }
 
   @override
