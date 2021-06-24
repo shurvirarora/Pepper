@@ -1,360 +1,304 @@
-import 'dart:io';
-
-import 'package:firebase_core/firebase_core.dart';
-import 'package:firebase_storage/firebase_storage.dart';
-
-import '../styleguide/colors.dart';
-import '../styleguide/textstyle.dart';
-// import 'package:image_cropper/image_cropper.dart';
-import 'package:image_picker/image_picker.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'loginPage.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:myapp/pages/chats_json.dart';
+//import 'package:tinder_clone/theme/colors.dart';
+import 'package:myapp/styleguide/colors.dart';
 
-//Gets user id
-final FirebaseAuth firebaseAuth = FirebaseAuth.instance;
-final User user = firebaseAuth.currentUser;
-final String uid = user.uid.toString();
-
-class Messages extends StatefulWidget {
+class messagePage extends StatefulWidget {
   @override
-  _MessagesState createState() => _MessagesState();
+  _messagePageState createState() => _messagePageState();
 }
 
-class _MessagesState extends State<Messages> {
-  Map data;
-//All the data collected from user
-  int age;
-  String gender;
-  String aboutMe;
-  String education;
-  String work;
-  int height;
-
-  Future<void> addUser() {
-    //Adds data to firestore
-    print(url);
-    if (url == null) {
-      print("goesssss crazy");
-      showDialog(
-        context: context,
-        builder: (ctx) => AlertDialog(
-          title: Text("Looks like you forgot something"),
-          content: Text("Please add an image"),
-          actions: <Widget>[
-            TextButton(
-              onPressed: () {
-                Navigator.of(ctx).pop();
-              },
-              child: Text("Ok"),
-            ),
-          ],
-        ),
-      );
-    } else {
-      print("passes");
-      DocumentReference collectionReference =
-          FirebaseFirestore.instance.collection('User').doc(user.uid);
-      Navigator.pop(context);
-      return collectionReference.set({
-        'User': uid.toString(), //stores unique user id
-        'Age': age,
-        'Gender': gender,
-        'About Me': aboutMe,
-        'Education': education,
-        'Work': work,
-        'Height': height,
-        'DownloadUrl': url
-      });
-    }
-  }
-
-  fetchData() {
-    CollectionReference collectionReference =
-        FirebaseFirestore.instance.collection('User');
-
-    collectionReference
-        .where("User", isEqualTo: uid.toString())
-        .snapshots()
-        .listen((snapshot) {
-      setState(() {
-        data = snapshot.docs[1].data();
-        print(data.toString());
-      });
-    });
-  }
-
+class _messagePageState extends State<messagePage> {
+  bool _messagesHasBeenPressed = true;
+  bool _gamesHasBeenPressed = false;
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-        child: ListView(
+    return Scaffold(
+      backgroundColor: Colors.white,
+      body: getBody(),
+    );
+  }
+
+  Widget getBody() {
+    var size = MediaQuery.of(context).size;
+    return ListView(
       children: [
-        ImageCapture(),
-        buildTextField('Age', 'Its just a number...', 30, TextInputType.number),
-        Text(
-          "Gender",
-          style: TextStyle(color: Color(0xfffe3c72)),
-        ),
         Padding(
-          padding: EdgeInsets.all(10),
-          child: DropdownButtonFormField(
-            decoration: InputDecoration(border: OutlineInputBorder()),
-            hint: Text('Gender'),
-            onChanged: (input) {
-              setState(() {
-                gender = input;
-              });
-              print(input);
-            },
-            items: [
-              DropdownMenuItem(
-                value: 'Male',
-                child: Text('Male'),
+          padding: const EdgeInsets.only(top: 20),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              TextButton(
+                child: Text("Messages",
+                    style: TextStyle(
+                      fontSize: 18,
+                      color: _messagesHasBeenPressed
+                          ? primaryColor
+                          : Colors.black.withOpacity(0.5),
+                      fontWeight: FontWeight.bold,
+                    )),
+                onPressed: () => {
+                  setState(() {
+                    _messagesHasBeenPressed = true;
+                    _gamesHasBeenPressed = false;
+                  })
+                },
               ),
-              DropdownMenuItem(
-                value: 'Female',
-                child: Text('Female'),
+              Container(
+                height: 25,
+                width: 1,
+                decoration:
+                    BoxDecoration(color: Colors.black.withOpacity(0.15)),
+              ),
+              TextButton(
+                child: Text("Games",
+                    style: TextStyle(
+                      fontSize: 18,
+                      color: _gamesHasBeenPressed
+                          ? primaryColor
+                          : Colors.black.withOpacity(0.5),
+                      fontWeight: FontWeight.bold,
+                    )),
+                onPressed: () => {
+                  setState(() {
+                    _messagesHasBeenPressed = false;
+                    _gamesHasBeenPressed = true;
+                  })
+                },
               ),
             ],
           ),
         ),
-        // buildTextField('Gender', '', 30, TextInputType.text),
-        buildTextField(
-            'About Me', 'Tell us about yourself...', 70, TextInputType.text),
         SizedBox(
-          height: 50,
+          height: 10,
         ),
-        buildTextField('Education', '', 30, TextInputType.text),
-        buildTextField('Work', '', 30, TextInputType.text),
-        buildTextField('Height', 'cm', 30, TextInputType.number),
-        // FloatingActionButton(onPressed: addUser),
+        Divider(
+          thickness: 0.8,
+        ),
         Padding(
-          padding: EdgeInsets.symmetric(horizontal: 30),
-          child: LoginButton(
-              'Update', Icons.update, addUser, Color(0xfffe3c72), Colors.black),
-        ),
-
-        // BackButton(
-        //   onPressed: fetchData,
-        // ),
-      ],
-    ));
-  }
-
-  Widget buildTextField(
-      String label, String placeholder, double size, TextInputType textType) {
-    return Padding(
-      padding: EdgeInsets.all(10),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            label,
-            style: TextStyle(color: Color(0xfffe3c72)),
-          ),
-          SizedBox(
-            height: 10,
-          ),
-          Container(
-            // height: size,
+          padding: const EdgeInsets.only(left: 8, top: 0, right: 8),
+          child: Container(
+            height: 38,
+            decoration: BoxDecoration(
+                color: Colors.grey.withOpacity(0.2),
+                borderRadius: BorderRadius.circular(5)),
             child: TextField(
-              keyboardType: textType,
-              onChanged: (text) {
-                //Stores input into respective variables
-                if (label == "Age") {
-                  age = int.parse(text);
-                }
-                if (label == "About Me") {
-                  aboutMe = text;
-                }
-                if (label == "Education") {
-                  education = text;
-                }
-                if (label == "Work") {
-                  work = text;
-                }
-                if (label == "Height") {
-                  height = int.parse(text);
-                }
-              },
-              // maxLines: lines,
-              style: TextStyle(), cursorColor: Color(0xfffe3c72),
-              obscureText: false,
+              cursorColor: Colors.black.withOpacity(0.5),
               decoration: InputDecoration(
-                  focusedBorder: OutlineInputBorder(
-                      borderSide: BorderSide(color: Colors.black)),
-                  border: OutlineInputBorder(
-                      borderSide: BorderSide(color: Colors.black),
-                      borderRadius: const BorderRadius.all(
-                        const Radius.circular(15.0),
-                      )),
-                  contentPadding: EdgeInsets.fromLTRB(10, 0, 0, size),
-                  // labelText: labelText,
-                  floatingLabelBehavior: FloatingLabelBehavior.always,
-                  hintText: placeholder,
-                  hintStyle: TextStyle(
-                    fontSize: 15,
-                    fontWeight: FontWeight.normal,
-                    color: Colors.grey[500],
-                  )),
+                  border: InputBorder.none,
+                  prefixIcon: Icon(
+                    Icons.search,
+                    color: Colors.black.withOpacity(0.5),
+                  ),
+                  hintText: "Search 0 Matches"),
             ),
           ),
-
-          // Text(data == null ? "" : data['Bio']),
-        ],
-      ),
-    );
-  }
-}
-
-// <<<<<<< HEAD
-class ImageCapture extends StatefulWidget {
-  // const ImageCapture({ Key? key }) : super(key: key);
-
-  @override
-  _ImageCaptureState createState() => _ImageCaptureState();
-}
-
-class _ImageCaptureState extends State<ImageCapture> {
-  File imageFile;
-
-  Future getImage(ImageSource source) async {
-    final pickedFile = await ImagePicker().getImage(source: source);
-
-    setState(() {
-      if (pickedFile != null) {
-        imageFile = File(pickedFile.path);
-      } else {
-        print('No image selected.');
-      }
-    });
-  }
-
-  // Future cropImage() async {
-  //   File cropped = await ImageCropper.cropImage(
-  //       sourcePath: imageFile.path,
-  //       androidUiSettings: AndroidUiSettings(
-  //         toolbarColor: Colors.purple,
-  //         toolbarWidgetColor: Colors.white,
-  //         toolbarTitle: "Crop it",
-  //       ));
-
-  //   setState(() {
-  //     imageFile = cropped ?? imageFile;
-  //   });
-  // }
-
-  void clearImage() {
-    setState(() {
-      imageFile = null;
-    });
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      children: [
-        if (imageFile != null) ...[
-          CircleAvatar(
-            child: Image.file(
-              imageFile,
-              width: 100,
-              height: 100,
-            ),
-            radius: 50,
-          )
-        ],
-        IconButton(
-            icon: Icon(Icons.photo_camera),
-            onPressed: () => getImage(ImageSource.camera)),
-        IconButton(
-            icon: Icon(Icons.photo_library),
-            onPressed: () => getImage(ImageSource.gallery)),
-        Row(
-          children: [
-            // TextButton(onPressed: cropImage, child: Icon(Icons.crop)),
-            TextButton(onPressed: clearImage, child: Icon(Icons.refresh))
-          ],
         ),
-        Uploader(imageFile),
+        Divider(
+          thickness: 0.8,
+        ),
+        SizedBox(
+          height: 10,
+        ),
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Padding(
+              padding: const EdgeInsets.only(left: 15),
+              child: Text(
+                "New Matches",
+                style: TextStyle(
+                    fontSize: 15,
+                    fontWeight: FontWeight.w500,
+                    color: primaryColor),
+              ),
+            ),
+            SizedBox(
+              height: 20,
+            ),
+            SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: Padding(
+                padding: const EdgeInsets.only(left: 15),
+                child: Row(
+                    children: List.generate(chats_json.length, (index) {
+                  return Padding(
+                    padding: const EdgeInsets.only(right: 20),
+                    child: Column(
+                      children: <Widget>[
+                        Container(
+                          width: 70,
+                          height: 70,
+                          child: Stack(
+                            children: <Widget>[
+                              chats_json[index]['story']
+                                  ? Container(
+                                      decoration: BoxDecoration(
+                                          shape: BoxShape.circle,
+                                          border: Border.all(
+                                              color: primaryColor, width: 3)),
+                                      child: Padding(
+                                        padding: const EdgeInsets.all(3.0),
+                                        child: Container(
+                                          width: 70,
+                                          height: 70,
+                                          decoration: BoxDecoration(
+                                              shape: BoxShape.circle,
+                                              image: DecorationImage(
+                                                  image: AssetImage(
+                                                      chats_json[index]['img']),
+                                                  fit: BoxFit.cover)),
+                                        ),
+                                      ),
+                                    )
+                                  : Container(
+                                      width: 65,
+                                      height: 65,
+                                      decoration: BoxDecoration(
+                                          shape: BoxShape.circle,
+                                          image: DecorationImage(
+                                              image: AssetImage(
+                                                  chats_json[index]['img']),
+                                              fit: BoxFit.cover)),
+                                    ),
+                              chats_json[index]['online']
+                                  ? Positioned(
+                                      top: 48,
+                                      left: 52,
+                                      child: Container(
+                                        width: 20,
+                                        height: 20,
+                                        decoration: BoxDecoration(
+                                            color: Colors.green,
+                                            shape: BoxShape.circle,
+                                            border: Border.all(
+                                                color: Colors.white, width: 3)),
+                                      ),
+                                    )
+                                  : Container()
+                            ],
+                          ),
+                        ),
+                        SizedBox(
+                          height: 10,
+                        ),
+                        SizedBox(
+                          width: 70,
+                          child: Align(
+                              child: Text(
+                            chats_json[index]['name'],
+                            overflow: TextOverflow.ellipsis,
+                          )),
+                        )
+                      ],
+                    ),
+                  );
+                })),
+              ),
+            ),
+            SizedBox(
+              height: 30,
+            ),
+            Padding(
+              padding: const EdgeInsets.only(left: 15),
+              child: Column(
+                children: List.generate(userMessages.length, (index) {
+                  return Padding(
+                    padding: const EdgeInsets.only(bottom: 20),
+                    child: Row(
+                      children: <Widget>[
+                        Container(
+                          width: 70,
+                          height: 70,
+                          child: Stack(
+                            children: <Widget>[
+                              userMessages[index]['story']
+                                  ? Container(
+                                      decoration: BoxDecoration(
+                                          shape: BoxShape.circle,
+                                          border: Border.all(
+                                              color: primaryColor, width: 3)),
+                                      child: Padding(
+                                        padding: const EdgeInsets.all(3.0),
+                                        child: Container(
+                                          width: 70,
+                                          height: 70,
+                                          decoration: BoxDecoration(
+                                              shape: BoxShape.circle,
+                                              image: DecorationImage(
+                                                  image: AssetImage(
+                                                      userMessages[index]
+                                                          ['img']),
+                                                  fit: BoxFit.cover)),
+                                        ),
+                                      ),
+                                    )
+                                  : Container(
+                                      width: 65,
+                                      height: 65,
+                                      decoration: BoxDecoration(
+                                          shape: BoxShape.circle,
+                                          image: DecorationImage(
+                                              image: AssetImage(
+                                                  userMessages[index]['img']),
+                                              fit: BoxFit.cover)),
+                                    ),
+                              userMessages[index]['online']
+                                  ? Positioned(
+                                      top: 48,
+                                      left: 52,
+                                      child: Container(
+                                        width: 20,
+                                        height: 20,
+                                        decoration: BoxDecoration(
+                                            color: Colors.green,
+                                            shape: BoxShape.circle,
+                                            border: Border.all(
+                                                color: Colors.white, width: 3)),
+                                      ),
+                                    )
+                                  : Container()
+                            ],
+                          ),
+                        ),
+                        SizedBox(
+                          width: 20,
+                        ),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: <Widget>[
+                            Text(
+                              userMessages[index]['name'],
+                              style: TextStyle(
+                                  fontSize: 17, fontWeight: FontWeight.w500),
+                            ),
+                            SizedBox(
+                              height: 5,
+                            ),
+                            SizedBox(
+                              width: MediaQuery.of(context).size.width - 135,
+                              child: Text(
+                                userMessages[index]['message'] +
+                                    " - " +
+                                    userMessages[index]['created_at'],
+                                style: TextStyle(
+                                    fontSize: 15,
+                                    color: Colors.black.withOpacity(0.8)),
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                            )
+                          ],
+                        )
+                      ],
+                    ),
+                  );
+                }),
+              ),
+            )
+          ],
+        )
       ],
     );
-  }
-}
-
-// Future<String> downloadUrl;
-
-class Uploader extends StatefulWidget {
-  // const Uploader({ Key? key }) : super(key: key);
-  final File file;
-
-  Uploader(this.file);
-
-  @override
-  _UploaderState createState() => _UploaderState();
-}
-
-UploadTask uploadTask;
-String filePath;
-String url;
-
-class _UploaderState extends State<Uploader> {
-  final FirebaseStorage storage =
-      FirebaseStorage.instanceFor(bucket: 'gs://pepper-e9a17.appspot.com');
-  // FirebaseStorage(storageBucket: 'gs://pepper-e9a17.appspot.com');
-
-  // final String filePath = 'images/image1.png';
-
-  startUpload() async {
-    filePath = 'images/${DateTime.now()}.png';
-    // Reference ref = storage.ref().child("/photo.jpg");
-    setState(() {
-      uploadTask = storage.ref().child(filePath).putFile(widget.file);
-    });
-    var dowurl =
-        await (await uploadTask.whenComplete(() => null)).ref.getDownloadURL();
-    url = dowurl.toString(); //address where image stored
-    print("URL GOES HERE");
-    print(url);
-  }
-
-  // uploadImage(var imageFile) async {
-  //   Reference ref = storage.ref().child("/photo.jpg");
-  //   UploadTask uploadTask = ref.putFile(widget.file);
-  //   var dowurl =
-  //       await (await uploadTask.whenComplete(() => null)).ref.getDownloadURL();
-  //   String url = dowurl.toString();
-  //   print(url);
-  // }
-
-  // printUrl() async {
-  //   print("GOES HERE");
-  //   // String filePath = 'images/${DateTime.now()}.png';
-  //   Reference ref = FirebaseStorage.instance.ref().child(filePath);
-  //   String url = (await ref.getDownloadURL()).toString();
-  //   print(url);
-  // }
-
-  @override
-  Widget build(BuildContext context) {
-    if (uploadTask != null) {
-      return StreamBuilder<TaskSnapshot>(
-          stream: uploadTask.snapshotEvents,
-          builder: (context, snapshot) {
-            var event = snapshot.data;
-
-            double progress =
-                event != null ? event.bytesTransferred / event.totalBytes : 0;
-
-            return Text(progress.toString());
-          });
-    } else {
-      return TextButton.icon(
-          onPressed: startUpload,
-          icon: Icon(Icons.cloud_upload),
-          label: Text('Upload to Firebase'));
-    }
   }
 }
 
