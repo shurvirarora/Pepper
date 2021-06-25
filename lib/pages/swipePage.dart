@@ -45,6 +45,19 @@ void liked() {
   //Add liked user to likes
   print('Liked');
   controller.triggerRight();
+  CollectionReference swipeCollection =
+      FirebaseFirestore.instance.collection('Swipes');
+  Future<DocumentSnapshot> document = swipeCollection.doc(user.uid).get();
+  document.then((doc) {
+    if (doc.exists) {
+      print("Exsts");
+      // swipeCollection.doc(user.uid).set({'dee':'dedew', merge:true});
+    } else {
+      //Userid doesnt exits so create a doc
+      print("Doesnt Exists");
+      // swipeCollection.add(data)
+    }
+  });
   // collectionReference.doc(user.uid).set(data)
 }
 
@@ -64,17 +77,8 @@ class swipePage extends StatefulWidget {
 
 List<dynamic> allData;
 
-// List<DocumentReference> users = collectionReference.get().
-
-// Future<void> getData() async {
-//   // Get docs from collection reference
-//   QuerySnapshot querySnapshot = await collectionReference.get();
-
 //   // Get data from docs and convert map to List
 //   allData = querySnapshot.docs.map((doc) => doc['DownloadUrl']).toList();
-
-//   print(allData);
-// }
 
 Future<void> getData() async {
   // Get docs from collection reference
