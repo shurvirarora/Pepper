@@ -28,11 +28,11 @@ final TextStyle subTitleStyle = TextStyle(
   //color: secondaryTextColor,
   fontWeight: FontWeight.w200,
 );
-final TextStyle actionMenuStyle = TextStyle(
-  fontSize: 16.0,
-  color: primaryColor,
+final TextStyle userCardTitle = TextStyle(
+  fontSize: 18.0,
+  color: Colors.black.withOpacity(0.75),
   fontWeight: FontWeight.w600,
-  letterSpacing: 5,
+  letterSpacing: 0,
 );
 
 final TextStyle SwipingProfileHeaders = TextStyle(
