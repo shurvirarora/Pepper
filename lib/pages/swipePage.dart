@@ -3,6 +3,9 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_tindercard/flutter_tindercard.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:myapp/commons/about_me_card.dart';
+import 'package:myapp/commons/profile_info_big_card.dart';
+import 'package:myapp/styleguide/colors.dart';
 import '../styleguide/textstyle.dart';
 // import 'package:flutter_swipable/flutter_swipable.dart';
 import '../Decorations/constants.dart';
@@ -108,7 +111,7 @@ class _swipePageState extends State<swipePage> {
     for (DocumentSnapshot user in users) {
       // print(user['Age']);
       UserCard card = UserCard(
-        Image.network(user['DownloadUrl']),
+        (user['DownloadUrl']),
         age: user['Age'].toString(),
         education: user['Education'].toString(),
         gender: user['Gender'].toString(),
@@ -176,7 +179,7 @@ class _swipePageState extends State<swipePage> {
 
 class UserCard extends StatefulWidget {
   // List<Widget> items;
-  Image img1;
+  String img1;
   String age;
   String gender;
   String height;
@@ -184,7 +187,7 @@ class UserCard extends StatefulWidget {
   String aboutMe;
   String work;
 
-  UserCard(Image img1,
+  UserCard(String img1,
       {String age,
       String gender,
       String height,
@@ -231,55 +234,64 @@ class _UserCardState extends State<UserCard> {
   // }
 
   List<Widget> newData() {
-    List<String> userText = [
-      widget.age,
-      widget.gender,
-      widget.height,
-      widget.aboutMe,
-      widget.education,
-      widget.work
-    ];
+    List<String> userText = [widget.aboutMe];
     List<Widget> newList = [
       Container(
-        child: widget.img1,
-        padding: EdgeInsets.all(10),
-        margin: EdgeInsets.all(0),
+        height: MediaQuery.of(context).size.height * 0.7,
+        width: MediaQuery.of(context).size.width * 0.95,
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(30),
-          border: Border.all(
-            color: Color(0xffdee2ff),
-            width: 10,
+          borderRadius: BorderRadius.circular(15),
+          image: DecorationImage(
+            image: NetworkImage(widget.img1),
+            fit: BoxFit.cover,
           ),
         ),
-      )
+        child: Container(
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(15),
+            boxShadow: [
+              BoxShadow(color: Colors.black12, spreadRadius: 0.5),
+            ],
+            gradient: LinearGradient(
+              colors: [Colors.black12, Colors.black87],
+              begin: Alignment.center,
+              stops: [0.4, 1],
+              end: Alignment.bottomCenter,
+            ),
+          ),
+          child: Stack(
+            children: [
+              Positioned(
+                right: 10,
+                left: 10,
+                bottom: 10,
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    basicUserInfo(user: user),
+                  ],
+                ),
+              ),
+              //if (isUserInFocus) buildLikeBadge(swipingDirection)
+            ],
+          ),
+        ),
+      ),
     ];
     for (String text in userText) {
       if (text != 'null') {
         if (text == widget.aboutMe) {
-          newList.add(Card(
-            // shadowColor: Colors.pink[500],
-            child: Column(
-              children: [
-                Padding(
-                  padding: EdgeInsets.fromLTRB(
-                      0, 10, MediaQuery.of(context).size.width * 0.7, 0),
-                  child: Text(
-                    'Bio',
-                    style: SwipingProfileHeaders,
-                  ),
-                ),
-                Text(
-                  text,
-                  style: SwipingProfileText,
-                ),
-              ],
+          newList.add(
+            AboutMeCard(
+              firstText: 'About Me',
+              secondText: 'Carefree',
+              icon: Icon(
+                Icons.info,
+                color: primaryColor,
+              ),
             ),
-            elevation: 3,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(30),
-            ),
-            margin: EdgeInsets.all(10),
-          ));
+          );
           continue;
         }
         newList.add(Card(
@@ -300,6 +312,47 @@ class _UserCardState extends State<UserCard> {
     newList.add(bottomProfile);
     return newList;
   }
+
+  Widget basicUserInfo({@required User user}) => Padding(
+        padding: const EdgeInsets.all(8),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text(
+              '${widget.gender}, ${widget.age}',
+              style: TextStyle(
+                color: Colors.white,
+                fontWeight: FontWeight.bold,
+                fontSize: 18,
+              ),
+            ),
+            SizedBox(height: 8),
+            Row(
+              children: [
+                Icon(FontAwesomeIcons.graduationCap,
+                    size: 12, color: Colors.white),
+                Padding(padding: EdgeInsets.all(5)),
+                Text(
+                  '${widget.education}',
+                  style: TextStyle(color: Colors.white),
+                ),
+              ],
+            ),
+            SizedBox(height: 4),
+            Row(
+              children: [
+                Icon(FontAwesomeIcons.briefcase, size: 12, color: Colors.white),
+                Padding(padding: EdgeInsets.all(5)),
+                Text(
+                  '${widget.work} ',
+                  style: TextStyle(color: Colors.white),
+                ),
+              ],
+            )
+          ],
+        ),
+      );
 
   @override
   Widget build(BuildContext context) {
