@@ -12,7 +12,7 @@ import '../Decorations/constants.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 
 ElevatedButton Heartbutton = ElevatedButton(
-  onPressed: () => liked(),
+  onPressed: () => liked(true),
   child: Icon(
     FontAwesomeIcons.heart,
     size: 30,
@@ -26,7 +26,7 @@ ElevatedButton Heartbutton = ElevatedButton(
 );
 
 ElevatedButton CrossButton = ElevatedButton(
-  onPressed: () => passed(),
+  onPressed: () => passed(true),
   child: Icon(
     FontAwesomeIcons.times,
     size: 30,
@@ -44,67 +44,72 @@ final String uid = user.uid.toString();
 CollectionReference collectionReference =
     FirebaseFirestore.instance.collection('User');
 
-void liked() {
-  //Add liked user to likes
+void liked(bool swipe) {
   print('Liked');
-  controller.triggerRight();
+  if (swipe) {
+    controller.triggerRight();
+  }
   CollectionReference swipeCollection =
       FirebaseFirestore.instance.collection('Swipes');
   Future<DocumentSnapshot> document = swipeCollection.doc(user.uid).get();
   document.then((doc) {
     if (doc.exists) {
-      print("Exsts");
-      // swipeCollection.doc(user.uid).set({'dee':'dedew', merge:true});
+      print(UserIds[swipePage.currIndex]);
+      print(swipePage.currIndex);
+      swipeCollection.doc(user.uid).update({
+        "Likes": FieldValue.arrayUnion([UserIds[swipePage.currIndex]])
+      }).then((value) => swipePage.currIndex += 1);
     } else {
       //Userid doesnt exits so create a doc
       print("Doesnt Exists");
-      // swipeCollection.add(data)
+      swipeCollection.doc(user.uid).set({
+        'Likes': [UserIds[swipePage.currIndex]],
+        'Dislikes': [],
+        'Matches': []
+      }).then((value) => swipePage.currIndex += 1);
     }
   });
-  // collectionReference.doc(user.uid).set(data)
 }
 
-void passed() {
+void passed(bool swipe) {
   print('Rejected');
-  controller.triggerLeft();
+  if (swipe) {
+    controller.triggerLeft();
+  }
+  CollectionReference swipeCollection =
+      FirebaseFirestore.instance.collection('Swipes');
+  Future<DocumentSnapshot> document = swipeCollection.doc(user.uid).get();
+  document.then((doc) {
+    if (doc.exists) {
+      print(UserIds[swipePage.currIndex]);
+      swipeCollection.doc(user.uid).update({
+        "Dislikes": FieldValue.arrayUnion([UserIds[swipePage.currIndex]])
+      }).then((value) => swipePage.currIndex += 1);
+    } else {
+      //Userid doesnt exits so create a doc
+      print("Doesnt Exists");
+      swipeCollection.doc(user.uid).set({
+        'Likes': [],
+        'Dislikes': [UserIds[swipePage.currIndex]],
+        'Matches': []
+      }).then((value) => swipePage.currIndex += 1);
+    }
+  });
 }
 
 CardController controller;
 
 class swipePage extends StatefulWidget {
   // const homePage({ Key? key }) : super(key: key);
-
+  static String currID;
+  static int currIndex = 0;
   @override
   _swipePageState createState() => _swipePageState();
 }
 
 List<dynamic> allData;
 
-//   // Get data from docs and convert map to List
-//   allData = querySnapshot.docs.map((doc) => doc['DownloadUrl']).toList();
-
-Future<void> getData() async {
-  // Get docs from collection reference
-  QuerySnapshot querySnapshot = await collectionReference.get();
-
-  // Get data from docs and convert map to List
-  allData = querySnapshot.docs.map((doc) => doc.data()).toList();
-
-  print(allData);
-}
-
 class _swipePageState extends State<swipePage> {
-  // List<UserCard> welcomeImages = [
-  //   //Images passed
-  //   UserCard(Image.asset("assets/images/sample2.jpg")),
-  //   UserCard(Image.asset("assets/images/image2.jpg"),
-  //       userBio: 'lol', img2: Image.asset("assets/images/selena.jpg")),
-  //   UserCard(Image.asset("assets/images/sample1.jpg"),
-  //       img2: Image.asset("assets/images/image2.jpg"), userBio: 'hello'),
-  //   UserCard(Image.asset("assets/images/selena.jpg"),
-  //       userBio: 'asdfghjkl', img2: Image.asset("assets/images/sample3.jpg")),
-  // ];
-
   @override
   Widget build(BuildContext context) {
     return myfuture();
@@ -113,7 +118,6 @@ class _swipePageState extends State<swipePage> {
   List<UserCard> userCards(List<DocumentSnapshot> users) {
     List<UserCard> cards = [];
     for (DocumentSnapshot user in users) {
-      // print(user['Age']);
       UserCard card = UserCard(
         (user['DownloadUrl']),
         age: user['Age'].toString(),
@@ -122,8 +126,8 @@ class _swipePageState extends State<swipePage> {
         work: user['Work'].toString(),
         aboutMe: user['About Me'].toString(),
         height: user['Height'].toString(),
+        id: user['User'].toString(),
       );
-      // print(card.toString());
       cards.add(card);
     }
     return cards;
@@ -132,6 +136,7 @@ class _swipePageState extends State<swipePage> {
   Widget myfuture() {
     return FutureBuilder(
         future: FirebaseFirestore.instance.collection('User').get(),
+
         // ignore: missing_return
         builder: (BuildContext context, AsyncSnapshot snapshot) {
           if (snapshot.hasData) {
@@ -159,17 +164,28 @@ class _swipePageState extends State<swipePage> {
                       (DragUpdateDetails details, Alignment align) {
                     /// Get swiping card's alignment
                     if (align.x < -10) {
-                      //Logic for swiping executed here
                       //Card is LEFT swiping
-                      passed();
+
                     } else if (align.x > 10) {
                       //Card is RIGHT swiping
-                      liked();
+
                     }
                   },
                   swipeCompleteCallback:
                       (CardSwipeOrientation orientation, int index) {
                     /// Get orientation & index of swiped card!
+
+                    // print(orientation.index);
+                    if (orientation == CardSwipeOrientation.LEFT) {
+                      passed(false);
+                      print(swipePage.currIndex.toString() + ' in');
+                    }
+                    if (orientation == CardSwipeOrientation.RIGHT) {
+                      liked(false);
+                      print(swipePage.currIndex.toString() + ' in');
+                    }
+
+                    ///
                   },
                 ),
               );
@@ -181,6 +197,8 @@ class _swipePageState extends State<swipePage> {
   }
 }
 
+List<String> UserIds = [];
+
 class UserCard extends StatefulWidget {
   // List<Widget> items;
   String img1;
@@ -190,14 +208,15 @@ class UserCard extends StatefulWidget {
   String education;
   String aboutMe;
   String work;
-
+  String id;
   UserCard(String img1,
       {String age,
       String gender,
       String height,
       String education,
       String aboutMe,
-      String work}) {
+      String work,
+      String id}) {
     this.img1 = img1;
     this.age = age;
     this.gender = gender;
@@ -205,6 +224,12 @@ class UserCard extends StatefulWidget {
     this.education = education;
     this.aboutMe = aboutMe;
     this.work = work;
+    this.id = id;
+    if (!UserIds.contains(id)) {
+      UserIds.add(id);
+    }
+
+    print(UserIds);
   }
 
   @override
@@ -223,19 +248,6 @@ class _UserCardState extends State<UserCard> {
       ],
     )
   ]));
-  // List<Widget> userData() {
-  //   List<Widget> userData = [
-  //     Text(widget.age),
-  //     widget.img1,
-  //     Text(widget.gender),
-  //     Text(widget.height),
-  //     Text(widget.aboutMe),
-  //     Text(widget.education),
-  //     Text(widget.work),
-  //     TextButton(onPressed: () => getData(), child: Text("Retrieve user data"))
-  //   ];
-  //   return userData;
-  // }
 
   List<Widget> newData() {
     List<String> userText = [widget.aboutMe];
