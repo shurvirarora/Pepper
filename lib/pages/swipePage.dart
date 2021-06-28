@@ -301,7 +301,7 @@ class _UserCardState extends State<UserCard> {
           newList.add(
             AboutMeCard(
               firstText: 'About Me',
-              secondText: 'Carefree',
+              secondText: widget.aboutMe,
               icon: Icon(
                 Icons.info,
                 color: primaryColor,

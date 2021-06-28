@@ -12,8 +12,8 @@ class MyInfo extends StatelessWidget {
 
   String name;
   String age;
-
-  MyInfo(this.name, this.age);
+  String url;
+  MyInfo(this.name, this.age, this.url);
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +25,7 @@ class MyInfo extends StatelessWidget {
           RadialProgress(
             width: 6,
             child: RoundedImage(
-              imagePath: "assets/images/charli.jpg",
+              imagePath: url,
               size: Size.fromWidth(120.0),
             ),
           ),
