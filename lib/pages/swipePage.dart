@@ -10,23 +10,10 @@ import '../styleguide/textstyle.dart';
 // import 'package:flutter_swipable/flutter_swipable.dart';
 import '../Decorations/constants.dart';
 import 'package:firebase_storage/firebase_storage.dart';
-
-ElevatedButton Heartbutton = ElevatedButton(
-  onPressed: () => liked(true),
-  child: Icon(
-    FontAwesomeIcons.heart,
-    size: 30,
-  ),
-  style: ElevatedButton.styleFrom(
-    onPrimary: Color(0xff44d083),
-    primary: Colors.white,
-    shape: CircleBorder(),
-    padding: EdgeInsets.all(20),
-  ),
-);
+import 'matchPage.dart';
 
 ElevatedButton CrossButton = ElevatedButton(
-  onPressed: () => passed(true),
+  onPressed: () => swipePage.passed(true),
   child: Icon(
     FontAwesomeIcons.times,
     size: 30,
@@ -43,59 +30,8 @@ final User user = firebaseAuth.currentUser;
 final String uid = user.uid.toString();
 CollectionReference collectionReference =
     FirebaseFirestore.instance.collection('User');
-
-void liked(bool swipe) {
-  print('Liked');
-  if (swipe) {
-    controller.triggerRight();
-  }
-  CollectionReference swipeCollection =
-      FirebaseFirestore.instance.collection('Swipes');
-  Future<DocumentSnapshot> document = swipeCollection.doc(user.uid).get();
-  document.then((doc) {
-    if (doc.exists) {
-      print(UserIds[swipePage.currIndex]);
-      print(swipePage.currIndex);
-      swipeCollection.doc(user.uid).update({
-        "Likes": FieldValue.arrayUnion([UserIds[swipePage.currIndex]])
-      }).then((value) => swipePage.currIndex += 1);
-    } else {
-      //Userid doesnt exits so create a doc
-      print("Doesnt Exists");
-      swipeCollection.doc(user.uid).set({
-        'Likes': [UserIds[swipePage.currIndex]],
-        'Dislikes': [],
-        'Matches': []
-      }).then((value) => swipePage.currIndex += 1);
-    }
-  });
-}
-
-void passed(bool swipe) {
-  print('Rejected');
-  if (swipe) {
-    controller.triggerLeft();
-  }
-  CollectionReference swipeCollection =
-      FirebaseFirestore.instance.collection('Swipes');
-  Future<DocumentSnapshot> document = swipeCollection.doc(user.uid).get();
-  document.then((doc) {
-    if (doc.exists) {
-      print(UserIds[swipePage.currIndex]);
-      swipeCollection.doc(user.uid).update({
-        "Dislikes": FieldValue.arrayUnion([UserIds[swipePage.currIndex]])
-      }).then((value) => swipePage.currIndex += 1);
-    } else {
-      //Userid doesnt exits so create a doc
-      print("Doesnt Exists");
-      swipeCollection.doc(user.uid).set({
-        'Likes': [],
-        'Dislikes': [UserIds[swipePage.currIndex]],
-        'Matches': []
-      }).then((value) => swipePage.currIndex += 1);
-    }
-  });
-}
+CollectionReference swipeCollection =
+    FirebaseFirestore.instance.collection('Swipes');
 
 CardController controller;
 
@@ -105,6 +41,98 @@ class swipePage extends StatefulWidget {
   static int currIndex = 0;
   @override
   _swipePageState createState() => _swipePageState();
+
+  static void liked(bool swipe, BuildContext context) {
+    print('Liked');
+    if (swipe) {
+      controller.triggerRight();
+    }
+    bool isMatched = false;
+    final String currPersonId = UserIds[swipePage.currIndex];
+    Future<DocumentSnapshot> otherdocument =
+        swipeCollection.doc(currPersonId).get();
+    Future<DocumentSnapshot> document = swipeCollection.doc(user.uid).get();
+    document.then((doc) {
+      //Swiping User's doc exists
+      if (doc.exists) {
+        swipeCollection.doc(currPersonId).get().then((doc) {
+          //Other User's doc exists
+          if (doc.exists) {
+            if (List.from(doc['Likes']).contains(uid)) {
+              print("ITS A MATCH!!!!!");
+              isMatched = true;
+              swipeCollection.doc(user.uid).update({
+                "Matches": FieldValue.arrayUnion([currPersonId])
+              }).then((value) {
+                // swipePage.currIndex += 1;
+                print(currPersonId);
+                // Navigator.push(
+                //   context,
+                //   MaterialPageRoute(builder: (context) => matchPage()),
+                // );
+                Navigator.of(context).push(
+                  PageRouteBuilder(
+                    opaque: false, // set to false
+                    pageBuilder: (_, __, ___) => matchPage(),
+                  ),
+                );
+                //Still doesnt stop the function from continuing
+              });
+            }
+          }
+        });
+      }
+    });
+    print(isMatched);
+    if (isMatched) {
+      print("GoesHere");
+      return;
+    }
+    document.then((doc) {
+      if (doc.exists) {
+        swipeCollection.doc(user.uid).update({
+          "Likes": FieldValue.arrayUnion([currPersonId])
+        }).then((value) {
+          swipePage.currIndex += 1;
+          print(currPersonId);
+        });
+      } else {
+        //Userid doesnt exits so create a doc
+        print("Doesnt Exists");
+        swipeCollection.doc(user.uid).set({
+          'Likes': [UserIds[swipePage.currIndex]],
+          'Dislikes': [],
+          'Matches': []
+        }).then((value) => swipePage.currIndex += 1);
+      }
+    });
+  }
+
+  static void passed(bool swipe) {
+    print('Rejected');
+    if (swipe) {
+      controller.triggerLeft();
+    }
+    CollectionReference swipeCollection =
+        FirebaseFirestore.instance.collection('Swipes');
+    Future<DocumentSnapshot> document = swipeCollection.doc(user.uid).get();
+    document.then((doc) {
+      if (doc.exists) {
+        print(UserIds[swipePage.currIndex]);
+        swipeCollection.doc(user.uid).update({
+          "Dislikes": FieldValue.arrayUnion([UserIds[swipePage.currIndex]])
+        }).then((value) => swipePage.currIndex += 1);
+      } else {
+        //Userid doesnt exits so create a doc
+        print("Doesnt Exists");
+        swipeCollection.doc(user.uid).set({
+          'Likes': [],
+          'Dislikes': [UserIds[swipePage.currIndex]],
+          'Matches': []
+        }).then((value) => swipePage.currIndex += 1);
+      }
+    });
+  }
 }
 
 List<dynamic> allData;
@@ -136,7 +164,6 @@ class _swipePageState extends State<swipePage> {
   Widget myfuture() {
     return FutureBuilder(
         future: FirebaseFirestore.instance.collection('User').get(),
-
         // ignore: missing_return
         builder: (BuildContext context, AsyncSnapshot snapshot) {
           if (snapshot.hasData) {
@@ -177,11 +204,11 @@ class _swipePageState extends State<swipePage> {
 
                     // print(orientation.index);
                     if (orientation == CardSwipeOrientation.LEFT) {
-                      passed(false);
+                      swipePage.passed(false);
                       print(swipePage.currIndex.toString() + ' in');
                     }
                     if (orientation == CardSwipeOrientation.RIGHT) {
-                      liked(false);
+                      swipePage.liked(false, context);
                       print(swipePage.currIndex.toString() + ' in');
                     }
 
@@ -200,7 +227,6 @@ class _swipePageState extends State<swipePage> {
 List<String> UserIds = [];
 
 class UserCard extends StatefulWidget {
-  // List<Widget> items;
   String img1;
   String age;
   String gender;
@@ -228,7 +254,6 @@ class UserCard extends StatefulWidget {
     if (!UserIds.contains(id)) {
       UserIds.add(id);
     }
-
     print(UserIds);
   }
 
@@ -238,13 +263,14 @@ class UserCard extends StatefulWidget {
 
 class _UserCardState extends State<UserCard> {
   Container bottomProfile = Container(
+
       //Contains like and pass buttons
       child: Column(children: [
     Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Padding(padding: EdgeInsets.all(20.0), child: CrossButton),
-        Padding(padding: EdgeInsets.all(20.0), child: Heartbutton)
+        Padding(padding: EdgeInsets.all(20.0), child: HeartButton())
       ],
     )
   ]));
@@ -385,6 +411,25 @@ class _UserCardState extends State<UserCard> {
           // child: Column(
           children: newData(),
         ),
+      ),
+    );
+  }
+}
+
+class HeartButton extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return ElevatedButton(
+      onPressed: () => swipePage.liked(true, context),
+      child: Icon(
+        FontAwesomeIcons.heart,
+        size: 30,
+      ),
+      style: ElevatedButton.styleFrom(
+        onPrimary: Color(0xff44d083),
+        primary: Colors.white,
+        shape: CircleBorder(),
+        padding: EdgeInsets.all(20),
       ),
     );
   }

@@ -38,6 +38,8 @@ dependencies:
   flutter_swipable: ^0.1.1
   image_picker: ^0.8.0+3
   image_cropper: ^1.4.0
+  flutter_launcher_icons: "^0.9.0"
+  
   flutter:
     sdk: flutter
 
@@ -47,6 +49,10 @@ dependencies:
   cupertino_icons: ^1.0.2
   font_awesome_flutter: ^9.0.0
   
+flutter_icons:
+  android: "launcher_icon"
+  ios: true
+  image_path: "assets/icons/chili.png"
 
 dev_dependencies:
   flutter_test:

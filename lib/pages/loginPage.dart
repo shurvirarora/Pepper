@@ -154,7 +154,7 @@ class LoginButtonState extends State<LoginButton> {
         },
         icon: Icon(
           this.widget.myIcon,
-          semanticLabel: "rvervtbtrbtrr",
+          // semanticLabel: "rvervtbtrbtrr",
           textDirection: TextDirection.rtl,
           size: 15,
         ),
