@@ -1,4 +1,4 @@
-const List chats_json = [
+List chats_json = [
   {
     "img": "assets/images/breakfast.png",
     "name": "Ayo",

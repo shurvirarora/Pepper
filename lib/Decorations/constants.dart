@@ -19,5 +19,6 @@ InputDecoration textFieldDeco(String label, String hint) {
   );
 }
 
+Size screenSize(BuildContext context) => MediaQuery.of(context).size;
 double screenWidth(BuildContext context) => MediaQuery.of(context).size.width;
 double screenHeight(BuildContext context) => MediaQuery.of(context).size.height;

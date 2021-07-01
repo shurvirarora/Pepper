@@ -1,7 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:myapp/pages/chats_json.dart';
-//import 'package:tinder_clone/theme/colors.dart';
+import '../Decorations/constants.dart';
 import 'package:myapp/styleguide/colors.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+
+final FirebaseAuth firebaseAuth = FirebaseAuth.instance;
+final User user = firebaseAuth.currentUser;
+final String uid = user.uid.toString();
+
+CollectionReference collectionReference =
+    FirebaseFirestore.instance.collection('Messages');
 
 class messagePage extends StatefulWidget {
   @override
@@ -20,7 +29,7 @@ class _messagePageState extends State<messagePage> {
   }
 
   Widget getBody() {
-    var size = MediaQuery.of(context).size;
+    var size = screenSize(context);
     return ListView(
       children: [
         Padding(

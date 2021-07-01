@@ -59,20 +59,20 @@ class swipePage extends StatefulWidget {
           //Other User's doc exists
           if (doc.exists) {
             if (List.from(doc['Likes']).contains(uid)) {
+              //Other user like you
               print("ITS A MATCH!!!!!");
               isMatched = true;
+              swipeCollection.doc(currPersonId).update({
+                "Matches": FieldValue.arrayUnion([uid])
+              });
               swipeCollection.doc(user.uid).update({
                 "Matches": FieldValue.arrayUnion([currPersonId])
               }).then((value) {
                 // swipePage.currIndex += 1;
                 print(currPersonId);
-                // Navigator.push(
-                //   context,
-                //   MaterialPageRoute(builder: (context) => matchPage()),
-                // );
                 Navigator.of(context).push(
                   PageRouteBuilder(
-                    opaque: false, // set to false
+                    opaque: false,
                     pageBuilder: (_, __, ___) => matchPage(),
                   ),
                 );
@@ -97,13 +97,38 @@ class swipePage extends StatefulWidget {
           print(currPersonId);
         });
       } else {
-        //Userid doesnt exits so create a doc
+        //Userid doesnt exits so create a doc and add to likes
         print("Doesnt Exists");
         swipeCollection.doc(user.uid).set({
-          'Likes': [UserIds[swipePage.currIndex]],
+          'Likes': [currPersonId],
           'Dislikes': [],
           'Matches': []
-        }).then((value) => swipePage.currIndex += 1);
+        });
+        swipeCollection.doc(currPersonId).get().then((doc) {
+          //Check if Other User likes you
+          if (doc.exists) {
+            if (List.from(doc['Likes']).contains(uid)) {
+              print("ITS A MATCH!!!!!");
+              //Add your userid in other persons matches list
+              swipeCollection.doc(currPersonId).update({
+                "Matches": FieldValue.arrayUnion([uid])
+              });
+              swipeCollection.doc(user.uid).update({
+                "Matches": FieldValue.arrayUnion([currPersonId])
+              }).then((value) {
+                swipePage.currIndex += 1;
+                print(currPersonId);
+                Navigator.of(context).push(
+                  PageRouteBuilder(
+                    opaque: false, // set to false
+                    pageBuilder: (_, __, ___) => matchPage(),
+                  ),
+                );
+                //Still doesnt stop the function from continuing
+              });
+            }
+          }
+        });
       }
     });
   }

@@ -37,7 +37,6 @@ class _editProfileState extends State<editProfile> {
     //Adds data to firestore
     print(url);
     if (url == null) {
-      print("goesssss crazy");
       showDialog(
         context: context,
         builder: (ctx) => AlertDialog(
