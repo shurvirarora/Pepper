@@ -155,7 +155,7 @@ class _profilePageState extends State<profilePage> {
                   child: imageLink != null
                       ? MyInfo("Rehman", age.toString(), imageLink)
                       : CircularProgressIndicator(),
-                  padding: EdgeInsets.fromLTRB(30, 5, 30, 30),
+                  padding: EdgeInsets.fromLTRB(30, 5, 30, 10),
                 ),
               ),
               Container(
@@ -165,12 +165,12 @@ class _profilePageState extends State<profilePage> {
                   children: [
                     TextButton(
                       style: TextButton.styleFrom(
-                          backgroundColor: primaryColor,
+                          backgroundColor: Colors.white,
                           minimumSize: Size(1, 1),
                           shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(18.0),
-                              side:
-                                  BorderSide(width: 1.25, color: Colors.blue))),
+                              side: BorderSide(
+                                  width: 1.25, color: primaryColor))),
                       onPressed: () {
                         Navigator.push(
                           context,
@@ -181,7 +181,7 @@ class _profilePageState extends State<profilePage> {
                       child: Text('Edit Profile',
                           style: TextStyle(
                             fontSize: 15,
-                            color: Colors.blue,
+                            color: primaryColor,
                             fontWeight: FontWeight.bold,
                           )),
                     ),

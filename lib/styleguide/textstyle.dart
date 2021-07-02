@@ -1,6 +1,22 @@
 import 'package:myapp/styleguide/colors.dart';
 import 'package:flutter/material.dart';
 
+final TextStyle pepperHeaderStyle = TextStyle(
+  fontSize: 45.0,
+  color: Colors.white,
+  fontWeight: FontWeight.w700,
+  fontFamily: 'Righteous',
+  letterSpacing: 2.5,
+);
+
+final TextStyle pepperNormalStyle = TextStyle(
+  fontSize: 15.0,
+  color: Colors.white,
+  fontWeight: FontWeight.w300,
+  fontFamily: 'Righteous',
+  //letterSpacing: 2.5,
+);
+
 final TextStyle headingTextStyle = TextStyle(
   fontSize: 30.0,
   color: Colors.white,
@@ -19,14 +35,14 @@ final TextStyle whiteSubHeadingTextStyle = TextStyle(
   fontWeight: FontWeight.w400,
 );
 final TextStyle titleStyle = TextStyle(
-  fontSize: 22.0,
+  fontSize: 20.0,
   //color: primaryTextColor,
   fontWeight: FontWeight.w600,
 );
 final TextStyle subTitleStyle = TextStyle(
   fontSize: 18.0,
-  //color: secondaryTextColor,
-  fontWeight: FontWeight.w200,
+  color: secondaryColor,
+  fontWeight: FontWeight.w400,
 );
 final TextStyle userCardTitle = TextStyle(
   fontSize: 18.0,
