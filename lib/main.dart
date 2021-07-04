@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:myapp/blocs/auth_bloc.dart';
 import 'package:myapp/pages/loginPage.dart';
@@ -8,6 +9,8 @@ import 'pages/loginPage.dart';
 import 'phoneLogin.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'emailLogin.dart';
+import 'services/FirebaseServices.dart';
+import 'pages/messagePage.dart';
 
 // import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 void main() async {
@@ -25,8 +28,15 @@ class MyApp extends StatelessWidget {
       primaryColor: Color(0xff44d083),
       scaffoldBackgroundColor: Color(0xff44d083),
     );
-    return Provider(
-      create: (context) => AuthBloc(),
+    return MultiProvider(
+      providers: [
+        Provider(create: (context) => AuthBloc()),
+        StreamProvider<DocumentSnapshot>(
+          create: (context) => FirebaseServices().getMessageSnapshots(),
+          initialData: null,
+          // initialData: [],
+        )
+      ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         title: 'Pepper',
@@ -38,6 +48,7 @@ class MyApp extends StatelessWidget {
           '/login': (context) => Login(),
           '/Phone': (context) => PhoneLogin(),
           '/Email': (context) => EmailLogin(),
+          // '/messages': (context) => messagePage(),
         },
       ),
     );

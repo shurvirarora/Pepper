@@ -1,10 +1,12 @@
 import 'dart:async';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:myapp/blocs/auth_bloc.dart';
 import 'package:dot_navigation_bar/dot_navigation_bar.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:myapp/services/FirebaseServices.dart';
 import 'package:myapp/styleguide/colors.dart';
 import 'package:provider/provider.dart';
 // Responsible for logging in/out of account
@@ -110,7 +112,8 @@ class _HomeState extends State<Home> {
           ),
         ],
       );
-    } /*else if (index == 2) {
+    }
+    /*else if (index == 2) {
       return AppBar(
         elevation: 0,
         backgroundColor: Colors.white,
