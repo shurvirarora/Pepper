@@ -1,12 +1,13 @@
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:myapp/pages/chatPage.dart';
 import 'package:myapp/pages/chats_json.dart';
-import 'package:myapp/pages/editProfilePage.dart';
 import 'package:provider/provider.dart';
 import '../Decorations/constants.dart';
 import 'package:myapp/styleguide/colors.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'chatPage.dart';
 
 final FirebaseAuth firebaseAuth = FirebaseAuth.instance;
 final User user = firebaseAuth.currentUser;
@@ -28,10 +29,12 @@ class _messagePageState extends State<messagePage> {
   List userList = [];
   List matchList = [];
   Map lastMessages = Map();
+  // int totalMatches = 0;
 
   @override
   Widget build(BuildContext context) {
     var messageSnaps = Provider.of<DocumentSnapshot>(context, listen: false);
+
     return messageScreen();
   }
 
@@ -100,6 +103,7 @@ class _messagePageState extends State<messagePage> {
     ]);
   }
 
+  //Whole message row
   List messagesFuture(List userIds) {
     List myList = [];
     for (String id in userIds) {
@@ -111,45 +115,53 @@ class _messagePageState extends State<messagePage> {
           builder: (BuildContext context, AsyncSnapshot secondSnapshot) {
             if (secondSnapshot.hasData) {
               var data = secondSnapshot.data.get('DownloadUrl');
-              return Padding(
-                padding:
-                    const EdgeInsets.only(bottom: 5), //Spacing between messages
-                child: Row(children: [
-                  Stack(
-                    children: [
-                      Container(
-                        width: 70,
-                        height: 70,
-                        decoration: BoxDecoration(
-                            shape: BoxShape.circle,
-                            image: DecorationImage(image: NetworkImage(
-                                //Add network Image here
-                                data), fit: BoxFit.fitWidth)),
-                      ),
-                    ],
-                  ),
-                  SizedBox(
-                    width: 20,
-                  ),
-                  Column(
-                    //For name and last message
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      Text(
-                        'Name', //Name needs to be here
-                        style: TextStyle(
-                            fontSize: 17, fontWeight: FontWeight.w500),
-                      ),
-                      SizedBox(
-                        height: 5,
-                      ),
-                      SizedBox(
-                          //last message
-                          width: MediaQuery.of(context).size.width - 135,
-                          child: lastMessageFuture(id))
-                    ],
-                  )
-                ]),
+              return GestureDetector(
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => chatPage(id, data)),
+                  );
+                },
+                child: Padding(
+                  padding: const EdgeInsets.only(
+                      bottom: 5), //Spacing between messages
+                  child: Row(children: [
+                    Stack(
+                      children: [
+                        Container(
+                          width: 65,
+                          height: 65,
+                          decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              image: DecorationImage(image: NetworkImage(
+                                  //Add network Image here
+                                  data), fit: BoxFit.fitWidth)),
+                        ),
+                      ],
+                    ),
+                    SizedBox(
+                      width: 20,
+                    ),
+                    Column(
+                      //For name and last message
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        Text(
+                          'Name', //Name needs to be here
+                          style: TextStyle(
+                              fontSize: 17, fontWeight: FontWeight.w500),
+                        ),
+                        SizedBox(
+                          height: 5,
+                        ),
+                        SizedBox(
+                            //last message
+                            width: MediaQuery.of(context).size.width - 135,
+                            child: lastMessageFuture(id))
+                      ],
+                    )
+                  ]),
+                ),
               );
             } else {
               return CircularProgressIndicator(
@@ -289,7 +301,7 @@ class _messagePageState extends State<messagePage> {
 
   List listOfMatches(List userIds) {
     List myList = [];
-    print(userIds.length);
+    // print(userIds.length);
     for (String id in userIds) {
       print(id);
       myList.add(FutureBuilder(
