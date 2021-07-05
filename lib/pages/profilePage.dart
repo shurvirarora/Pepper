@@ -10,6 +10,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 // import 'package:flutter/services.dart';
 
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:myapp/commons/additional_details_card.dart';
 
 import 'package:myapp/commons/my_info.dart';
 import 'package:myapp/commons/profile_info_big_card.dart';
@@ -249,13 +250,50 @@ class _profilePageState extends State<profilePage> {
                               )),
                         ]),
                         TableRow(children: [
-                          ProfileInfoSmallCard(
-                              text: height.toString(),
-                              icon: Icon(
-                                FontAwesomeIcons.rulerVertical,
-                                color: secondaryColor,
-                                size: 20,
-                              )),
+                          AdditionalDetailsCard(
+                            age: age.toString(),
+                            ageIcon: Icon(
+                              FontAwesomeIcons.birthdayCake,
+                              color: secondaryColor,
+                              size: 18,
+                            ),
+                            gender: gender,
+                            genderIcon: Icon(
+                              FontAwesomeIcons.genderless,
+                              color: secondaryColor,
+                              size: 18,
+                            ),
+                            height: height.toString(),
+                            heightIcon: Icon(
+                              FontAwesomeIcons.rulerVertical,
+                              color: secondaryColor,
+                              size: 18,
+                            ),
+                            lookingFor: null,
+                            lookingForIcon: Icon(
+                              FontAwesomeIcons.search,
+                              color: secondaryColor,
+                              size: 18,
+                            ),
+                            location: work,
+                            locationIcon: Icon(
+                              FontAwesomeIcons.mapMarkerAlt,
+                              color: secondaryColor,
+                              size: 18,
+                            ),
+                            education: education,
+                            educationIcon: Icon(
+                              FontAwesomeIcons.graduationCap,
+                              color: secondaryColor,
+                              size: 18,
+                            ),
+                            work: work,
+                            workIcon: Icon(
+                              FontAwesomeIcons.briefcase,
+                              color: secondaryColor,
+                              size: 18,
+                            ),
+                          ),
                         ]),
                         TableRow(children: [
                           ProfileInfoSmallCard(

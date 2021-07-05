@@ -19,7 +19,7 @@ class ProfileInfoBigCard extends StatelessWidget {
         margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
         elevation: 5,
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(10),
+          borderRadius: BorderRadius.circular(30),
         ),
         child: Padding(
           padding: const EdgeInsets.only(

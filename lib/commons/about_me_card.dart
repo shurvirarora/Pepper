@@ -18,8 +18,8 @@ class AboutMeCard extends StatelessWidget {
     if (firstText != null && firstText != "null") {
       return Card(
         shadowColor: primaryColor,
-        margin: const EdgeInsets.symmetric(horizontal: 0, vertical: 10),
-        elevation: 3,
+        margin: const EdgeInsets.symmetric(horizontal: 2.5, vertical: 10),
+        elevation: 5,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(10),
         ),

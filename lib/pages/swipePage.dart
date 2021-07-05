@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_tindercard/flutter_tindercard.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:myapp/commons/about_me_card.dart';
+import 'package:myapp/commons/additional_details_card.dart';
 import 'package:myapp/commons/profile_info_big_card.dart';
 import 'package:myapp/styleguide/colors.dart';
 import '../styleguide/textstyle.dart';
@@ -359,22 +360,70 @@ class _UserCardState extends State<UserCard> {
               ),
             ),
           );
-          continue;
+          //continue;
         }
-        newList.add(Card(
-          color: Color(0xffdee2ff),
-          // shadowColor: Colors.pink[500],
-          child: Text(
-            text,
-            style: SwipingProfileText,
-          ),
-          elevation: 3,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(30),
-          ),
-          margin: EdgeInsets.all(10),
-        ));
+        // newList.add(Card(
+        //   color: Color(0xffdee2ff),
+        //   // shadowColor: Colors.pink[500],
+        //   child: Text(
+        //     text,
+        //     style: SwipingProfileText,
+        //   ),
+        //   elevation: 3,
+        //   shape: RoundedRectangleBorder(
+        //     borderRadius: BorderRadius.circular(30),
+        //   ),
+        //   margin: EdgeInsets.all(10),
+        // ));
       }
+    }
+    if (widget.age != 'null') {
+      newList.add(
+        AdditionalDetailsCard(
+          age: widget.age.toString(),
+          ageIcon: Icon(
+            FontAwesomeIcons.birthdayCake,
+            color: secondaryColor,
+            size: 18,
+          ),
+          gender: widget.gender,
+          genderIcon: Icon(
+            FontAwesomeIcons.genderless,
+            color: secondaryColor,
+            size: 18,
+          ),
+          height: widget.height.toString(),
+          heightIcon: Icon(
+            FontAwesomeIcons.rulerVertical,
+            color: secondaryColor,
+            size: 18,
+          ),
+          lookingFor: null,
+          lookingForIcon: Icon(
+            FontAwesomeIcons.search,
+            color: secondaryColor,
+            size: 18,
+          ),
+          location: widget.work,
+          locationIcon: Icon(
+            FontAwesomeIcons.mapMarkerAlt,
+            color: secondaryColor,
+            size: 18,
+          ),
+          education: widget.education,
+          educationIcon: Icon(
+            FontAwesomeIcons.graduationCap,
+            color: secondaryColor,
+            size: 18,
+          ),
+          work: widget.work,
+          workIcon: Icon(
+            FontAwesomeIcons.briefcase,
+            color: secondaryColor,
+            size: 18,
+          ),
+        ),
+      );
     }
     newList.add(bottomProfile);
     return newList;
