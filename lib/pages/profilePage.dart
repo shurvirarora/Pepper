@@ -15,6 +15,7 @@ import 'package:myapp/commons/additional_details_card.dart';
 import 'package:myapp/commons/my_info.dart';
 import 'package:myapp/commons/profile_info_big_card.dart';
 import 'package:myapp/commons/profile_info_small_card.dart';
+import 'package:myapp/pages/customisePage.dart';
 // import 'package:myapp/commons/radial_progress.dart';
 // import 'package:myapp/commons/rounded_image.dart';
 import 'package:myapp/pages/editProfilePage.dart';
@@ -176,7 +177,7 @@ class _profilePageState extends State<profilePage> {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => editProfile()),
+                              builder: (context) => customisePage()),
                         );
                       },
                       child: Text('Edit Profile',
