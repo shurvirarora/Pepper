@@ -105,19 +105,19 @@ class AdditionalDetailsCard extends StatelessWidget {
                         padding: EdgeInsets.fromLTRB(5, 0, 10, 0),
                         child: Text(height + "cm", style: titleStyle),
                       ),
-                      Container(
-                        height: 25,
-                        width: 1,
-                        decoration:
-                            BoxDecoration(color: Colors.black.withOpacity(0.5)),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.fromLTRB(7.5, 0, 5, 5),
-                        child: Align(
-                          alignment: Alignment.center,
-                          child: lookingForIcon,
-                        ),
-                      ),
+                      // Container(
+                      //   height: 25,
+                      //   width: 1,
+                      //   decoration:
+                      //       BoxDecoration(color: Colors.black.withOpacity(0.5)),
+                      // ),
+                      // Padding(
+                      //   padding: EdgeInsets.fromLTRB(7.5, 0, 5, 5),
+                      //   child: Align(
+                      //     alignment: Alignment.center,
+                      //     child: lookingForIcon,
+                      //   ),
+                      // ),
                       // Padding(
                       //   padding: EdgeInsets.fromLTRB(2.5, 0, 5, 0),
                       //   child: Text(lookingFor, style: titleStyle),

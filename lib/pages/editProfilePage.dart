@@ -92,26 +92,25 @@ class _editProfileState extends State<editProfile> {
       body: SafeArea(
           child: ListView(
         children: [
-          Container(
-            color: Colors.white,
-            alignment: Alignment.centerLeft,
-            padding: EdgeInsets.fromLTRB(10, 10, 0, 0),
-            child: IconButton(
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-              icon: Icon(
-                FontAwesomeIcons.times,
-                color: primaryColor,
-              ),
-            ),
+          SizedBox(
+            height: 10,
           ),
           ImageCapture(),
+          Padding(
+            padding: EdgeInsets.fromLTRB(8, 10, 8, 10),
+            child: Text(
+              "Basic Info",
+              style: titleStyle,
+            ),
+          ),
           buildTextField(
-              'Age', 'Its just a number...', 30, TextInputType.number),
-          Text(
-            "Gender",
-            style: TextStyle(color: Color(0xfffe3c72)),
+              'Age', "It's just a number...", 30, TextInputType.number),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Text(
+              "Gender",
+              style: TextStyle(color: Color(0xfffe3c72)),
+            ),
           ),
           Padding(
             padding: EdgeInsets.all(10),
@@ -139,11 +138,23 @@ class _editProfileState extends State<editProfile> {
           // buildTextField('Gender', '', 30, TextInputType.text),
           buildTextField(
               'About Me', 'Tell us about yourself...', 70, TextInputType.text),
-          SizedBox(
-            height: 50,
+          Padding(
+            padding: EdgeInsets.fromLTRB(8, 40, 8, 10),
+            child: Text(
+              "Work & Education",
+              style: titleStyle,
+            ),
           ),
+
           buildTextField('Education', '', 30, TextInputType.text),
           buildTextField('Work', '', 30, TextInputType.text),
+          Padding(
+            padding: EdgeInsets.fromLTRB(8, 40, 8, 10),
+            child: Text(
+              "Additional Info",
+              style: titleStyle,
+            ),
+          ),
           buildTextField('Height', 'cm', 30, TextInputType.number),
           // FloatingActionButton(onPressed: addUser),
           Padding(
