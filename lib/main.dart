@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:myapp/blocs/auth_bloc.dart';
 import 'package:myapp/pages/loginPage.dart';
 import 'package:myapp/home.dart';
+import 'package:myapp/styleguide/colors.dart';
 import 'package:provider/provider.dart';
 import 'home.dart';
 import 'pages/loginPage.dart';
@@ -25,8 +26,8 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     var themeData = ThemeData(
       // primarySwatch: Color(0xffD8F1A0),
-      primaryColor: Color(0xff44d083),
-      scaffoldBackgroundColor: Color(0xff44d083),
+      primaryColor: primaryColor,
+      scaffoldBackgroundColor: primaryColor,
     );
     return MultiProvider(
       providers: [

@@ -33,8 +33,7 @@ class _messagePageState extends State<messagePage> {
 
   @override
   Widget build(BuildContext context) {
-    var messageSnaps = Provider.of<DocumentSnapshot>(context, listen: false);
-
+    // var messageSnaps = Provider.of<DocumentSnapshot>(context, listen: false);
     return messageScreen();
   }
 
