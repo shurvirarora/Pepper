@@ -33,73 +33,78 @@ class _messagePageState extends State<messagePage> {
 
   @override
   Widget build(BuildContext context) {
-    // var messageSnaps = Provider.of<DocumentSnapshot>(context, listen: false);
+    var userSnaps = Provider.of<DocumentSnapshot>(context, listen: false);
     return messageScreen();
   }
 
   Widget messageScreen() {
-    return Column(mainAxisSize: MainAxisSize.min, children: [
-      topTab(),
-      SizedBox(
-        height: 10,
-      ),
-      Divider(
-        thickness: 0.8,
-      ),
-      Padding(
-        padding: const EdgeInsets.only(left: 8, top: 0, right: 8),
-        child: Container(
-          height: 38,
-          decoration: BoxDecoration(
-              color: Colors.grey.withOpacity(0.2),
-              borderRadius: BorderRadius.circular(5)),
-          child: TextField(
-            cursorColor: Colors.black.withOpacity(0.5),
-            decoration: InputDecoration(
-                border: InputBorder.none,
-                prefixIcon: Icon(
-                  Icons.search,
-                  color: Colors.black.withOpacity(0.5),
-                ),
-                hintText: "Search ${matchList.length} Matches"),
+    return Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          topTab(),
+          SizedBox(
+            height: 10,
           ),
-        ),
-      ),
-      Divider(
-        thickness: 0.8,
-      ),
-      SizedBox(
-        height: 10,
-      ), //Horizontal list of matches
-      myMatches(),
-      FutureBuilder(
-          future:
-              FirebaseFirestore.instance.collection('Messages').doc(uid).get(),
-          // ignore: missing_return
-          builder: (BuildContext context, AsyncSnapshot snapshot) {
-            // List users = data['Users']; //fetches array if userIDs
-            if (snapshot.hasData) {
-              userList = snapshot.data.get('Users');
-              print("TESTINGGGGGG");
-              print(userList);
-              return Padding(
-                padding: const EdgeInsets.only(left: 15),
-                child: ListView.builder(
-                  scrollDirection: Axis.vertical,
-                  shrinkWrap: true,
-                  itemBuilder: (context, index) {
-                    return messagesFuture(userList)[index];
-                  },
-                  itemCount: userList.length,
-                ),
-              );
-            } else {
-              return CircularProgressIndicator(
-                backgroundColor: Colors.pink,
-              );
-            }
-          }),
-    ]);
+          Divider(
+            thickness: 0.8,
+          ),
+          Padding(
+            padding: const EdgeInsets.only(left: 8, top: 0, right: 8),
+            child: Container(
+              height: 38,
+              decoration: BoxDecoration(
+                  color: Colors.grey.withOpacity(0.2),
+                  borderRadius: BorderRadius.circular(5)),
+              child: TextField(
+                cursorColor: Colors.black.withOpacity(0.5),
+                decoration: InputDecoration(
+                    border: InputBorder.none,
+                    prefixIcon: Icon(
+                      Icons.search,
+                      color: Colors.black.withOpacity(0.5),
+                    ),
+                    hintText: "Search ${matchList.length} Matches"),
+              ),
+            ),
+          ),
+          Divider(
+            thickness: 0.8,
+          ),
+          SizedBox(
+            height: 10,
+          ), //Horizontal list of matches
+          myMatches(),
+          FutureBuilder(
+              future: FirebaseFirestore.instance
+                  .collection('Messages')
+                  .doc(uid)
+                  .get(),
+              // ignore: missing_return
+              builder: (BuildContext context, AsyncSnapshot snapshot) {
+                // List users = data['Users']; //fetches array if userIDs
+                if (snapshot.hasData) {
+                  userList = snapshot.data.get('Users');
+                  print("TESTINGGGGGG");
+                  print(userList);
+                  return Padding(
+                    padding: const EdgeInsets.only(left: 15),
+                    child: ListView.builder(
+                      scrollDirection: Axis.vertical,
+                      shrinkWrap: true,
+                      itemBuilder: (context, index) {
+                        return messagesFuture(userList)[index];
+                      },
+                      itemCount: userList.length,
+                    ),
+                  );
+                } else {
+                  return CircularProgressIndicator(
+                    backgroundColor: Colors.pink,
+                  );
+                }
+              }),
+        ]);
   }
 
   //Whole message row
@@ -179,17 +184,51 @@ class _messagePageState extends State<messagePage> {
             .doc(uid)
             .collection(user)
             .orderBy('Timestamp', descending: true)
+            .limit(1)
             .get(),
         builder: (BuildContext context, AsyncSnapshot snapshot) {
           if (snapshot.hasData) {
-            print(snapshot.data.docs[0].data()['Text']);
-            lastMessages[user] = snapshot.data.docs[0].data()['Text'];
-            return Text(
-              lastMessages[user],
-              style:
-                  TextStyle(fontSize: 15, color: Colors.black.withOpacity(0.8)),
-              overflow: TextOverflow.ellipsis,
-            );
+            // print('Error comes here');
+
+            // print(snapshot.data.docs.length);
+            List firstLastMessage =
+                snapshot.data.docs.length == 0 ? [] : [snapshot.data.docs[0]];
+
+            return FutureBuilder(
+                future: FirebaseFirestore.instance
+                    .collection('Messages')
+                    .doc(user)
+                    .collection(uid)
+                    .orderBy('Timestamp', descending: true)
+                    .limit(1)
+                    .get(),
+                builder: (BuildContext context, AsyncSnapshot snapshot) {
+                  if (snapshot.hasData) {
+                    List secondLastMessage = snapshot.data.docs.length == 0
+                        ? []
+                        : [snapshot.data.docs[0]];
+                    List combinedList = firstLastMessage + secondLastMessage;
+                    combinedList.sort((a, b) {
+                      return b['Timestamp'].compareTo(a['Timestamp']);
+                    });
+
+                    if (combinedList.isEmpty) {
+                      return SizedBox();
+                    } else {
+                      lastMessages[user] = combinedList[0].data()['Text'];
+                      return Text(
+                        lastMessages[user],
+                        style: TextStyle(
+                            fontSize: 15, color: Colors.black.withOpacity(0.8)),
+                        overflow: TextOverflow.ellipsis,
+                      );
+                    }
+                  } else {
+                    return CircularProgressIndicator(
+                      backgroundColor: Colors.pink,
+                    );
+                  }
+                });
           } else {
             return CircularProgressIndicator(
               backgroundColor: Colors.pink,
@@ -312,14 +351,20 @@ class _messagePageState extends State<messagePage> {
             if (secondSnapshot.hasData) {
               var data = secondSnapshot.data.get('DownloadUrl');
               print(data);
-              return Container(
-                width: 70,
-                height: 70,
-                decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    image: DecorationImage(image: NetworkImage(
-                        //Add network Image here
-                        data), fit: BoxFit.fitWidth)),
+              return GestureDetector(
+                onTap: () => Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => chatPage(id, data)),
+                ),
+                child: Container(
+                  width: 70,
+                  height: 70,
+                  decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      image: DecorationImage(image: NetworkImage(
+                          //Add network Image here
+                          data), fit: BoxFit.fitWidth)),
+                ),
               );
             } else {
               return CircularProgressIndicator(
@@ -329,15 +374,15 @@ class _messagePageState extends State<messagePage> {
           }));
     }
     //Testing Horizontal ListViewScroll
-    testingImage(myList);
-    testingImage(myList);
-    testingImage(myList);
-    testingImage(myList);
-    testingImage(myList);
-    testingImage(myList);
-    testingImage(myList);
-    testingImage(myList);
-    testingImage(myList);
+    // testingImage(myList);
+    // testingImage(myList);
+    // testingImage(myList);
+    // testingImage(myList);
+    // testingImage(myList);
+    // testingImage(myList);
+    // testingImage(myList);
+    // testingImage(myList);
+    // testingImage(myList);
     print(myList.length);
     return myList;
   }

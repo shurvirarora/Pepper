@@ -32,8 +32,12 @@ class MyApp extends StatelessWidget {
     return MultiProvider(
       providers: [
         Provider(create: (context) => AuthBloc()),
+        // StreamProvider<DocumentSnapshot>(
+        //   create: (context) => FirebaseServices().getMessageSnapshots(),
+        //   initialData: null,
+        // ),
         StreamProvider<DocumentSnapshot>(
-          create: (context) => FirebaseServices().getMessageSnapshots(),
+          create: (context) => FirebaseServices().getUserSnapshots(),
           initialData: null,
           // initialData: [],
         )

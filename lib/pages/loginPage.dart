@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:myapp/forgotPassword.dart';
@@ -7,6 +8,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:myapp/blocs/auth_bloc.dart';
 import 'package:provider/provider.dart';
 import '../home.dart';
+import 'registerPage.dart';
 
 // import com.facebook.FacebookSdk;
 // import com.facebook.appevents.AppEventsLogger;
@@ -33,6 +35,10 @@ class Login extends StatefulWidget {
   _LoginState createState() => _LoginState();
 }
 
+String uid = FirebaseAuth.instance.currentUser.uid.toString();
+CollectionReference userCollection =
+    FirebaseFirestore.instance.collection('User');
+
 class _LoginState extends State<Login> {
   StreamSubscription<User> loginStateSubscription;
 
@@ -41,8 +47,19 @@ class _LoginState extends State<Login> {
     var authBloc = Provider.of<AuthBloc>(context, listen: false);
     loginStateSubscription = authBloc.currentUser.listen((fbUser) {
       if (fbUser != null) {
-        Navigator.of(context)
-            .pushReplacement(MaterialPageRoute(builder: (context) => Home()));
+        userCollection.doc(uid).get().then((doc) {
+          print(uid);
+          print(doc.exists);
+          if (doc.exists) {
+            print('GOES to HOME');
+            Navigator.of(context).pushReplacement(
+                MaterialPageRoute(builder: (context) => Home()));
+          } else {
+            print('Goes to register');
+            Navigator.of(context).pushReplacement(
+                MaterialPageRoute(builder: (context) => registerPage()));
+          }
+        });
       }
     });
 

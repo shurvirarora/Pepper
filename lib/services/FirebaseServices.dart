@@ -16,6 +16,10 @@ class FirebaseServices {
     return messagesCollection.doc(uid).snapshots();
   }
 
+  Stream<DocumentSnapshot> getUserSnapshots() {
+    return userCollection.doc(uid).snapshots();
+  }
+
   Stream<QuerySnapshot> getSpecificChatSnapshots(String id) {
     return messagesCollection.doc(uid).collection(id).snapshots();
   }
