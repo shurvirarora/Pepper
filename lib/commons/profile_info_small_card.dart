@@ -4,16 +4,17 @@ import 'package:flutter/material.dart';
 class ProfileInfoSmallCard extends StatelessWidget {
   final String text;
   final Widget icon;
+  final EdgeInsetsGeometry iconPadding;
 
   const ProfileInfoSmallCard(
-      {Key key, @required this.text, @required this.icon})
+      {Key key, @required this.text, @required this.icon, this.iconPadding})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     if (text != null && text != "null") {
       return Card(
-          margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+          margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
           elevation: 5,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(30),
@@ -27,14 +28,13 @@ class ProfileInfoSmallCard extends StatelessWidget {
                 right: 10,
               ),
               child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
                   Padding(
-                    padding: EdgeInsets.fromLTRB(5, 5, 5, 5),
+                    padding: EdgeInsets.fromLTRB(10, 5, 5, 5),
                     child: Text(text, style: titleStyle),
                   ),
                   Padding(
-                    padding: EdgeInsets.fromLTRB(5, 5, 5, 5),
+                    padding: iconPadding,
                     child: Align(
                       alignment: Alignment.centerRight,
                       child: icon,

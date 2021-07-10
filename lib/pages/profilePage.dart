@@ -19,6 +19,7 @@ import 'package:myapp/pages/customisePage.dart';
 // import 'package:myapp/commons/radial_progress.dart';
 // import 'package:myapp/commons/rounded_image.dart';
 import 'package:myapp/pages/editProfilePage.dart';
+import 'package:myapp/styleguide/textstyle.dart';
 // import 'package:firebase_core/firebase_core.dart';
 import 'package:provider/provider.dart';
 import 'package:myapp/blocs/auth_bloc.dart';
@@ -102,64 +103,33 @@ class _profilePageState extends State<profilePage> {
             // if(snapshot.hasData){s
             return ListView(children: [
               Container(
-                color: primaryColor,
-                alignment: Alignment.centerRight,
-                padding: EdgeInsets.fromLTRB(0, 10, 10, 0),
-                child: IconButton(
-                  icon: const Icon(FontAwesomeIcons.cog),
-                  iconSize: 27.5,
-                  color: Colors.white, //Color(0xff808080),
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => settingsPage()),
-                    );
-                  },
+                decoration: BoxDecoration(gradient: colorGradient),
+                //color: primaryColor,
+                alignment: Alignment.centerLeft,
+                padding: EdgeInsets.fromLTRB(20, 20, 10, 0),
+                child: Text(
+                  "My Profile",
+                  style: whiteNameTextStyle,
                 ),
               ),
               Container(
-                color: primaryColor,
+                decoration: BoxDecoration(gradient: colorGradient),
+                //color: primaryColor,
                 child: Padding(
                   child: imageLink != null
                       ? MyInfo("Rehman", age.toString(), imageLink)
                       : CircularProgressIndicator(),
-                  padding: EdgeInsets.fromLTRB(30, 5, 30, 10),
+                  padding: EdgeInsets.fromLTRB(0, 30, 0, 5),
                 ),
               ),
               Container(
-                color: primaryColor,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    TextButton(
-                      style: TextButton.styleFrom(
-                          backgroundColor: Colors.white,
-                          minimumSize: Size(1, 1),
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(18.0),
-                              side: BorderSide(
-                                  width: 1.25, color: primaryColor))),
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => customisePage()),
-                        );
-                      },
-                      child: Text('Edit Profile',
-                          style: TextStyle(
-                            fontSize: 15,
-                            color: primaryColor,
-                            fontWeight: FontWeight.bold,
-                          )),
-                    ),
-                  ],
-                ),
-              ),
-              Container(
-                  color: primaryColor,
+                  decoration: BoxDecoration(gradient: colorGradient),
+                  //color: secondaryColor,
                   child: Column(
                     children: [
+                      SizedBox(
+                        height: 10,
+                      ),
                       Table(children: [
                         TableRow(children: [
                           ProfileInfoBigCard(
@@ -167,128 +137,71 @@ class _profilePageState extends State<profilePage> {
                               secondText: "New Matches",
                               icon: Icon(
                                 FontAwesomeIcons.heart,
-                                color: secondaryColor,
+                                color: primaryColor,
                               )),
                           ProfileInfoBigCard(
                               firstText: "2",
                               secondText: "Groups",
                               icon: Icon(
                                 FontAwesomeIcons.users,
-                                color: secondaryColor,
+                                color: primaryColor,
                               )),
                         ]),
                       ]),
+                      SizedBox(
+                        height: 10,
+                      ),
+                      Container(
+                        height: 1,
+                        width: MediaQuery.of(context).size.width * 0.9,
+                        decoration: BoxDecoration(color: secondaryColor),
+                      ),
+                      SizedBox(
+                        height: 10,
+                      ),
                       Table(children: [
                         TableRow(children: [
-                          ProfileInfoBigCard(
-                              firstText: aboutMe,
-                              secondText: "About Me",
-                              icon: Icon(
-                                FontAwesomeIcons.info,
-                                color: secondaryColor,
-                              )),
-                        ]),
-                        TableRow(children: [
                           ProfileInfoSmallCard(
-                              text: gender,
+                              iconPadding: EdgeInsets.fromLTRB(200, 10, 0, 10),
+                              text: "Preferences",
                               icon: Icon(
-                                FontAwesomeIcons.genderless,
-                                color: secondaryColor,
+                                FontAwesomeIcons.slidersH,
+                                color: primaryColor,
                                 size: 20,
                               )),
                         ]),
                         TableRow(children: [
                           ProfileInfoSmallCard(
-                              text: work,
+                              iconPadding: EdgeInsets.fromLTRB(170, 10, 0, 10),
+                              text: "Curated for you",
                               icon: Icon(
-                                FontAwesomeIcons.graduationCap,
-                                color: secondaryColor,
+                                FontAwesomeIcons.lightbulb,
+                                color: primaryColor,
                                 size: 20,
                               )),
                         ]),
+
                         TableRow(children: [
-                          ProfileInfoBigCard(
-                              firstText:
-                                  "Football, Tiktok Dances, Computer Science",
-                              secondText: "My Interests",
+                          GestureDetector(
+                            onTap: () {
+                              Navigator.of(context).push(
+                                MaterialPageRoute(
+                                  builder: (context) => settingsPage(),
+                                ),
+                              );
+                            },
+                            child: ProfileInfoSmallCard(
+                              iconPadding: EdgeInsets.fromLTRB(225, 10, 0, 10),
+                              text: "Settings",
                               icon: Icon(
-                                FontAwesomeIcons.info,
-                                color: secondaryColor,
-                              )),
-                        ]),
-                        TableRow(children: [
-                          AdditionalDetailsCard(
-                            age: age.toString(),
-                            ageIcon: Icon(
-                              FontAwesomeIcons.birthdayCake,
-                              color: secondaryColor,
-                              size: 18,
-                            ),
-                            gender: gender,
-                            genderIcon: Icon(
-                              FontAwesomeIcons.genderless,
-                              color: secondaryColor,
-                              size: 18,
-                            ),
-                            height: height.toString(),
-                            heightIcon: Icon(
-                              FontAwesomeIcons.rulerVertical,
-                              color: secondaryColor,
-                              size: 18,
-                            ),
-                            lookingFor: null,
-                            lookingForIcon: Icon(
-                              FontAwesomeIcons.search,
-                              color: secondaryColor,
-                              size: 18,
-                            ),
-                            location: work,
-                            locationIcon: Icon(
-                              FontAwesomeIcons.mapMarkerAlt,
-                              color: secondaryColor,
-                              size: 18,
-                            ),
-                            education: education,
-                            educationIcon: Icon(
-                              FontAwesomeIcons.graduationCap,
-                              color: secondaryColor,
-                              size: 18,
-                            ),
-                            work: work,
-                            workIcon: Icon(
-                              FontAwesomeIcons.briefcase,
-                              color: secondaryColor,
-                              size: 18,
+                                FontAwesomeIcons.cog,
+                                color: primaryColor,
+                                size: 20,
+                              ),
                             ),
                           ),
                         ]),
-                        TableRow(children: [
-                          ProfileInfoSmallCard(
-                              text: "Looking for: Clout",
-                              icon: Icon(
-                                FontAwesomeIcons.search,
-                                color: secondaryColor,
-                                size: 20,
-                              )),
-                        ]),
-                        TableRow(children: [
-                          ProfileInfoSmallCard(
-                              text: education,
-                              icon: Icon(
-                                FontAwesomeIcons.genderless,
-                                color: secondaryColor,
-                                size: 20,
-                              )),
-                        ]),
-                        TableRow(children: [
-                          ProfileInfoSmallCard(
-                              text: age.toString(),
-                              icon: Icon(
-                                FontAwesomeIcons.genderless,
-                                color: secondaryColor,
-                                size: 20,
-                              )),
-                        ]),
+
                         // TableRow(children: [
                         //   ProfileInfoSmallCard(
                         //       text: aboutMe,
@@ -298,16 +211,10 @@ class _profilePageState extends State<profilePage> {
                         //         size: 20,
                         //       )),
                         // ]),
-                        TableRow(children: [
-                          ProfileInfoSmallCard(
-                              text: work,
-                              icon: Icon(
-                                FontAwesomeIcons.genderless,
-                                color: secondaryColor,
-                                size: 20,
-                              )),
-                        ]),
                       ]),
+                      SizedBox(
+                        height: 30,
+                      ),
                     ],
                   ))
             ]);

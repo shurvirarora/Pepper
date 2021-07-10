@@ -41,7 +41,7 @@ final TextStyle titleStyle = TextStyle(
 );
 final TextStyle subTitleStyle = TextStyle(
   fontSize: 18.0,
-  color: secondaryColor,
+  color: primaryColor,
   fontWeight: FontWeight.w400,
 );
 final TextStyle userCardTitle = TextStyle(

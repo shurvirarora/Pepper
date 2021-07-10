@@ -6,6 +6,7 @@ import 'package:myapp/forgotPassword.dart';
 import 'package:myapp/home.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:myapp/blocs/auth_bloc.dart';
+import 'package:myapp/styleguide/colors.dart';
 import 'package:provider/provider.dart';
 import '../home.dart';
 import 'registerPage.dart';
@@ -91,55 +92,59 @@ class _LoginState extends State<Login> {
 
     return SafeArea(
       child: Scaffold(
-        backgroundColor: Color(0xff44d083),
-        body: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Padding(
-              padding: EdgeInsets.fromLTRB(0, 260, 0, 10),
-              child: Icon(
-                FontAwesomeIcons.pepperHot,
-                size: 70,
-                color: Color(0xfffe3c72),
+        backgroundColor: primaryColor,
+        body: Container(
+          decoration: BoxDecoration(gradient: colorGradient),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Padding(
+                padding: EdgeInsets.fromLTRB(0, 260, 0, 10),
+                child: Icon(
+                  FontAwesomeIcons.pepperHot,
+                  size: 70,
+                  color: Colors.white,
+                ),
               ),
-            ),
-            Padding(
-              padding: EdgeInsets.only(bottom: 5),
-              child: Login.myText('pepper', 36, 1.5, Colors.white, 'Righteous'),
-            ),
-            Padding(
-              padding: EdgeInsets.only(bottom: 130),
-              child: Login.myText('Spice up your life', 21, 0,
-                  Color(0xfffe3c72), 'DancingScript'),
-            ),
-            Padding(
-                padding: EdgeInsets.fromLTRB(0, 60, 0, 0),
-                child: Center(
-                    child: LoginButton(
-                        "LOG IN WITH PHONE",
-                        FontAwesomeIcons.mobileAlt,
-                        oldButtonFunction,
-                        Colors.white,
-                        Colors.white))),
-            Center(
-                child: LoginButton(
-                    'LOG IN WITH FACEBOOK',
-                    FontAwesomeIcons.facebook,
-                    () => authBloc.loginFacebook(),
-                    Colors.white,
-                    Colors.white)),
-            TextButton(
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => ForgotPassword()),
-                  );
-                },
-                child: Text(
-                  'Trouble Logging in?',
-                  style: TextStyle(color: Colors.white, fontSize: 15),
-                ))
-          ],
+              Padding(
+                padding: EdgeInsets.only(bottom: 5),
+                child:
+                    Login.myText('pepper', 36, 1.5, Colors.white, 'Righteous'),
+              ),
+              Padding(
+                padding: EdgeInsets.only(bottom: 130),
+                child: Login.myText('Spice up your life', 21, 0,
+                    Color(0xfffe3c72), 'DancingScript'),
+              ),
+              Padding(
+                  padding: EdgeInsets.fromLTRB(0, 60, 0, 0),
+                  child: Center(
+                      child: LoginButton(
+                          "LOG IN WITH PHONE",
+                          FontAwesomeIcons.mobileAlt,
+                          oldButtonFunction,
+                          Colors.white,
+                          Colors.white))),
+              Center(
+                  child: LoginButton(
+                      'LOG IN WITH FACEBOOK',
+                      FontAwesomeIcons.facebook,
+                      () => authBloc.loginFacebook(),
+                      Colors.white,
+                      Colors.white)),
+              TextButton(
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => ForgotPassword()),
+                    );
+                  },
+                  child: Text(
+                    'Trouble Logging in?',
+                    style: TextStyle(color: Colors.white, fontSize: 15),
+                  ))
+            ],
+          ),
         ),
       ),
     );

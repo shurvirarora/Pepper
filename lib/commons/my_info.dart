@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:myapp/commons/radial_progress.dart';
+import 'package:myapp/pages/customisePage.dart';
 import 'package:myapp/styleguide/colors.dart';
 import 'package:myapp/styleguide/textstyle.dart';
 import 'package:myapp/commons/rounded_image.dart';
@@ -18,15 +19,25 @@ class MyInfo extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: primaryColor,
+      decoration: BoxDecoration(gradient: colorGradient),
+      //color: primaryColor,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           RadialProgress(
             width: 6,
-            child: RoundedImage(
-              imagePath: url,
-              size: Size.fromWidth(120.0),
+            child: GestureDetector(
+              onTap: () {
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (context) => customisePage(),
+                  ),
+                );
+              },
+              child: RoundedImage(
+                imagePath: url,
+                size: Size.fromWidth(220.0),
+              ),
             ),
           ),
           SizedBox(
@@ -51,10 +62,13 @@ class MyInfo extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              Icon(
-                FontAwesomeIcons.mapMarkerAlt,
-                size: 15.0,
-                color: Colors.white,
+              Padding(
+                padding: const EdgeInsets.fromLTRB(8, 0, 0, 2),
+                child: Icon(
+                  FontAwesomeIcons.mapMarkerAlt,
+                  size: 14.0,
+                  color: Colors.white,
+                ),
               ),
               Text(
                 " Singapore",
