@@ -10,6 +10,7 @@ import 'package:myapp/styleguide/colors.dart';
 import 'package:provider/provider.dart';
 import '../home.dart';
 import 'registerPage.dart';
+import '../phoneLogin.dart';
 
 // import com.facebook.FacebookSdk;
 // import com.facebook.appevents.AppEventsLogger;
@@ -77,7 +78,7 @@ class _LoginState extends State<Login> {
     print(hasBeenPressed);
     Navigator.push(
       context,
-      MaterialPageRoute(builder: (context) => Home()),
+      MaterialPageRoute(builder: (context) => PhoneLogin()),
     );
     setState(() {
       hasBeenPressed = !hasBeenPressed;
