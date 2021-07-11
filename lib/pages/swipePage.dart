@@ -174,6 +174,7 @@ class _swipePageState extends State<swipePage> {
     for (DocumentSnapshot user in users) {
       UserCard card = UserCard(
         (user['DownloadUrl']),
+        name: user['Name'].toString(),
         age: user['Age'].toString(),
         education: user['Education'].toString(),
         gender: user['Gender'].toString(),
@@ -254,6 +255,7 @@ List<String> UserIds = [];
 
 class UserCard extends StatefulWidget {
   String img1;
+  String name;
   String age;
   String gender;
   String height;
@@ -262,7 +264,8 @@ class UserCard extends StatefulWidget {
   String work;
   String id;
   UserCard(String img1,
-      {String age,
+      {String name,
+      String age,
       String gender,
       String height,
       String education,
@@ -270,6 +273,7 @@ class UserCard extends StatefulWidget {
       String work,
       String id}) {
     this.img1 = img1;
+    this.name = name;
     this.age = age;
     this.gender = gender;
     this.height = height;
@@ -436,7 +440,7 @@ class _UserCardState extends State<UserCard> {
           mainAxisSize: MainAxisSize.min,
           children: [
             Text(
-              '${widget.gender}, ${widget.age}',
+              '${widget.name}, ${widget.age}',
               style: TextStyle(
                 color: Colors.white,
                 fontWeight: FontWeight.bold,

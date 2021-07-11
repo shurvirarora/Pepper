@@ -26,6 +26,7 @@ class editProfile extends StatefulWidget {
 class _editProfileState extends State<editProfile> {
   Map data;
 //All the data collected from user
+  String name;
   int age;
   String gender;
   String aboutMe;
@@ -58,7 +59,8 @@ class _editProfileState extends State<editProfile> {
           FirebaseFirestore.instance.collection('User').doc(user.uid);
       Navigator.pop(context);
       return collectionReference.set({
-        'User': uid.toString(), //stores unique user id
+        'User': uid.toString(),
+        'Name': name, //stores unique user id
         'Age': age,
         'Gender': gender,
         'About Me': aboutMe,
@@ -103,6 +105,7 @@ class _editProfileState extends State<editProfile> {
               style: titleStyle,
             ),
           ),
+          buildTextField('Name', "Name...", 30, TextInputType.text),
           buildTextField(
               'Age', "It's just a number...", 30, TextInputType.number),
           Padding(
@@ -193,6 +196,9 @@ class _editProfileState extends State<editProfile> {
                 //Stores input into respective variables
                 if (label == "Age") {
                   age = int.parse(text);
+                }
+                if (label == "Name") {
+                  name = text;
                 }
                 if (label == "About Me") {
                   aboutMe = text;

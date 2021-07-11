@@ -93,6 +93,7 @@ class _profilePageState extends State<profilePage> {
           } else {
             List docs = snapshot.data.docs; //fetches list of documents
             QueryDocumentSnapshot temp = docs[0]; //extracts user document
+            String name = temp["Name"];
             String aboutMe = temp["About Me"];
             String gender = temp["Gender"];
             String education = temp["Education"];
@@ -117,7 +118,7 @@ class _profilePageState extends State<profilePage> {
                 //color: primaryColor,
                 child: Padding(
                   child: imageLink != null
-                      ? MyInfo("Rehman", age.toString(), imageLink)
+                      ? MyInfo(name, age.toString(), imageLink)
                       : CircularProgressIndicator(),
                   padding: EdgeInsets.fromLTRB(0, 30, 0, 5),
                 ),
