@@ -18,7 +18,8 @@ int numberOfMessages;
 class chatPage extends StatefulWidget {
   String userID;
   String imgUrl; //Person talking to
-  chatPage(this.userID, this.imgUrl);
+  String name;
+  chatPage(this.userID, this.imgUrl, this.name);
   @override
   _chatPageState createState() => _chatPageState();
 }
@@ -50,7 +51,7 @@ class _chatPageState extends State<chatPage> {
                 ),
                 SizedBox(width: 10),
                 Text(
-                  'Name',
+                  widget.name,
                 ),
               ]),
               centerTitle: true,

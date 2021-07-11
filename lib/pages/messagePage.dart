@@ -132,11 +132,13 @@ class _messagePageState extends State<messagePage> {
           builder: (BuildContext context, AsyncSnapshot secondSnapshot) {
             if (secondSnapshot.hasData) {
               var data = secondSnapshot.data.get('DownloadUrl');
+              var name = secondSnapshot.data.get('Name');
               return GestureDetector(
                 onTap: () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => chatPage(id, data)),
+                    MaterialPageRoute(
+                        builder: (context) => chatPage(id, data, name)),
                   );
                 },
                 child: Padding(
@@ -164,7 +166,7 @@ class _messagePageState extends State<messagePage> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
                         Text(
-                          'Name', //Name needs to be here
+                          name, //Name needs to be here
                           style: TextStyle(
                               fontSize: 17, fontWeight: FontWeight.w500),
                         ),
@@ -363,11 +365,13 @@ class _messagePageState extends State<messagePage> {
           builder: (BuildContext context, AsyncSnapshot secondSnapshot) {
             if (secondSnapshot.hasData) {
               var data = secondSnapshot.data.get('DownloadUrl');
+              var name = secondSnapshot.data.get('Name');
               print(data);
               return GestureDetector(
                 onTap: () => Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => chatPage(id, data)),
+                  MaterialPageRoute(
+                      builder: (context) => chatPage(id, data, name)),
                 ),
                 child: Container(
                   width: 70,

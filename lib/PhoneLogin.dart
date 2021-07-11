@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter/material.dart';
@@ -34,6 +35,8 @@ class _PhoneLoginState extends State<PhoneLogin> {
   //       codeSent: null,
   //       codeAutoRetrievalTimeout: null);
   // }
+  CollectionReference userCollection =
+      FirebaseFirestore.instance.collection('User');
   Future registerUser(String mobile, BuildContext context) async {
     FirebaseAuth _auth = FirebaseAuth.instance;
 
@@ -44,10 +47,17 @@ class _PhoneLoginState extends State<PhoneLogin> {
           _auth
               .signInWithCredential(authCredential)
               .then((UserCredential result) {
-            Navigator.pushReplacement(context,
-                MaterialPageRoute(builder: (context) => registerPage()));
-          }).catchError((e) {
-            print(e);
+            userCollection.doc(uid).get().then((doc) {
+              if (doc.exists) {
+                Navigator.pushReplacement(
+                    context, MaterialPageRoute(builder: (context) => Home()));
+              } else {
+                Navigator.pushReplacement(context,
+                    MaterialPageRoute(builder: (context) => registerPage()));
+              }
+            }).catchError((e) {
+              print(e);
+            });
           });
         },
         verificationFailed: (FirebaseAuthException authException) {
@@ -86,10 +96,10 @@ class _PhoneLoginState extends State<PhoneLogin> {
                           auth
                               .signInWithCredential(credential)
                               .then((UserCredential result) {
-                            Navigator.pushReplacement(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => registerPage()));
+                            // Navigator.pushReplacement(
+                            //     context,
+                            //     MaterialPageRoute(
+                            //         builder: (context) => registerPage()));
                           }).catchError((e) {
                             print(e);
                           });
