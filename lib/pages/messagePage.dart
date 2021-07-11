@@ -30,10 +30,22 @@ class _messagePageState extends State<messagePage> {
   List matchList = [];
   Map lastMessages = Map();
   // int totalMatches = 0;
-
+// FirebaseFirestore.instance
+//                         .collection('Messages')
+//                         .doc(user.uid)
+//                         .set({
+//                       'Users': [],
+//                     });
   @override
   Widget build(BuildContext context) {
     var userSnaps = Provider.of<DocumentSnapshot>(context, listen: false);
+    messageCollection.doc(uid).get().then((doc) {
+      if (!doc.exists) {
+        messageCollection.doc(uid).set({
+          'Users': [],
+        });
+      }
+    });
     return messageScreen();
   }
 
@@ -83,6 +95,7 @@ class _messagePageState extends State<messagePage> {
               // ignore: missing_return
               builder: (BuildContext context, AsyncSnapshot snapshot) {
                 // List users = data['Users']; //fetches array if userIDs
+
                 if (snapshot.hasData) {
                   userList = snapshot.data.get('Users');
                   print("TESTINGGGGGG");
