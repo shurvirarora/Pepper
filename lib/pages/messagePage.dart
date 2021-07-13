@@ -38,7 +38,7 @@ class _messagePageState extends State<messagePage> {
 //                     });
   @override
   Widget build(BuildContext context) {
-    var userSnaps = Provider.of<DocumentSnapshot>(context, listen: false);
+    // var userSnaps = Provider.of<DocumentSnapshot>(context, listen: false);
     messageCollection.doc(uid).get().then((doc) {
       if (!doc.exists) {
         messageCollection.doc(uid).set({
@@ -147,19 +147,12 @@ class _messagePageState extends State<messagePage> {
                   child: Row(children: [
                     Stack(
                       children: [
-                        Container(
-                          width: 65,
-                          height: 65,
-                          decoration: BoxDecoration(
-                              shape: BoxShape.circle,
-                              image: DecorationImage(image: NetworkImage(
-                                  //Add network Image here
-                                  data), fit: BoxFit.fitWidth)),
-                        ),
+                        CircleAvatar(
+                            radius: 30, backgroundImage: NetworkImage(data)),
                       ],
                     ),
                     SizedBox(
-                      width: 20,
+                      width: 15,
                     ),
                     Column(
                       //For name and last message

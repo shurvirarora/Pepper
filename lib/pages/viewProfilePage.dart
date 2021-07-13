@@ -18,12 +18,14 @@ class viewProfile extends StatefulWidget {
 class _viewProfileState extends State<viewProfile> {
   @override
   Widget build(BuildContext context) {
-    return Container(
-        child: Center(
-      child: Text(
-        "View Page",
-        style: titleStyle,
-      ),
-    ));
+    return Scaffold(
+      body: Container(
+          child: Center(
+        child: Text(
+          "View Page",
+          style: titleStyle,
+        ),
+      )),
+    );
   }
 }

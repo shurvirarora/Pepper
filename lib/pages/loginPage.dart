@@ -120,6 +120,7 @@ class _LoginState extends State<Login> {
               Padding(
                   padding: EdgeInsets.fromLTRB(0, 60, 0, 0),
                   child: Center(
+                      key: Key('Press'),
                       child: LoginButton(
                           "LOG IN WITH PHONE",
                           FontAwesomeIcons.mobileAlt,
