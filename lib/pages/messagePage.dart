@@ -1,7 +1,7 @@
-import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:myapp/pages/chatPage.dart';
 import 'package:myapp/pages/chats_json.dart';
+import 'package:myapp/pages/gamesPage.dart';
 import 'package:provider/provider.dart';
 import '../Decorations/constants.dart';
 import 'package:myapp/styleguide/colors.dart';
@@ -29,13 +29,7 @@ class _messagePageState extends State<messagePage> {
   List userList = [];
   List matchList = [];
   Map lastMessages = Map();
-  // int totalMatches = 0;
-// FirebaseFirestore.instance
-//                         .collection('Messages')
-//                         .doc(user.uid)
-//                         .set({
-//                       'Users': [],
-//                     });
+
   @override
   Widget build(BuildContext context) {
     // var userSnaps = Provider.of<DocumentSnapshot>(context, listen: false);
@@ -46,7 +40,10 @@ class _messagePageState extends State<messagePage> {
         });
       }
     });
-    return messageScreen();
+    return Scaffold(
+        backgroundColor: Colors.white,
+        appBar: topTab(),
+        body: _messagesHasBeenPressed ? messageScreen() : gamesPage());
   }
 
   Widget messageScreen() {
@@ -54,9 +51,9 @@ class _messagePageState extends State<messagePage> {
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          topTab(),
+          // topTab(),
           SizedBox(
-            height: 10,
+            height: 5,
           ),
           Divider(
             thickness: 0.8,
@@ -246,49 +243,57 @@ class _messagePageState extends State<messagePage> {
   }
 
   Widget topTab() {
-    return Padding(
-      padding: const EdgeInsets.only(top: 20),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
-        children: [
-          TextButton(
-            child: Text("Messages",
-                style: TextStyle(
-                  fontSize: 18,
-                  color: _messagesHasBeenPressed
-                      ? primaryColor
-                      : Colors.black.withOpacity(0.5),
-                  fontWeight: FontWeight.bold,
-                )),
-            onPressed: () => {
-              setState(() {
-                _messagesHasBeenPressed = true;
-                _gamesHasBeenPressed = false;
-              })
-            },
+    return PreferredSize(
+      preferredSize: Size.fromHeight(75),
+      child: AppBar(
+        title: Padding(
+          padding: const EdgeInsets.only(top: 20),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              TextButton(
+                child: Text("Messages",
+                    style: TextStyle(
+                      fontSize: 18,
+                      color: _messagesHasBeenPressed
+                          ? primaryColor
+                          : Colors.black.withOpacity(0.5),
+                      fontWeight: FontWeight.bold,
+                    )),
+                onPressed: () => {
+                  setState(() {
+                    _messagesHasBeenPressed = true;
+                    _gamesHasBeenPressed = false;
+                  })
+                },
+              ),
+              Container(
+                height: 25,
+                width: 1,
+                decoration:
+                    BoxDecoration(color: Colors.black.withOpacity(0.15)),
+              ),
+              TextButton(
+                child: Text("Games",
+                    style: TextStyle(
+                      fontSize: 18,
+                      color: _gamesHasBeenPressed
+                          ? primaryColor
+                          : Colors.black.withOpacity(0.5),
+                      fontWeight: FontWeight.bold,
+                    )),
+                onPressed: () => {
+                  setState(() {
+                    _messagesHasBeenPressed = false;
+                    _gamesHasBeenPressed = true;
+                  })
+                },
+              ),
+            ],
           ),
-          Container(
-            height: 25,
-            width: 1,
-            decoration: BoxDecoration(color: Colors.black.withOpacity(0.15)),
-          ),
-          TextButton(
-            child: Text("Games",
-                style: TextStyle(
-                  fontSize: 18,
-                  color: _gamesHasBeenPressed
-                      ? primaryColor
-                      : Colors.black.withOpacity(0.5),
-                  fontWeight: FontWeight.bold,
-                )),
-            onPressed: () => {
-              setState(() {
-                _messagesHasBeenPressed = false;
-                _gamesHasBeenPressed = true;
-              })
-            },
-          ),
-        ],
+        ),
+        backgroundColor: Colors.white,
+        // actions:
       ),
     );
   }
