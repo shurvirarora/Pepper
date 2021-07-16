@@ -3,12 +3,8 @@ import 'dart:async';
 // import 'dart:html';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
-// import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-
-// import 'package:flutter/services.dart';
-
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:myapp/commons/additional_details_card.dart';
 
@@ -16,8 +12,6 @@ import 'package:myapp/commons/my_info.dart';
 import 'package:myapp/commons/profile_info_big_card.dart';
 import 'package:myapp/commons/profile_info_small_card.dart';
 import 'package:myapp/pages/customisePage.dart';
-// import 'package:myapp/commons/radial_progress.dart';
-// import 'package:myapp/commons/rounded_image.dart';
 import 'package:myapp/pages/editProfilePage.dart';
 import 'package:myapp/styleguide/textstyle.dart';
 // import 'package:firebase_core/firebase_core.dart';
@@ -26,9 +20,7 @@ import 'package:myapp/blocs/auth_bloc.dart';
 import 'loginPage.dart';
 import 'package:myapp/styleguide/colors.dart';
 import 'settingsPage.dart';
-// import 'package:myapp/styleguide/textstyle.dart';
-// import 'package:myapp/commons/opaque_image.dart';
-// import 'package:myapp/pages/editProfilePage.dart';
+import '../models/User.dart';
 
 //Gets user id
 final FirebaseAuth firebaseAuth = FirebaseAuth.instance;
@@ -42,12 +34,10 @@ class profilePage extends StatefulWidget {
 
 class _profilePageState extends State<profilePage> {
   StreamSubscription<User> editStateSubscription;
+  UserModel user;
 
   @override
   void initState() {
-    // myProfileImage();
-
-    // TODO: implement initState
     var authBloc = Provider.of<AuthBloc>(context, listen: false);
     editStateSubscription = authBloc.currentUser.listen((fbUser) {
       if (fbUser == null) {
@@ -101,6 +91,8 @@ class _profilePageState extends State<profilePage> {
             int height = temp["Height"];
             int age = temp["Age"];
             String imageLink = temp["DownloadUrl"];
+            user = UserModel(
+                age, height, aboutMe, education, imageLink, gender, name, work);
             // if(snapshot.hasData){s
             return ListView(children: [
               Container(
@@ -118,7 +110,7 @@ class _profilePageState extends State<profilePage> {
                 //color: primaryColor,
                 child: Padding(
                   child: imageLink != null
-                      ? MyInfo(name, age.toString(), imageLink)
+                      ? MyInfo(user)
                       : CircularProgressIndicator(),
                   padding: EdgeInsets.fromLTRB(0, 30, 0, 5),
                 ),

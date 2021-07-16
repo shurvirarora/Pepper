@@ -1,14 +1,24 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:myapp/pages/editProfilePage.dart';
 import 'package:myapp/pages/viewProfilePage.dart';
 import 'package:myapp/styleguide/colors.dart';
 import 'package:myapp/styleguide/textstyle.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import '../models/User.dart';
 
 // RESPONSIBLE FOR NAVIGATION BETWEEN THE 3 MAIN TABS
-final List<Widget> customiseChildren = [editProfile(), viewProfile()];
+final List<Widget> customiseChildren = [
+  editProfile(customisePage.user),
+  viewProfile(customisePage.user)
+];
 
 class customisePage extends StatefulWidget {
+  customisePage(UserModel user) {
+    customisePage.user = user;
+  }
+
+  static UserModel user;
   @override
   _customisePageState createState() => _customisePageState();
 }
@@ -23,6 +33,45 @@ class _customisePageState extends State<customisePage> {
     setState(() {
       _selectedTab = i;
     });
+  }
+
+  Future<void> addUser() {
+    //Adds data to firestore
+    // startUpload();
+    // print(customisePage.user.name);
+    if (customisePage.user.url == null) {
+      showDialog(
+        context: context,
+        builder: (ctx) => AlertDialog(
+          title: Text("Looks like you forgot something"),
+          content: Text("Please add an image"),
+          actions: <Widget>[
+            TextButton(
+              onPressed: () {
+                Navigator.of(ctx).pop();
+              },
+              child: Text("Ok"),
+            ),
+          ],
+        ),
+      );
+    } else {
+      print(customisePage.user.name);
+      DocumentReference collectionReference =
+          FirebaseFirestore.instance.collection('User').doc(user.uid);
+      // Navigator.pop(context);
+      return collectionReference.set({
+        'User': uid.toString(),
+        'Name': customisePage.user.name, //stores unique user id
+        'Age': customisePage.user.age,
+        'Gender': customisePage.user.gender,
+        'About Me': customisePage.user.aboutMe,
+        'Education': customisePage.user.education,
+        'Work': customisePage.user.work,
+        'Height': customisePage.user.height,
+        'DownloadUrl': customisePage.user.url
+      });
+    }
   }
 
   @override
@@ -127,7 +176,8 @@ class _customisePageState extends State<customisePage> {
           alignment: Alignment.centerLeft,
           padding: EdgeInsets.fromLTRB(10, 10, 0, 0),
           child: IconButton(
-            onPressed: () {
+            onPressed: () async {
+              await addUser();
               Navigator.of(context).pop();
             },
             icon: Icon(

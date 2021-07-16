@@ -1,9 +1,7 @@
 import 'dart:io';
-
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-
 import '../styleguide/colors.dart';
 import '../styleguide/textstyle.dart';
 // import 'package:image_cropper/image_cropper.dart';
@@ -12,6 +10,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'loginPage.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'customisePage.dart';
+import '../models/User.dart';
 
 //Gets user id
 final FirebaseAuth firebaseAuth = FirebaseAuth.instance;
@@ -19,8 +19,11 @@ final User user = firebaseAuth.currentUser;
 final String uid = user.uid.toString();
 
 class editProfile extends StatefulWidget {
+  UserModel user;
   @override
   _editProfileState createState() => _editProfileState();
+
+  editProfile(this.user);
 }
 
 class _editProfileState extends State<editProfile> {
@@ -34,8 +37,23 @@ class _editProfileState extends State<editProfile> {
   String work;
   int height;
 
+  TextEditingController nameController;
+  TextEditingController ageController;
+  TextEditingController aboutMeController;
+  TextEditingController educationController;
+  TextEditingController workController;
+  TextEditingController heightController;
+
   Future<void> addUser() {
     //Adds data to firestore
+    // startUpload();
+    // widget.user.setAboutMe = aboutMe;
+    // widget.user.setGender = gender;
+    // widget.user.setEducation = education;
+    // widget.user.setWork = work;
+    // widget.user.setHeight = height;
+    // widget.user.setAge = age;
+    // widget.user.setUrl = url;
     print(url);
     if (url == null) {
       showDialog(
@@ -88,90 +106,131 @@ class _editProfileState extends State<editProfile> {
   }
 
   @override
+  void initState() {
+    super.initState();
+    nameController = TextEditingController(text: customisePage.user.name);
+    ageController =
+        TextEditingController(text: customisePage.user.age.toString());
+    workController = TextEditingController(text: customisePage.user.work);
+    educationController =
+        TextEditingController(text: customisePage.user.education);
+    heightController =
+        TextEditingController(text: customisePage.user.height.toString());
+    aboutMeController = TextEditingController(text: customisePage.user.aboutMe);
+    gender = customisePage.user.gender;
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
       body: SafeArea(
-          child: ListView(
-        children: [
-          SizedBox(
-            height: 10,
-          ),
-          ImageCapture(),
-          Padding(
-            padding: EdgeInsets.fromLTRB(8, 10, 8, 10),
-            child: Text(
-              "Basic Info",
-              style: titleStyle,
+          child: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            SizedBox(
+              height: 10,
             ),
-          ),
-          buildTextField('Name', "Name...", 30, TextInputType.text),
-          buildTextField(
-              'Age', "It's just a number...", 30, TextInputType.number),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Text(
-              "Gender",
-              style: TextStyle(color: Color(0xfffe3c72)),
+            ImageCapture(),
+            Padding(
+              padding: EdgeInsets.fromLTRB(8, 10, 8, 10),
+              child: Text(
+                "Basic Info",
+                style: titleStyle,
+              ),
             ),
-          ),
-          Padding(
-            padding: EdgeInsets.all(10),
-            child: DropdownButtonFormField(
-              decoration: InputDecoration(border: OutlineInputBorder()),
-              hint: Text('Gender'),
-              onChanged: (input) {
-                setState(() {
-                  gender = input;
-                });
-                print(input);
-              },
-              items: [
-                DropdownMenuItem(
-                  value: 'Male',
-                  child: Text('Male'),
-                ),
-                DropdownMenuItem(
-                  value: 'Female',
-                  child: Text('Female'),
-                ),
-              ],
+            buildTextField('Name', "Name...", 30, TextInputType.text),
+            buildTextField(
+                'Age', "It's just a number...", 30, TextInputType.number),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Text(
+                "Gender",
+                style: TextStyle(color: Color(0xfffe3c72)),
+              ),
             ),
-          ),
-          // buildTextField('Gender', '', 30, TextInputType.text),
-          buildTextField(
-              'About Me', 'Tell us about yourself...', 70, TextInputType.text),
-          Padding(
-            padding: EdgeInsets.fromLTRB(8, 40, 8, 10),
-            child: Text(
-              "Work & Education",
-              style: titleStyle,
+            Padding(
+              padding: EdgeInsets.all(10),
+              child: DropdownButtonFormField(
+                value: widget.user.gender,
+                decoration: InputDecoration(border: OutlineInputBorder()),
+                hint: Text('Gender'),
+                onChanged: (input) {
+                  setState(() {
+                    gender = input;
+                    customisePage.user.setGender = input;
+                  });
+                  print(input);
+                },
+                items: [
+                  DropdownMenuItem(
+                    value: 'Male',
+                    child: Text('Male'),
+                  ),
+                  DropdownMenuItem(
+                    value: 'Female',
+                    child: Text('Female'),
+                  ),
+                ],
+              ),
             ),
-          ),
+            // buildTextField('Gender', '', 30, TextInputType.text),
+            buildTextField('About Me', 'Tell us about yourself...', 70,
+                TextInputType.text),
+            Padding(
+              padding: EdgeInsets.fromLTRB(8, 40, 8, 10),
+              child: Text(
+                "Work & Education",
+                style: titleStyle,
+              ),
+            ),
 
-          buildTextField('Education', '', 30, TextInputType.text),
-          buildTextField('Work', '', 30, TextInputType.text),
-          Padding(
-            padding: EdgeInsets.fromLTRB(8, 40, 8, 10),
-            child: Text(
-              "Additional Info",
-              style: titleStyle,
+            buildTextField('Education', '', 30, TextInputType.text),
+            buildTextField('Work', '', 30, TextInputType.text),
+            Padding(
+              padding: EdgeInsets.fromLTRB(8, 40, 8, 10),
+              child: Text(
+                "Additional Info",
+                style: titleStyle,
+              ),
             ),
-          ),
-          buildTextField('Height', 'cm', 30, TextInputType.number),
-          // FloatingActionButton(onPressed: addUser),
-          Padding(
-            padding: EdgeInsets.symmetric(horizontal: 30),
-            child: LoginButton('Update', Icons.update, addUser,
-                Color(0xfffe3c72), Colors.black),
-          ),
+            buildTextField('Height', 'cm', 30, TextInputType.number),
+            // FloatingActionButton(onPressed: addUser),
+            // Padding(
+            //   padding: EdgeInsets.symmetric(horizontal: 30),
+            //   child: LoginButton('Update', Icons.update, addUser,
+            //       Color(0xfffe3c72), Colors.black),
+            // ),
 
-          // BackButton(
-          //   onPressed: fetchData,
-          // ),
-        ],
+            // BackButton(
+            //   onPressed: fetchData,
+            // ),
+          ],
+        ),
       )),
     );
+  }
+
+  TextEditingController controllerAllocator(String label) {
+    if (label == "Age") {
+      return ageController;
+    }
+    if (label == "Name") {
+      return nameController;
+    }
+    if (label == "About Me") {
+      return aboutMeController;
+    }
+    if (label == "Education") {
+      return educationController;
+    }
+    if (label == "Work") {
+      return workController;
+    }
+    if (label == "Height") {
+      return heightController;
+    }
   }
 
   Widget buildTextField(
@@ -191,48 +250,39 @@ class _editProfileState extends State<editProfile> {
           Container(
             // height: size,
             child: TextField(
+              controller: controllerAllocator(label),
               keyboardType: textType,
               onChanged: (text) {
                 //Stores input into respective variables
                 if (label == "Age") {
                   age = int.parse(text);
+                  customisePage.user.setAge = int.parse(text);
                 }
                 if (label == "Name") {
                   name = text;
+                  customisePage.user.setName = text;
                 }
                 if (label == "About Me") {
                   aboutMe = text;
+                  customisePage.user.setAboutMe = text;
                 }
                 if (label == "Education") {
                   education = text;
+                  customisePage.user.setEducation = text;
                 }
                 if (label == "Work") {
                   work = text;
+                  customisePage.user.setWork = text;
                 }
                 if (label == "Height") {
                   height = int.parse(text);
+                  customisePage.user.setHeight = int.parse(text);
                 }
               },
               // maxLines: lines,
               style: TextStyle(), cursorColor: Color(0xfffe3c72),
               obscureText: false,
-              decoration: InputDecoration(
-                  focusedBorder: OutlineInputBorder(
-                      borderSide: BorderSide(color: Colors.black)),
-                  border: OutlineInputBorder(
-                      borderSide: BorderSide(color: Colors.black),
-                      borderRadius: const BorderRadius.all(
-                        const Radius.circular(15.0),
-                      )),
-                  contentPadding: EdgeInsets.fromLTRB(10, 0, 0, size),
-                  // labelText: labelText,
-                  floatingLabelBehavior: FloatingLabelBehavior.always,
-                  hintText: placeholder,
-                  hintStyle: TextStyle(
-                    fontSize: 15,
-                    fontWeight: FontWeight.normal,
-                    color: Colors.grey[500],
-                  )),
+              decoration: deco(size, placeholder),
             ),
           ),
 
@@ -243,10 +293,25 @@ class _editProfileState extends State<editProfile> {
   }
 }
 
-// <<<<<<< HEAD
-class ImageCapture extends StatefulWidget {
-  // const ImageCapture({ Key? key }) : super(key: key);
+InputDecoration deco(size, placeholder) => InputDecoration(
+    focusedBorder:
+        OutlineInputBorder(borderSide: BorderSide(color: Colors.black)),
+    border: OutlineInputBorder(
+        borderSide: BorderSide(color: Colors.black),
+        borderRadius: const BorderRadius.all(
+          const Radius.circular(15.0),
+        )),
+    contentPadding: EdgeInsets.fromLTRB(10, 0, 0, size),
+    // labelText: labelText,
+    floatingLabelBehavior: FloatingLabelBehavior.always,
+    hintText: placeholder,
+    hintStyle: TextStyle(
+      fontSize: 15,
+      fontWeight: FontWeight.normal,
+      color: Colors.grey[500],
+    ));
 
+class ImageCapture extends StatefulWidget {
   @override
   _ImageCaptureState createState() => _ImageCaptureState();
 }
@@ -350,6 +415,7 @@ class _UploaderState extends State<Uploader> {
     var dowurl =
         await (await uploadTask.whenComplete(() => null)).ref.getDownloadURL();
     url = dowurl.toString(); //address where image stored
+    customisePage.user.setUrl = url;
     print("URL GOES HERE");
     print(url);
   }

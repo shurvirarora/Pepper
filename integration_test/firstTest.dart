@@ -18,7 +18,7 @@ void main() {
     IntegrationTestWidgetsFlutterBinding.ensureInitialized();
 
     testWidgets('Add product and remove using cancel button', (tester) async {
-      await tester.pumpWidget(MaterialApp(home: viewProfile()));
+      // await tester.pumpWidget(MaterialApp(home: viewProfile()));
 
       //Add
       // await tester.tap(find.byIcon(Icons.shopping_cart_outlined).first);
