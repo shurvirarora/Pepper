@@ -138,7 +138,7 @@ class _editProfileState extends State<editProfile> {
               padding: const EdgeInsets.all(8.0),
               child: Text(
                 "Gender",
-                style: TextStyle(color: Color(0xfffe3c72)),
+                style: TextStyle(color: primaryColor),
               ),
             ),
             Padding(
@@ -243,6 +243,7 @@ class _editProfileState extends State<editProfile> {
               controller: controllerAllocator(label),
               keyboardType: textType,
               onChanged: (text) {
+                // setState(() {
                 //Stores input into respective variables
                 if (label == "Age") {
                   age = int.parse(text);
@@ -268,6 +269,7 @@ class _editProfileState extends State<editProfile> {
                   height = int.parse(text);
                   customisePage.user.setHeight = int.parse(text);
                 }
+                // });
               },
               // maxLines: lines,
               style: TextStyle(), cursorColor: Color(0xfffe3c72),

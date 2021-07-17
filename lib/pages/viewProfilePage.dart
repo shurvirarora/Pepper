@@ -1,15 +1,10 @@
-import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:myapp/models/User.dart';
-import 'package:myapp/pages/chatPage.dart';
-
+import 'package:myapp/pages/customisePage.dart';
+import '../commons/userCard.dart';
 import 'package:myapp/styleguide/textstyle.dart';
-import 'package:provider/provider.dart';
 import '../Decorations/constants.dart';
 import 'package:myapp/styleguide/colors.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'chatPage.dart';
 
 class viewProfile extends StatefulWidget {
   UserModel user;
@@ -20,16 +15,26 @@ class viewProfile extends StatefulWidget {
 }
 
 class _viewProfileState extends State<viewProfile> {
+  UserModel curr = customisePage.user;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(
-          child: Center(
-        child: Text(
-          "View Page",
-          style: titleStyle,
-        ),
-      )),
+      backgroundColor: Colors.white,
+      body: Padding(
+        padding: EdgeInsets.all(10),
+        child: Container(
+            // padding: EdgeInsets.only(top: 10),
+            // height: MediaQuery.of(context).size.height * 1,
+            // child: Center(
+            child: UserCard(curr.url,
+                name: curr.name,
+                height: curr.height.toString(),
+                age: curr.age.toString(),
+                education: curr.education,
+                work: curr.work,
+                gender: curr.gender,
+                aboutMe: curr.aboutMe)),
+      ),
     );
   }
 }
