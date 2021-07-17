@@ -1,4 +1,7 @@
+import 'dart:io';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:myapp/pages/editProfilePage.dart';
 import 'package:myapp/pages/viewProfilePage.dart';
@@ -17,8 +20,9 @@ class customisePage extends StatefulWidget {
   customisePage(UserModel user) {
     customisePage.user = user;
   }
-
+  static File file;
   static UserModel user;
+  static bool imgAdded = false;
   @override
   _customisePageState createState() => _customisePageState();
 }
@@ -35,43 +39,68 @@ class _customisePageState extends State<customisePage> {
     });
   }
 
-  Future<void> addUser() {
+  final FirebaseStorage storage =
+      FirebaseStorage.instanceFor(bucket: 'gs://pepper-e9a17.appspot.com');
+  UploadTask uploadTask;
+  String filePath;
+  String url;
+  startUpload() async {
+    if (!customisePage.imgAdded) {
+      return;
+    }
+    filePath = 'images/${DateTime.now()}.png';
+    // Reference ref = storage.ref().child("/photo.jpg");
+
+    setState(() {
+      uploadTask = storage.ref().child(filePath).putFile(customisePage.file);
+    });
+    // customisePage.user.setFile = widget.file;
+    var dowurl =
+        await (await uploadTask.whenComplete(() => null)).ref.getDownloadURL();
+    url = dowurl.toString(); //address where image stored
+    customisePage.user.setUrl = url;
+    print("URL GOES HERE");
+    print(url);
+  }
+
+  Future<void> addUser() async {
     //Adds data to firestore
     // startUpload();
     // print(customisePage.user.name);
-    if (customisePage.user.url == null) {
-      showDialog(
-        context: context,
-        builder: (ctx) => AlertDialog(
-          title: Text("Looks like you forgot something"),
-          content: Text("Please add an image"),
-          actions: <Widget>[
-            TextButton(
-              onPressed: () {
-                Navigator.of(ctx).pop();
-              },
-              child: Text("Ok"),
-            ),
-          ],
-        ),
-      );
-    } else {
-      print(customisePage.user.name);
-      DocumentReference collectionReference =
-          FirebaseFirestore.instance.collection('User').doc(user.uid);
-      // Navigator.pop(context);
-      return collectionReference.set({
-        'User': uid.toString(),
-        'Name': customisePage.user.name, //stores unique user id
-        'Age': customisePage.user.age,
-        'Gender': customisePage.user.gender,
-        'About Me': customisePage.user.aboutMe,
-        'Education': customisePage.user.education,
-        'Work': customisePage.user.work,
-        'Height': customisePage.user.height,
-        'DownloadUrl': customisePage.user.url
-      });
-    }
+    // if (customisePage.file == null) {
+    //   showDialog(
+    //     context: context,
+    //     builder: (ctx) => AlertDialog(
+    //       title: Text("Looks like you forgot something"),
+    //       content: Text("Please add an image"),
+    //       actions: <Widget>[
+    //         TextButton(
+    //           onPressed: () {
+    //             Navigator.of(ctx).pop();
+    //           },
+    //           child: Text("Ok"),
+    //         ),
+    //       ],
+    //     ),
+    //   );
+    // } else {
+    print(customisePage.user.name);
+    await startUpload();
+    DocumentReference collectionReference =
+        FirebaseFirestore.instance.collection('User').doc(user.uid);
+    // Navigator.pop(context);
+    return collectionReference.set({
+      'User': uid.toString(),
+      'Name': customisePage.user.name, //stores unique user id
+      'Age': customisePage.user.age,
+      'Gender': customisePage.user.gender,
+      'About Me': customisePage.user.aboutMe,
+      'Education': customisePage.user.education,
+      'Work': customisePage.user.work,
+      'Height': customisePage.user.height,
+      'DownloadUrl': customisePage.user.url
+    });
+    // }
   }
 
   @override

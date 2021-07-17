@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 
 class UserModel {
@@ -28,6 +30,12 @@ class UserModel {
   get aboutMe => _aboutMe;
 
   get url => _downloadUrl;
+
+  // get file => UserModel.file;
+
+  // set setFile(File file) {
+  //   UserModel.file = file;
+  // }
 
   set setAge(int age) {
     this._age = age;

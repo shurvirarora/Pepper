@@ -8,7 +8,7 @@ import '../styleguide/textstyle.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'loginPage.dart';
+// import 'loginPage.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'customisePage.dart';
 import '../models/User.dart';
@@ -44,51 +44,42 @@ class _editProfileState extends State<editProfile> {
   TextEditingController workController;
   TextEditingController heightController;
 
-  Future<void> addUser() {
-    //Adds data to firestore
-    // startUpload();
-    // widget.user.setAboutMe = aboutMe;
-    // widget.user.setGender = gender;
-    // widget.user.setEducation = education;
-    // widget.user.setWork = work;
-    // widget.user.setHeight = height;
-    // widget.user.setAge = age;
-    // widget.user.setUrl = url;
-    print(url);
-    if (url == null) {
-      showDialog(
-        context: context,
-        builder: (ctx) => AlertDialog(
-          title: Text("Looks like you forgot something"),
-          content: Text("Please add an image"),
-          actions: <Widget>[
-            TextButton(
-              onPressed: () {
-                Navigator.of(ctx).pop();
-              },
-              child: Text("Ok"),
-            ),
-          ],
-        ),
-      );
-    } else {
-      print("passes");
-      DocumentReference collectionReference =
-          FirebaseFirestore.instance.collection('User').doc(user.uid);
-      Navigator.pop(context);
-      return collectionReference.set({
-        'User': uid.toString(),
-        'Name': name, //stores unique user id
-        'Age': age,
-        'Gender': gender,
-        'About Me': aboutMe,
-        'Education': education,
-        'Work': work,
-        'Height': height,
-        'DownloadUrl': url
-      });
-    }
-  }
+  // Future<void> addUser() {
+  //   print(url);
+  //   if (url == null) {
+  //     showDialog(
+  //       context: context,
+  //       builder: (ctx) => AlertDialog(
+  //         title: Text("Looks like you forgot something"),
+  //         content: Text("Please add an image"),
+  //         actions: <Widget>[
+  //           TextButton(
+  //             onPressed: () {
+  //               Navigator.of(ctx).pop();
+  //             },
+  //             child: Text("Ok"),
+  //           ),
+  //         ],
+  //       ),
+  //     );
+  //   } else {
+  //     print("passes");
+  //     DocumentReference collectionReference =
+  //         FirebaseFirestore.instance.collection('User').doc(user.uid);
+  //     Navigator.pop(context);
+  //     return collectionReference.set({
+  //       'User': uid.toString(),
+  //       'Name': name, //stores unique user id
+  //       'Age': age,
+  //       'Gender': gender,
+  //       'About Me': aboutMe,
+  //       'Education': education,
+  //       'Work': work,
+  //       'Height': height,
+  //       'DownloadUrl': url
+  //     });
+  //   }
+  // }
 
   fetchData() {
     CollectionReference collectionReference =
@@ -175,7 +166,6 @@ class _editProfileState extends State<editProfile> {
                 ],
               ),
             ),
-            // buildTextField('Gender', '', 30, TextInputType.text),
             buildTextField('About Me', 'Tell us about yourself...', 70,
                 TextInputType.text),
             Padding(
@@ -242,7 +232,7 @@ class _editProfileState extends State<editProfile> {
         children: [
           Text(
             label,
-            style: TextStyle(color: Color(0xfffe3c72)),
+            style: TextStyle(color: primaryColor),
           ),
           SizedBox(
             height: 10,
@@ -285,8 +275,6 @@ class _editProfileState extends State<editProfile> {
               decoration: deco(size, placeholder),
             ),
           ),
-
-          // Text(data == null ? "" : data['Bio']),
         ],
       ),
     );
@@ -321,7 +309,8 @@ class _ImageCaptureState extends State<ImageCapture> {
 
   Future getImage(ImageSource source) async {
     final pickedFile = await ImagePicker().getImage(source: source);
-
+    customisePage.file = File(pickedFile.path);
+    customisePage.imgAdded = true;
     setState(() {
       if (pickedFile != null) {
         imageFile = File(pickedFile.path);
@@ -351,33 +340,90 @@ class _ImageCaptureState extends State<ImageCapture> {
     });
   }
 
+  void _showPicker(context) {
+    showModalBottomSheet(
+        context: context,
+        builder: (BuildContext bc) {
+          return SafeArea(
+            child: Container(
+              child: new Wrap(
+                children: <Widget>[
+                  new ListTile(
+                      leading: new Icon(Icons.photo_library),
+                      title: new Text('Photo Library'),
+                      onTap: () {
+                        getImage(ImageSource.gallery);
+                        Navigator.of(context).pop();
+                      }),
+                  new ListTile(
+                    leading: new Icon(Icons.photo_camera),
+                    title: new Text('Camera'),
+                    onTap: () {
+                      getImage(ImageSource.camera);
+                      Navigator.of(context).pop();
+                    },
+                  ),
+                ],
+              ),
+            ),
+          );
+        });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
-        if (imageFile != null) ...[
-          CircleAvatar(
-            child: Image.file(
-              imageFile,
-              width: 100,
-              height: 100,
+        Center(
+          child: GestureDetector(
+            onTap: () {
+              _showPicker(context);
+            },
+            child: Container(
+              width: 120, height: 120,
+              decoration: BoxDecoration(
+                  color: Colors.grey[200],
+                  borderRadius: BorderRadius.circular(50),
+                  border: Border.all(width: 2, color: primaryColor)),
+              // radius: 100,
+
+              child: imageFile != null
+                  ? ClipRRect(
+                      borderRadius: BorderRadius.circular(50),
+                      child: Image.file(
+                        imageFile,
+                        width: 100,
+                        height: 100,
+                        fit: BoxFit.fitHeight,
+                      ),
+                    )
+                  : Container(
+                      decoration: BoxDecoration(
+                          // color: Colors.grey[200],
+                          borderRadius: BorderRadius.circular(100)),
+                      width: 100,
+                      height: 100,
+                      child: Icon(
+                        Icons.camera_alt,
+                        color: Colors.grey[800],
+                      ),
+                    ),
             ),
-            radius: 50,
-          )
-        ],
-        IconButton(
-            icon: Icon(Icons.photo_camera),
-            onPressed: () => getImage(ImageSource.camera)),
-        IconButton(
-            icon: Icon(Icons.photo_library),
-            onPressed: () => getImage(ImageSource.gallery)),
+          ),
+        ),
+        // IconButton(
+        //     icon: Icon(Icons.photo_camera),
+        //     onPressed: () => getImage(ImageSource.camera)),
+        // IconButton(
+        //     icon: Icon(Icons.photo_library),
+        //     onPressed: () => getImage(ImageSource.gallery)),
         Row(
           children: [
             // TextButton(onPressed: cropImage, child: Icon(Icons.crop)),
             TextButton(onPressed: clearImage, child: Icon(Icons.refresh))
           ],
         ),
-        Uploader(imageFile),
+        // Uploader(imageFile),
       ],
     );
   }
@@ -385,79 +431,79 @@ class _ImageCaptureState extends State<ImageCapture> {
 
 // Future<String> downloadUrl;
 
-class Uploader extends StatefulWidget {
-  // const Uploader({ Key? key }) : super(key: key);
-  final File file;
+// class Uploader extends StatefulWidget {
+//   // const Uploader({ Key? key }) : super(key: key);
+//   final File file;
 
-  Uploader(this.file);
+//   Uploader(this.file);
 
-  @override
-  _UploaderState createState() => _UploaderState();
-}
+//   @override
+//   _UploaderState createState() => _UploaderState();
+// }
 
-UploadTask uploadTask;
-String filePath;
-String url;
 
-class _UploaderState extends State<Uploader> {
-  final FirebaseStorage storage =
-      FirebaseStorage.instanceFor(bucket: 'gs://pepper-e9a17.appspot.com');
-  // FirebaseStorage(storageBucket: 'gs://pepper-e9a17.appspot.com');
 
-  // final String filePath = 'images/image1.png';
+// class _UploaderState extends State<Uploader> {
+//   final FirebaseStorage storage =
+//       FirebaseStorage.instanceFor(bucket: 'gs://pepper-e9a17.appspot.com');
+//   // FirebaseStorage(storageBucket: 'gs://pepper-e9a17.appspot.com');
 
-  startUpload() async {
-    filePath = 'images/${DateTime.now()}.png';
-    // Reference ref = storage.ref().child("/photo.jpg");
-    setState(() {
-      uploadTask = storage.ref().child(filePath).putFile(widget.file);
-    });
-    var dowurl =
-        await (await uploadTask.whenComplete(() => null)).ref.getDownloadURL();
-    url = dowurl.toString(); //address where image stored
-    customisePage.user.setUrl = url;
-    print("URL GOES HERE");
-    print(url);
-  }
+//   // final String filePath = 'images/image1.png';
 
-  // uploadImage(var imageFile) async {
-  //   Reference ref = storage.ref().child("/photo.jpg");
-  //   UploadTask uploadTask = ref.putFile(widget.file);
-  //   var dowurl =
-  //       await (await uploadTask.whenComplete(() => null)).ref.getDownloadURL();
-  //   String url = dowurl.toString();
-  //   print(url);
-  // }
+//   startUpload() async {
+//     filePath = 'images/${DateTime.now()}.png';
+//     // Reference ref = storage.ref().child("/photo.jpg");
+//     setState(() {
+//       uploadTask = storage.ref().child(filePath).putFile(widget.file);
+//     });
+//     customisePage.file = widget.file;
+//     var dowurl =
+//         await (await uploadTask.whenComplete(() => null)).ref.getDownloadURL();
+//     url = dowurl.toString(); //address where image stored
+//     customisePage.user.setUrl = url;
+//     print("URL GOES HERE");
+//     print(url);
+//   }
 
-  // printUrl() async {
-  //   print("GOES HERE");
-  //   // String filePath = 'images/${DateTime.now()}.png';
-  //   Reference ref = FirebaseStorage.instance.ref().child(filePath);
-  //   String url = (await ref.getDownloadURL()).toString();
-  //   print(url);
-  // }
+//   // uploadImage(var imageFile) async {
+//   //   Reference ref = storage.ref().child("/photo.jpg");
+//   //   UploadTask uploadTask = ref.putFile(widget.file);
+//   //   var dowurl =
+//   //       await (await uploadTask.whenComplete(() => null)).ref.getDownloadURL();
+//   //   String url = dowurl.toString();
+//   //   print(url);
+//   // }
 
-  @override
-  Widget build(BuildContext context) {
-    if (uploadTask != null) {
-      return StreamBuilder<TaskSnapshot>(
-          stream: uploadTask.snapshotEvents,
-          builder: (context, snapshot) {
-            var event = snapshot.data;
+//   // printUrl() async {
+//   //   print("GOES HERE");
+//   //   // String filePath = 'images/${DateTime.now()}.png';
+//   //   Reference ref = FirebaseStorage.instance.ref().child(filePath);
+//   //   String url = (await ref.getDownloadURL()).toString();
+//   //   print(url);
+//   // }
 
-            double progress =
-                event != null ? event.bytesTransferred / event.totalBytes : 0;
+//   @override
+//   Widget build(BuildContext context) {
+//     //Upload to firebase button TODELETE
+//     if (uploadTask != null) {
+//       return StreamBuilder<TaskSnapshot>(
+//           stream: uploadTask.snapshotEvents,
+//           builder: (context, snapshot) {
+//             var event = snapshot.data;
 
-            return Text(progress.toString());
-          });
-    } else {
-      return TextButton.icon(
-          onPressed: startUpload,
-          icon: Icon(Icons.cloud_upload),
-          label: Text('Upload to Firebase'));
-    }
-  }
-}
+//             double progress =
+//                 event != null ? event.bytesTransferred / event.totalBytes : 0;
+
+//             return Text(progress.toString());
+//           });
+//     } else {
+//       return TextButton.icon(
+//           onPressed: startUpload,
+//           icon: Icon(Icons.cloud_upload),
+//           label: Text('Upload to Firebase'));
+//     }
+//   }
+// }
 
 // BASIC INFO
 // Name
