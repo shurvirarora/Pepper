@@ -5,16 +5,15 @@ import 'package:myapp/styleguide/colors.dart';
 import 'package:myapp/styleguide/textstyle.dart';
 import 'package:myapp/commons/rounded_image.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import '../models/User.dart';
 
 class MyInfo extends StatelessWidget {
   // const MyInfo({
   //   Key key,
   // }) : super(key: key);
+  UserModel user;
 
-  String name;
-  String age;
-  String url;
-  MyInfo(this.name, this.age, this.url);
+  MyInfo(this.user);
 
   @override
   Widget build(BuildContext context) {
@@ -30,12 +29,12 @@ class MyInfo extends StatelessWidget {
               onTap: () {
                 Navigator.of(context).push(
                   MaterialPageRoute(
-                    builder: (context) => customisePage(),
+                    builder: (context) => customisePage(user),
                   ),
                 );
               },
               child: RoundedImage(
-                imagePath: url,
+                imagePath: user.url,
                 size: Size.fromWidth(220.0),
               ),
             ),
@@ -47,11 +46,11 @@ class MyInfo extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               Text(
-                name,
+                user.name,
                 style: whiteNameTextStyle,
               ),
               Text(
-                ", " + age,
+                ", " + user.age.toString(),
                 style: whiteNameTextStyle,
               ),
             ],
