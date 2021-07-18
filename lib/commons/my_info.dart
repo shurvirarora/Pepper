@@ -33,9 +33,14 @@ class MyInfo extends StatelessWidget {
                   ),
                 );
               },
-              child: RoundedImage(
-                imagePath: user.url,
-                size: Size.fromWidth(220.0),
+              child: Container(
+                width: 150,
+                height: 150,
+                decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    image: DecorationImage(image: NetworkImage(
+                        //Add network Image here
+                        user.url), fit: BoxFit.fitHeight)),
               ),
             ),
           ),

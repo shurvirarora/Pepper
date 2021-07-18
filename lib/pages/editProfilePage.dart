@@ -44,43 +44,6 @@ class _editProfileState extends State<editProfile> {
   TextEditingController workController;
   TextEditingController heightController;
 
-  // Future<void> addUser() {
-  //   print(url);
-  //   if (url == null) {
-  //     showDialog(
-  //       context: context,
-  //       builder: (ctx) => AlertDialog(
-  //         title: Text("Looks like you forgot something"),
-  //         content: Text("Please add an image"),
-  //         actions: <Widget>[
-  //           TextButton(
-  //             onPressed: () {
-  //               Navigator.of(ctx).pop();
-  //             },
-  //             child: Text("Ok"),
-  //           ),
-  //         ],
-  //       ),
-  //     );
-  //   } else {
-  //     print("passes");
-  //     DocumentReference collectionReference =
-  //         FirebaseFirestore.instance.collection('User').doc(user.uid);
-  //     Navigator.pop(context);
-  //     return collectionReference.set({
-  //       'User': uid.toString(),
-  //       'Name': name, //stores unique user id
-  //       'Age': age,
-  //       'Gender': gender,
-  //       'About Me': aboutMe,
-  //       'Education': education,
-  //       'Work': work,
-  //       'Height': height,
-  //       'DownloadUrl': url
-  //     });
-  //   }
-  // }
-
   fetchData() {
     CollectionReference collectionReference =
         FirebaseFirestore.instance.collection('User');
@@ -381,35 +344,51 @@ class _ImageCaptureState extends State<ImageCapture> {
             onTap: () {
               _showPicker(context);
             },
-            child: Container(
-              width: 120, height: 120,
-              decoration: BoxDecoration(
-                  color: Colors.grey[200],
-                  borderRadius: BorderRadius.circular(50),
-                  border: Border.all(width: 2, color: primaryColor)),
-              // radius: 100,
-
-              child: imageFile != null
-                  ? ClipRRect(
+            child: Stack(
+              clipBehavior: Clip.none,
+              children: [
+                Container(
+                  width: 130, height: 130,
+                  decoration: BoxDecoration(
+                      color: Colors.grey[200],
                       borderRadius: BorderRadius.circular(50),
-                      child: Image.file(
-                        imageFile,
-                        width: 100,
-                        height: 100,
-                        fit: BoxFit.fitHeight,
-                      ),
-                    )
-                  : Container(
-                      decoration: BoxDecoration(
-                          // color: Colors.grey[200],
-                          borderRadius: BorderRadius.circular(100)),
-                      width: 100,
-                      height: 100,
+                      border: Border.all(width: 2, color: primaryColor)),
+                  // radius: 100,
+
+                  child: imageFile != null
+                      ? ClipRRect(
+                          borderRadius: BorderRadius.circular(50),
+                          child: Image.file(
+                            imageFile,
+                            width: 100,
+                            height: 100,
+                            fit: BoxFit.fitHeight,
+                          ),
+                        )
+                      : Container(
+                          decoration: BoxDecoration(
+                              // color: Colors.grey[200],
+                              borderRadius: BorderRadius.circular(100)),
+                          width: 100,
+                          height: 100,
+                          child: Icon(
+                            Icons.camera_alt,
+                            color: Colors.grey[800],
+                          ),
+                        ),
+                ),
+                Positioned(
+                  left: 80,
+                  top: 97,
+                  child: TextButton(
+                      onPressed: clearImage,
                       child: Icon(
-                        Icons.camera_alt,
-                        color: Colors.grey[800],
-                      ),
-                    ),
+                        FontAwesomeIcons.minusCircle,
+                        color: Colors.red,
+                        size: 18,
+                      )),
+                ),
+              ],
             ),
           ),
         ),
@@ -419,12 +398,12 @@ class _ImageCaptureState extends State<ImageCapture> {
         // IconButton(
         //     icon: Icon(Icons.photo_library),
         //     onPressed: () => getImage(ImageSource.gallery)),
-        Row(
-          children: [
-            // TextButton(onPressed: cropImage, child: Icon(Icons.crop)),
-            TextButton(onPressed: clearImage, child: Icon(Icons.refresh))
-          ],
-        ),
+        // Row(
+        //   children: [
+        //     // TextButton(onPressed: cropImage, child: Icon(Icons.crop)),
+        //     TextButton(onPressed: clearImage, child: Icon(Icons.refresh))
+        //   ],
+        // ),
         // Uploader(imageFile),
       ],
     );
