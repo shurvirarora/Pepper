@@ -17,6 +17,7 @@ ElevatedButton CrossButton = ElevatedButton(
   onPressed: () => swipePage.passed(true),
   child: Icon(
     FontAwesomeIcons.times,
+    // color: secondaryColor,
     size: 30,
   ),
   style: ElevatedButton.styleFrom(
@@ -364,21 +365,7 @@ class _UserCardState extends State<UserCard> {
               ),
             ),
           );
-          //continue;
         }
-        // newList.add(Card(
-        //   color: Color(0xffdee2ff),
-        //   // shadowColor: Colors.pink[500],
-        //   child: Text(
-        //     text,
-        //     style: SwipingProfileText,
-        //   ),
-        //   elevation: 3,
-        //   shape: RoundedRectangleBorder(
-        //     borderRadius: BorderRadius.circular(30),
-        //   ),
-        //   margin: EdgeInsets.all(10),
-        // ));
       }
     }
     if (widget.age != 'null') {
@@ -477,14 +464,11 @@ class _UserCardState extends State<UserCard> {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
-      // child: Swipable(
-      // Set the swipable widget
       child: Container(
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.circular(10),
         ),
-        // padding: EdgeInsets.all(20),
         child: ListView(
           // child: Column(
           children: newData(),
@@ -501,10 +485,11 @@ class HeartButton extends StatelessWidget {
       onPressed: () => swipePage.liked(true, context),
       child: Icon(
         FontAwesomeIcons.heart,
+        color: primaryColor,
         size: 30,
       ),
       style: ElevatedButton.styleFrom(
-        onPrimary: Color(0xff44d083),
+        onPrimary: secondaryColor,
         primary: Colors.white,
         shape: CircleBorder(),
         padding: EdgeInsets.all(20),

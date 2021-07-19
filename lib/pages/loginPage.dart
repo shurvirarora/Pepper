@@ -134,17 +134,17 @@ class _LoginState extends State<Login> {
                       () => authBloc.loginFacebook(),
                       Colors.white,
                       Colors.white)),
-              TextButton(
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => ForgotPassword()),
-                    );
-                  },
-                  child: Text(
-                    'Trouble Logging in?',
-                    style: TextStyle(color: Colors.white, fontSize: 15),
-                  ))
+              // TextButton(
+              //     onPressed: () {
+              //       Navigator.push(
+              //         context,
+              //         MaterialPageRoute(builder: (context) => ForgotPassword()),
+              //       );
+              //     },
+              //     child: Text(
+              //       'Trouble Logging in?',
+              //       style: TextStyle(color: Colors.white, fontSize: 15),
+              //     ))
             ],
           ),
         ),

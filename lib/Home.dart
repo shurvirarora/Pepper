@@ -16,11 +16,6 @@ import 'pages/profilePage.dart';
 import 'pages/messagePage.dart';
 import 'pages/swipePage.dart';
 
-// import 'package:firebase_core/firebase_core.dart';
-// import 'package:google_nav_bar/google_nav_bar.dart';
-// import 'package:ff_navigation_bar/ff_navigation_bar.dart';
-// import 'package:custom_navigation_bar/custom_navigation_bar.dart';
-
 // RESPONSIBLE FOR NAVIGATION BETWEEN THE 3 MAIN TABS
 final List<Widget> _children = [profilePage(), swipePage(), messagePage()];
 
@@ -74,23 +69,6 @@ class _HomeState extends State<Home> {
   }
 
   AppBar myNav(int index) {
-    /* if (index == 0) {
-      return AppBar(
-        elevation: 0,
-        backgroundColor: primaryColor,
-        actions: [
-          Container(
-            margin: EdgeInsets.only(right: 6),
-            padding: EdgeInsets.fromLTRB(0, 20, 15, 0),
-            child: IconButton(
-                icon: const Icon(FontAwesomeIcons.cog),
-                iconSize: 27.5,
-                color: Colors.white //Color(0xff808080),
-                ),
-          ),
-        ],
-      );
-    } else */
     if (index == 1) {
       return AppBar(
         leading: Container(
@@ -113,23 +91,6 @@ class _HomeState extends State<Home> {
         ],
       );
     }
-    /*else if (index == 2) {
-      return AppBar(
-        elevation: 0,
-        backgroundColor: Colors.white,
-        actions: [
-          Container(
-            margin: EdgeInsets.only(right: 6),
-            padding: EdgeInsets.fromLTRB(0, 20, 15, 10),
-            child: Icon(
-              FontAwesomeIcons.search,
-              size: 27.5,
-              color: Color(0xff808080),
-            ),
-          ),
-        ],
-      );
-    }*/
   }
 
   @override

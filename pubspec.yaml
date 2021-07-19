@@ -23,7 +23,7 @@ environment:
 
 dependencies:
   google_nav_bar: ^5.0.5
-  # mockito: ^5.0.10
+  mockito: ^5.0.10
   custom_navigation_bar: ^0.8.1
   rolling_nav_bar: ^0.0.4
   dot_navigation_bar: ^0.2.0
@@ -40,7 +40,7 @@ dependencies:
   image_cropper: ^1.4.0
   flutter_launcher_icons: "^0.9.0"
   mvc_pattern: "^7.0.0"
-  
+  pin_code_fields: ^7.2.0
   flutter:
     sdk: flutter
 
