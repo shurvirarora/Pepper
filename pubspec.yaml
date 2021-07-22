@@ -41,6 +41,7 @@ dependencies:
   flutter_launcher_icons: "^0.9.0"
   mvc_pattern: "^7.0.0"
   pin_code_fields: ^7.2.0
+  http: ^0.13.3
   flutter:
     sdk: flutter
 

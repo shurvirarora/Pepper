@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:myapp/pages/chatPage.dart';
 import 'package:myapp/pages/gamesPage.dart';
@@ -131,7 +133,7 @@ class _messagePageState extends State<messagePage> {
               var name = secondSnapshot.data.get('Name');
               return GestureDetector(
                 onTap: () {
-                  Navigator.push(
+                  latestText = Navigator.push(
                     context,
                     MaterialPageRoute(
                         builder: (context) => chatPage(id, data, name)),
@@ -181,6 +183,7 @@ class _messagePageState extends State<messagePage> {
     return myList;
   }
 
+  Future<String> latestText;
   Widget lastMessageFuture(String user) {
     return FutureBuilder(
         future: FirebaseFirestore.instance
@@ -219,7 +222,13 @@ class _messagePageState extends State<messagePage> {
                     if (combinedList.isEmpty) {
                       return SizedBox();
                     } else {
-                      lastMessages[user] = combinedList[0].data()['Text'];
+                      if (combinedList[0].data()['Trivia']) {
+                        lastMessages[user] = jsonDecode(
+                            combinedList[0].data()['Text'])['question'];
+                      } else {
+                        lastMessages[user] = combinedList[0].data()['Text'];
+                      }
+
                       return Text(
                         lastMessages[user],
                         style: TextStyle(
