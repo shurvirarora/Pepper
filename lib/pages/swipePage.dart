@@ -74,7 +74,7 @@ class swipePage extends StatefulWidget {
                 Navigator.of(context).push(
                   PageRouteBuilder(
                     opaque: false,
-                    pageBuilder: (_, __, ___) => matchPage(),
+                    pageBuilder: (_, __, ___) => matchPage(currPersonId),
                   ),
                 );
                 //Still doesnt stop the function from continuing
@@ -122,7 +122,7 @@ class swipePage extends StatefulWidget {
                 Navigator.of(context).push(
                   PageRouteBuilder(
                     opaque: false, // set to false
-                    pageBuilder: (_, __, ___) => matchPage(),
+                    pageBuilder: (_, __, ___) => matchPage(currPersonId),
                   ),
                 );
                 //Still doesnt stop the function from continuing

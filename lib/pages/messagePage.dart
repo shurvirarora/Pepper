@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:myapp/commons/radial_decoration.dart';
 import 'package:myapp/pages/chatPage.dart';
 import 'package:myapp/pages/gamesPage.dart';
 import 'package:provider/provider.dart';
@@ -52,37 +53,39 @@ class _messagePageState extends State<messagePage> {
         children: [
           // topTab(),
           SizedBox(
-            height: 5,
+            height: 15,
           ),
+
+          // Padding(
+          //   padding:
+          //       const EdgeInsets.only(left: 8, top: 0, right: 8, bottom: 10),
+          //   child: Container(
+          //     height: 38,
+          //     decoration: BoxDecoration(
+          //         color: Colors.grey.withOpacity(0.2),
+          //         borderRadius: BorderRadius.circular(5)),
+          //     child: TextField(
+          //       cursorColor: Colors.black.withOpacity(0.5),
+          //       decoration: InputDecoration(
+          //           border: InputBorder.none,
+          //           prefixIcon: Icon(
+          //             Icons.search,
+          //             color: Colors.black.withOpacity(0.5),
+          //           ),
+          //           hintText: "Search ${matchList.length} Matches"),
+          //     ),
+          //   ),
+          // ),
+          myMatches(),
+
           Divider(
-            thickness: 0.8,
-          ),
-          Padding(
-            padding: const EdgeInsets.only(left: 8, top: 0, right: 8),
-            child: Container(
-              height: 38,
-              decoration: BoxDecoration(
-                  color: Colors.grey.withOpacity(0.2),
-                  borderRadius: BorderRadius.circular(5)),
-              child: TextField(
-                cursorColor: Colors.black.withOpacity(0.5),
-                decoration: InputDecoration(
-                    border: InputBorder.none,
-                    prefixIcon: Icon(
-                      Icons.search,
-                      color: Colors.black.withOpacity(0.5),
-                    ),
-                    hintText: "Search ${matchList.length} Matches"),
-              ),
-            ),
-          ),
-          Divider(
-            thickness: 0.8,
+            height: 15,
+            thickness: 2.0,
           ),
           SizedBox(
-            height: 10,
+            height: 5,
           ), //Horizontal list of matches
-          myMatches(),
+
           FutureBuilder(
               future: FirebaseFirestore.instance
                   .collection('Messages')
@@ -96,16 +99,35 @@ class _messagePageState extends State<messagePage> {
                   userList = snapshot.data.get('Users');
                   print("TESTINGGGGGG");
                   print(userList);
-                  return Padding(
-                    padding: const EdgeInsets.only(left: 15),
-                    child: ListView.builder(
-                      scrollDirection: Axis.vertical,
-                      shrinkWrap: true,
-                      itemBuilder: (context, index) {
-                        return messagesFuture(userList)[index];
-                      },
-                      itemCount: userList.length,
-                    ),
+                  return Column(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.fromLTRB(0, 0, 0, 5),
+                        child: ListView.builder(
+                          padding: EdgeInsets.fromLTRB(0, 0, 0, 10),
+                          scrollDirection: Axis.vertical,
+                          shrinkWrap: true,
+                          itemBuilder: (context, index) {
+                            return Column(
+                              children: [
+                                Row(
+                                  children: [
+                                    SizedBox(
+                                      width: 15,
+                                    ),
+                                    messagesFuture(userList)[index],
+                                  ],
+                                ),
+                                Divider(
+                                  thickness: 0.8,
+                                ),
+                              ],
+                            );
+                          },
+                          itemCount: userList.length,
+                        ),
+                      ),
+                    ],
                   );
                 } else {
                   return CircularProgressIndicator(
@@ -302,13 +324,13 @@ class _messagePageState extends State<messagePage> {
       Padding(
         padding: const EdgeInsets.only(left: 15),
         child: Text(
-          "New Matches",
+          "${matchList.length} Matches",
           style: TextStyle(
-              fontSize: 15, fontWeight: FontWeight.w500, color: primaryColor),
+              fontSize: 15, fontWeight: FontWeight.bold, color: primaryColor),
         ),
       ),
       SizedBox(
-        height: 20,
+        height: 15,
       ),
       FutureBuilder(
           future:
@@ -321,16 +343,27 @@ class _messagePageState extends State<messagePage> {
               print("MATCCHESS!!");
               print(matchList);
               return Container(
-                height: 50,
+                height: 55,
                 // child: Expanded(
-                child: ListView.builder(
-                  scrollDirection:
-                      Axis.horizontal, //causes Problem when horizontal
-                  itemBuilder: (context, index) {
-                    return listOfMatches(matchList)[index];
-                  },
-                  shrinkWrap: true,
-                  itemCount: listOfMatches(matchList).length,
+                child: Padding(
+                  padding: const EdgeInsets.only(left: 10),
+                  child: ListView.builder(
+                    scrollDirection:
+                        Axis.horizontal, //causes Problem when horizontal
+                    itemBuilder: (context, index) {
+                      return Row(
+                        children: [
+                          RadialDecoration(
+                              child: listOfMatches(matchList)[index]),
+                          SizedBox(
+                            width: 5,
+                          )
+                        ],
+                      );
+                    },
+                    shrinkWrap: true,
+                    itemCount: listOfMatches(matchList).length,
+                  ),
                 ),
                 // ),
               );
@@ -344,7 +377,7 @@ class _messagePageState extends State<messagePage> {
             }
           }),
       SizedBox(
-        height: 30,
+        height: 10,
       )
     ]);
   }

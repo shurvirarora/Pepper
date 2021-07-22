@@ -138,7 +138,7 @@ class _customisePageState extends State<customisePage> {
       title: Padding(
         padding: EdgeInsets.fromLTRB(0, 10, 0, 0),
         child: Text(
-          "Rehman",
+          customisePage.user.name,
         ),
       ),
       centerTitle: true,
