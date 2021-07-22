@@ -30,11 +30,12 @@ Map<String, String> all = {
   ECARTOON: '32'
 };
 
+//&quot;
 class triviaApi {
   static Future<String> generateTrivia(String category) async {
     print(category);
     String qn;
-    String qnData;
+    var qnData;
     http.Response response = await http.get(Uri.parse(
         'https://opentdb.com/api.php?amount=' +
             '1' +
@@ -42,14 +43,19 @@ class triviaApi {
             all[category] +
             '&difficulty=easy&type=boolean'));
     if (response.statusCode == 200) {
-      qnData = jsonEncode(jsonDecode(response.body)['results'][0]);
+      qnData = jsonDecode(response.body)['results'][0];
       qn = jsonDecode(response.body)['results'][0]['question'];
 
-      if (qn.contains('&')) {
-        print('ISSUEEE');
+      if (qn.contains('&quot;')) {
+        //   print('ISSUEEE');
+        print(qn);
+
+        qn = qn.replaceAll('&quot;', '');
+        qnData['question'] = qn;
+      } else if (qn.contains('&')) {
         return generateTrivia(category); //Call function again
       }
-      return qnData;
+      return jsonEncode(qnData);
     } else {
       print('Error');
     }

@@ -20,7 +20,7 @@ final messageCollection = FirebaseFirestore.instance.collection('Messages');
 // String myImageUrl;
 int numberOfMessages;
 String otherPersonId;
-Map qnIdTracker = Map();
+// Map qnIdTracker = Map();
 
 class chatPage extends StatefulWidget {
   String userID;
@@ -50,6 +50,7 @@ class _chatPageState extends State<chatPage> {
     }
   }
 
+//Fetches trivia qn
   void handleClick(String category, BuildContext context) {
     Future<String> qnData = triviaApi.generateTrivia(category);
 
@@ -60,8 +61,12 @@ class _chatPageState extends State<chatPage> {
         'Timestamp': DateTime.now(),
         'Answer': 'none'
       });
-      String qn = jsonDecode(data)['question'];
-      docRef.then((value) => qnIdTracker[qn] = value.id);
+      // String qn = jsonDecode(data)['question'];
+      // docRef.then((value) {
+      // qnIdTracker[qn] = value.id;
+      // messageCollection.doc(uid).collection(widget.userID).doc(value.id).update({})
+      // });
+
       // print(docRef.id);
     });
     Navigator.pop(context);
@@ -106,9 +111,8 @@ class _chatPageState extends State<chatPage> {
                     return CircularProgressIndicator();
                   } else {
                     List messageJson = List.of(snapshot.data.docs);
-
                     List<ChatCard> chatCardsMe = List.from(messageJson.map(
-                        (e) => ChatCard(widget.imgUrl, e['Text'],
+                        (e) => ChatCard(widget.imgUrl, e.id, e['Text'],
                             e['Timestamp'], true, e['Trivia'])));
                     return StreamBuilder(
                         stream: FirebaseFirestore.instance
@@ -125,6 +129,7 @@ class _chatPageState extends State<chatPage> {
                             List<ChatCard> chatCardsTo = List.from(
                                 messageJson2.map((e) => ChatCard(
                                     widget.imgUrl,
+                                    e.id,
                                     e['Text'],
                                     e['Timestamp'],
                                     false,
@@ -336,10 +341,11 @@ class _chatPageState extends State<chatPage> {
 }
 
 class ChatCard extends StatelessWidget {
-  ChatCard(
-      this.imageUrl, this.message, this.timeStamp, this.isMe, this.isTrivia);
+  ChatCard(this.imageUrl, this.docId, this.message, this.timeStamp, this.isMe,
+      this.isTrivia);
   bool isTrivia;
   String imageUrl;
+  String docId;
   var timeStamp;
   String message;
   bool isMe; //Determines who is sender
@@ -348,7 +354,7 @@ class ChatCard extends StatelessWidget {
   String category;
   String answer;
   void clickTick() {
-    String docId = qnIdTracker[qn];
+    // String docId = qnIdTracker[qn];
     messageCollection
         .doc(uid)
         .collection(otherPersonId)
@@ -357,7 +363,7 @@ class ChatCard extends StatelessWidget {
   }
 
   void clickCross() {
-    String docId = qnIdTracker[qn];
+    // String docId = qnIdTracker[qn];
     messageCollection
         .doc(uid)
         .collection(otherPersonId)
