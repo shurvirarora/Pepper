@@ -97,10 +97,11 @@ class _LoginState extends State<Login> {
         body: Container(
           decoration: BoxDecoration(gradient: colorGradient),
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.start,
             children: [
               Padding(
-                padding: EdgeInsets.fromLTRB(0, 260, 0, 10),
+                padding: EdgeInsets.only(
+                    top: MediaQuery.of(context).size.height * 0.3),
                 child: Icon(
                   FontAwesomeIcons.pepperHot,
                   size: 70,
@@ -113,12 +114,13 @@ class _LoginState extends State<Login> {
                     Login.myText('pepper', 36, 1.5, Colors.white, 'Righteous'),
               ),
               Padding(
-                padding: EdgeInsets.only(bottom: 130),
+                padding: EdgeInsets.only(
+                    bottom: MediaQuery.of(context).size.height * 0.2),
                 child: Login.myText('Spice up your life', 21, 0,
                     Color(0xfffe3c72), 'DancingScript'),
               ),
               Padding(
-                  padding: EdgeInsets.fromLTRB(0, 60, 0, 0),
+                  padding: EdgeInsets.only(bottom: 5),
                   child: Center(
                       key: Key('Press'),
                       child: LoginButton(

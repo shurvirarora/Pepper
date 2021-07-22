@@ -44,23 +44,35 @@ class _chatPageState extends State<chatPage> {
     // print(userSnaps);
     return SafeArea(
         child: Scaffold(
-            appBar: AppBar(
-              title: Row(children: [
-                CircleAvatar(
-                  backgroundImage: NetworkImage(widget.imgUrl),
+            appBar: PreferredSize(
+              preferredSize: Size.fromHeight(60.0),
+              child: AppBar(
+                leading: Container(
+                  alignment: Alignment.centerLeft,
+                  padding: EdgeInsets.fromLTRB(10, 10, 0, 0),
+                  child: IconButton(
+                      icon: Icon(
+                        FontAwesomeIcons.angleLeft,
+                        size: 30,
+                      ),
+                      onPressed: () {
+                        onBack();
+                        Navigator.pop(context);
+                      }),
                 ),
-                SizedBox(width: 10),
-                Text(
-                  widget.name,
+                title: Padding(
+                  padding: const EdgeInsets.fromLTRB(0, 10, 0, 0),
+                  child: Row(children: [
+                    CircleAvatar(
+                      backgroundImage: NetworkImage(widget.imgUrl),
+                    ),
+                    SizedBox(width: 10),
+                    Text(
+                      widget.name,
+                    ),
+                  ]),
                 ),
-              ]),
-              centerTitle: true,
-              leading: IconButton(
-                  icon: Icon(FontAwesomeIcons.angleLeft),
-                  onPressed: () {
-                    onBack();
-                    Navigator.pop(context);
-                  }),
+              ),
             ),
             body: StreamBuilder(
                 stream: FirebaseFirestore.instance
@@ -102,6 +114,9 @@ class _chatPageState extends State<chatPage> {
                               color: Colors.white,
                               child: Center(
                                   child: Column(children: [
+                                SizedBox(
+                                  height: 10,
+                                ),
                                 Expanded(
                                   child: ListView(
                                     scrollDirection: Axis.vertical,
@@ -109,7 +124,10 @@ class _chatPageState extends State<chatPage> {
                                     children: fullListOfMessages,
                                   ),
                                 ),
-                                messageComposer()
+                                messageComposer(),
+                                SizedBox(
+                                  height: 5,
+                                )
                               ])),
                             );
                           }
@@ -187,15 +205,14 @@ class ChatCard extends StatelessWidget {
     return InkWell(
       onTap: null,
       child: Padding(
-        padding:
-            const EdgeInsets.symmetric(horizontal: 10, vertical: 10 * 0.75),
+        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10 * 0.5),
         child: Row(
           mainAxisAlignment:
               isMe ? MainAxisAlignment.end : MainAxisAlignment.start,
           children: [
             if (!isMe)
-              CircleAvatar(radius: 20, backgroundImage: NetworkImage(imageUrl)),
-            SizedBox(width: 8),
+              //CircleAvatar(radius: 20, backgroundImage: NetworkImage(imageUrl)),
+              SizedBox(width: 5),
             Container(
               decoration: BoxDecoration(
                 color: primaryColor.withOpacity(isMe ? 1 : 0.2),
@@ -213,7 +230,7 @@ class ChatCard extends StatelessWidget {
                         bottomRight: Radius.circular(30)),
               ),
               child: Padding(
-                padding: EdgeInsets.symmetric(horizontal: 10, vertical: 8),
+                padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
                 child: Column(
                   // crossAxisAlignment:
                   //     isMe ? CrossAxisAlignment.start : CrossAxisAlignment.end,

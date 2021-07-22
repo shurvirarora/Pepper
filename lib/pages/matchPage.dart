@@ -8,11 +8,15 @@ import 'package:myapp/styleguide/colors.dart';
 import 'package:myapp/styleguide/textstyle.dart';
 
 class matchPage extends StatefulWidget {
+  String currPersonId;
+  matchPage(this.currPersonId);
+
   @override
   _matchPageState createState() => _matchPageState();
 }
 
 class _matchPageState extends State<matchPage> {
+  
   goBack() {
     Navigator.pop(context);
   }
@@ -22,7 +26,7 @@ class _matchPageState extends State<matchPage> {
     return StreamBuilder(
         stream: FirebaseFirestore.instance
             .collection('User')
-            .where("User", isEqualTo: uid.toString())
+            .where("User", isEqualTo: widget.currPersonId)
             .snapshots(),
         builder: (context, snapshot) {
           if (!snapshot.hasData) {
