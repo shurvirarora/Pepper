@@ -75,43 +75,16 @@ class _chatPageState extends State<chatPage> {
     // print(userSnaps);
     return SafeArea(
         child: Scaffold(
-<<<<<<< HEAD
             appBar: AppBar(
               backgroundColor: primaryColor,
               title: Row(children: [
                 CircleAvatar(
                   backgroundImage: NetworkImage(widget.imgUrl),
-=======
-            appBar: PreferredSize(
-              preferredSize: Size.fromHeight(60.0),
-              child: AppBar(
-                leading: Container(
-                  alignment: Alignment.centerLeft,
-                  padding: EdgeInsets.fromLTRB(10, 10, 0, 0),
-                  child: IconButton(
-                      icon: Icon(
-                        FontAwesomeIcons.angleLeft,
-                        size: 30,
-                      ),
-                      onPressed: () {
-                        onBack();
-                        Navigator.pop(context);
-                      }),
->>>>>>> 5ca5f805191e34bb207386dd4e48e4b9b5dc5947
                 ),
-                title: Padding(
-                  padding: const EdgeInsets.fromLTRB(0, 10, 0, 0),
-                  child: Row(children: [
-                    CircleAvatar(
-                      backgroundImage: NetworkImage(widget.imgUrl),
-                    ),
-                    SizedBox(width: 10),
-                    Text(
-                      widget.name,
-                    ),
-                  ]),
+                SizedBox(width: 10),
+                Text(
+                  widget.name,
                 ),
-<<<<<<< HEAD
               ]),
               centerTitle: true,
               leading: IconButton(
@@ -121,9 +94,6 @@ class _chatPageState extends State<chatPage> {
                     print(fullListOfMessages.last.text);
                     Navigator.pop(context, fullListOfMessages.last.text);
                   }),
-=======
-              ),
->>>>>>> 5ca5f805191e34bb207386dd4e48e4b9b5dc5947
             ),
             body: StreamBuilder(
                 stream: FirebaseFirestore.instance
@@ -169,9 +139,6 @@ class _chatPageState extends State<chatPage> {
                               color: Colors.white,
                               child: Center(
                                   child: Column(children: [
-                                SizedBox(
-                                  height: 10,
-                                ),
                                 Expanded(
                                   child: ListView(
                                     scrollDirection: Axis.vertical,
@@ -179,10 +146,7 @@ class _chatPageState extends State<chatPage> {
                                     children: fullListOfMessages,
                                   ),
                                 ),
-                                messageComposer(),
-                                SizedBox(
-                                  height: 5,
-                                )
+                                messageComposer()
                               ])),
                             );
                           }
@@ -411,7 +375,6 @@ class ChatCard extends StatelessWidget {
   Widget build(BuildContext context) {
     print(isTrivia);
     var date = timeStamp.toDate();
-<<<<<<< HEAD
     if (isTrivia) {
       qn = jsonDecode(message)['question'];
       category = jsonDecode(message)['category'];
@@ -453,38 +416,6 @@ class ChatCard extends StatelessWidget {
                     ],
                   ),
                 ),
-=======
-    // print(DateFormat.jm().format(date));
-//     int timeInMillis = 1586348737122;
-// var date = DateTime.fromMillisecondsSinceEpoch(timeInMillis);
-// var formattedDate = DateFormat.yMMMd().format(date); // Apr 8, 2020
-    return InkWell(
-      onTap: null,
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10 * 0.5),
-        child: Row(
-          mainAxisAlignment:
-              isMe ? MainAxisAlignment.end : MainAxisAlignment.start,
-          children: [
-            if (!isMe)
-              //CircleAvatar(radius: 20, backgroundImage: NetworkImage(imageUrl)),
-              SizedBox(width: 5),
-            Container(
-              decoration: BoxDecoration(
-                color: primaryColor.withOpacity(isMe ? 1 : 0.2),
-                borderRadius: isMe
-                    ? BorderRadius.only(
-                        topRight: Radius.circular(30),
-                        topLeft: Radius.circular(30),
-                        bottomLeft: Radius.circular(30),
-                        // bottomRight: Radius.circular(30)
-                      )
-                    : BorderRadius.only(
-                        topRight: Radius.circular(30),
-                        topLeft: Radius.circular(30),
-                        // bottomLeft: Radius.circular(30),
-                        bottomRight: Radius.circular(30)),
->>>>>>> 5ca5f805191e34bb207386dd4e48e4b9b5dc5947
               ),
               // Opacity(
               //   opacity: 0.64,
@@ -507,7 +438,7 @@ class ChatCard extends StatelessWidget {
                       bottomLeft: Radius.circular(10),
                       bottomRight: Radius.circular(10))),
               child: Padding(
-                padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+                padding: EdgeInsets.symmetric(horizontal: 10, vertical: 8),
                 child: Column(
                   children: [
                     Text(
