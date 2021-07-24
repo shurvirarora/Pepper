@@ -120,24 +120,24 @@ class _profilePageState extends State<profilePage> {
                       SizedBox(
                         height: 10,
                       ),
-                      Table(children: [
-                        TableRow(children: [
-                          ProfileInfoBigCard(
-                              firstText: "13",
-                              secondText: "New Matches",
-                              icon: Icon(
-                                FontAwesomeIcons.heart,
-                                color: primaryColor,
-                              )),
-                          ProfileInfoBigCard(
-                              firstText: "2",
-                              secondText: "Groups",
-                              icon: Icon(
-                                FontAwesomeIcons.users,
-                                color: primaryColor,
-                              )),
-                        ]),
-                      ]),
+                      // Table(children: [
+                      //   TableRow(children: [
+                      //     ProfileInfoBigCard(
+                      //         firstText: "13",
+                      //         secondText: "New Matches",
+                      //         icon: Icon(
+                      //           FontAwesomeIcons.heart,
+                      //           color: primaryColor,
+                      //         )),
+                      //     ProfileInfoBigCard(
+                      //         firstText: "2",
+                      //         secondText: "Groups",
+                      //         icon: Icon(
+                      //           FontAwesomeIcons.users,
+                      //           color: primaryColor,
+                      //         )),
+                      //   ]),
+                      // ]),
                       SizedBox(
                         height: 10,
                       ),

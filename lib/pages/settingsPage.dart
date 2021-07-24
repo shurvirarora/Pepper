@@ -1,4 +1,7 @@
+import 'dart:io';
+
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:myapp/pages/profilePage.dart';
@@ -6,13 +9,18 @@ import 'package:myapp/styleguide/colors.dart';
 import 'package:myapp/styleguide/textstyle.dart';
 import 'package:provider/provider.dart';
 import 'package:myapp/blocs/auth_bloc.dart';
+import 'package:myapp/main.dart';
 
 class settingsPage extends StatefulWidget {
+  // MyApp.isDarkModeActive = false;
+  // MyApp.isGroupModeActive = false;
   @override
   _settingsPageState createState() => _settingsPageState();
 }
 
 class _settingsPageState extends State<settingsPage> {
+  // var isDarkModeActive = false;
+  var isGroupModeActive = false;
   @override
   Widget build(BuildContext context) {
     var authBloc = Provider.of<AuthBloc>(context);
@@ -62,16 +70,43 @@ class _settingsPageState extends State<settingsPage> {
                       ),
                     ],
                   ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  buildGroupOptionRow("Pepper Group "),
                   Divider(
-                    height: 15,
-                    thickness: 2,
+                    color: Colors.black.withOpacity(0.5),
+                    thickness: 0.8,
                   ),
                   SizedBox(
                     height: 10,
                   ),
-                  buildNotificationOptionRow("Pepper Group ", true),
+                  Row(
+                    children: [
+                      Icon(
+                        FontAwesomeIcons.adjust,
+                        color: primaryColor,
+                      ),
+                      SizedBox(
+                        width: 8,
+                      ),
+                      Text(
+                        "Theme",
+                        style: TextStyle(
+                            fontSize: 18, fontWeight: FontWeight.bold),
+                      ),
+                    ],
+                  ),
                   SizedBox(
-                    height: 40,
+                    height: 10,
+                  ),
+                  buildThemeModeOptionRow("Dark Mode "),
+                  Divider(
+                    color: Colors.black.withOpacity(0.5),
+                    thickness: 0.8,
+                  ),
+                  SizedBox(
+                    height: 10,
                   ),
                   Row(
                     children: [
@@ -89,16 +124,16 @@ class _settingsPageState extends State<settingsPage> {
                       ),
                     ],
                   ),
-                  Divider(
-                    height: 15,
-                    thickness: 2,
-                  ),
                   SizedBox(
                     height: 10,
                   ),
                   buildAccountOptionRow(context, "Serangoon, Singapore"),
+                  Divider(
+                    color: Colors.black.withOpacity(0.5),
+                    thickness: 0.8,
+                  ),
                   SizedBox(
-                    height: 40,
+                    height: 10,
                   ),
                   Row(
                     children: [
@@ -116,10 +151,6 @@ class _settingsPageState extends State<settingsPage> {
                       ),
                     ],
                   ),
-                  Divider(
-                    height: 15,
-                    thickness: 2,
-                  ),
                   SizedBox(
                     height: 10,
                   ),
@@ -127,7 +158,7 @@ class _settingsPageState extends State<settingsPage> {
                   buildAccountOptionRow(context, "Notification settings"),
                   buildAccountOptionRow(context, "Privacy & Security"),
                   SizedBox(
-                    height: 40,
+                    height: 20,
                   ),
                   Center(
                     child: OutlineButton(
@@ -167,7 +198,7 @@ class _settingsPageState extends State<settingsPage> {
     );
   }
 
-  Row buildNotificationOptionRow(String title, bool isActive) {
+  Row buildThemeModeOptionRow(String title) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
@@ -179,11 +210,61 @@ class _settingsPageState extends State<settingsPage> {
               color: Colors.grey[600]),
         ),
         Transform.scale(
-            scale: 0.7,
+          scale: 0.7,
+          child: InkWell(
             child: CupertinoSwitch(
-              value: isActive,
-              onChanged: (bool val) {},
-            ))
+              value: MyApp.isDarkModeActive,
+              onChanged: (bool val) {
+                setState(() {
+                  MyApp.isDarkModeActive = val;
+                });
+              },
+            ),
+            onTap: () {
+              setState(() {
+                MyApp.isDarkModeActive = !MyApp.isDarkModeActive;
+              });
+              // if (isDarkModeActive) {
+              //   ThemeMode.dark;
+              // } else {
+              //   ThemeMode.light;
+              // }
+            },
+          ),
+        )
+      ],
+    );
+  }
+
+  Row buildGroupOptionRow(String title) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Text(
+          title,
+          style: TextStyle(
+              fontSize: 18,
+              fontWeight: FontWeight.w500,
+              color: Colors.grey[600]),
+        ),
+        Transform.scale(
+          scale: 0.7,
+          child: InkWell(
+            child: CupertinoSwitch(
+              value: isGroupModeActive,
+              onChanged: (bool val) {
+                setState(() {
+                  isGroupModeActive = val;
+                });
+              },
+            ),
+            onTap: () {
+              setState(() {
+                isGroupModeActive = !isGroupModeActive;
+              });
+            },
+          ),
+        )
       ],
     );
   }
