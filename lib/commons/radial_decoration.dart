@@ -27,7 +27,7 @@ class _RadialDecorationState extends State<RadialDecoration>
   AnimationController _radialProgressAnimationController;
   Animation<double> _progressAnimation;
   final Duration fadeInDuration = Duration(milliseconds: 500);
-  final Duration fillDuration = Duration(seconds: 2);
+  final Duration fillDuration = Duration(seconds: 1);
 
   double progressDegrees = 0;
   var count = 0;
