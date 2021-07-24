@@ -395,7 +395,7 @@ class _UserCardState extends State<UserCard> {
             color: secondaryColor,
             size: 18,
           ),
-          location: widget.work,
+          location: "Singapore",
           locationIcon: Icon(
             FontAwesomeIcons.mapMarkerAlt,
             color: secondaryColor,
@@ -421,7 +421,7 @@ class _UserCardState extends State<UserCard> {
   }
 
   Widget basicUserInfo({@required User user}) => Padding(
-        padding: const EdgeInsets.all(8),
+        padding: const EdgeInsets.fromLTRB(15, 0, 0, 8),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisSize: MainAxisSize.min,

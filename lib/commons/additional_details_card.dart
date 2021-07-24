@@ -154,48 +154,48 @@ class AdditionalDetailsCard extends StatelessWidget {
                       ),
                     ],
                   ),
-                  Container(
-                    height: 1,
-                    width: MediaQuery.of(context).size.width * 0.8,
-                    decoration:
-                        BoxDecoration(color: Colors.black.withOpacity(0.25)),
-                  ),
-                  Row(
-                    children: <Widget>[
-                      Padding(
-                        padding: EdgeInsets.fromLTRB(15, 15, 10, 15),
-                        child: Align(
-                          alignment: Alignment.center,
-                          child: educationIcon,
-                        ),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.fromLTRB(5, 0, 5, 0),
-                        child: Text(education, style: titleStyle),
-                      ),
-                    ],
-                  ),
-                  Container(
-                    height: 1,
-                    width: MediaQuery.of(context).size.width * 0.8,
-                    decoration:
-                        BoxDecoration(color: Colors.black.withOpacity(0.25)),
-                  ),
-                  Row(
-                    children: <Widget>[
-                      Padding(
-                        padding: EdgeInsets.fromLTRB(15, 15, 10, 15),
-                        child: Align(
-                          alignment: Alignment.center,
-                          child: workIcon,
-                        ),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.fromLTRB(5, 0, 5, 0),
-                        child: Text(work, style: titleStyle),
-                      ),
-                    ],
-                  ),
+                  // Container(
+                  //   height: 1,
+                  //   width: MediaQuery.of(context).size.width * 0.8,
+                  //   decoration:
+                  //       BoxDecoration(color: Colors.black.withOpacity(0.25)),
+                  // ),
+                  // Row(
+                  //   children: <Widget>[
+                  //     Padding(
+                  //       padding: EdgeInsets.fromLTRB(15, 15, 10, 15),
+                  //       child: Align(
+                  //         alignment: Alignment.center,
+                  //         child: educationIcon,
+                  //       ),
+                  //     ),
+                  //     Padding(
+                  //       padding: EdgeInsets.fromLTRB(5, 0, 5, 0),
+                  //       child: Text(education, style: titleStyle),
+                  //     ),
+                  //   ],
+                  // ),
+                  // Container(
+                  //   height: 1,
+                  //   width: MediaQuery.of(context).size.width * 0.8,
+                  //   decoration:
+                  //       BoxDecoration(color: Colors.black.withOpacity(0.25)),
+                  // ),
+                  // Row(
+                  //   children: <Widget>[
+                  //     Padding(
+                  //       padding: EdgeInsets.fromLTRB(15, 15, 10, 15),
+                  //       child: Align(
+                  //         alignment: Alignment.center,
+                  //         child: workIcon,
+                  //       ),
+                  //     ),
+                  //     Padding(
+                  //       padding: EdgeInsets.fromLTRB(5, 0, 5, 0),
+                  //       child: Text(work, style: titleStyle),
+                  //     ),
+                  //   ],
+                  // ),
                 ],
               ),
             ),
