@@ -102,6 +102,7 @@ class _chatPageState extends State<chatPage> {
                 SizedBox(width: 10),
                 Text(
                   widget.name,
+                  style: TextStyle(fontSize: 20, color: Colors.white),
                 ),
               ]),
               centerTitle: true,
@@ -109,8 +110,12 @@ class _chatPageState extends State<chatPage> {
                   icon: Icon(FontAwesomeIcons.angleLeft),
                   onPressed: () {
                     onBack();
+
                     // print(fullListOfMessages.last.text);
-                    Navigator.pop(context, fullListOfMessages.last.text);
+                    // Navigator.pop(context, fullListOfMessages.last.text);
+
+                    print(fullListOfMessages.last.text);
+                    Navigator.pop(context);
                   }),
             ),
             body: StreamBuilder(

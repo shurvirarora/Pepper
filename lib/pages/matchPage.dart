@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:myapp/commons/my_info.dart';
+import 'package:myapp/commons/radial_decoration.dart';
 import 'package:myapp/commons/rounded_image.dart';
 import 'package:myapp/main.dart';
 import 'loginPage.dart';
@@ -16,7 +17,6 @@ class matchPage extends StatefulWidget {
 }
 
 class _matchPageState extends State<matchPage> {
-  
   goBack() {
     Navigator.pop(context);
   }
@@ -45,7 +45,7 @@ class _matchPageState extends State<matchPage> {
             // if(snapshot.hasData){s SafeArea(
             return SafeArea(
                 child: Scaffold(
-              backgroundColor: primaryColor.withOpacity(0.9),
+              backgroundColor: primaryColor.withOpacity(0.92),
               body: Center(
                   child: Container(
                       /*decoration: BoxDecoration(
@@ -66,9 +66,13 @@ class _matchPageState extends State<matchPage> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    RoundedImage(
-                      imagePath: imageLink,
-                      size: Size.fromWidth(120),
+                    RadialDecoration(
+                      width: 30,
+                      progressColor: Colors.white,
+                      child: RoundedImage(
+                        imagePath: imageLink,
+                        size: Size.fromWidth(120),
+                      ),
                     ),
                     // RoundedImage(
                     //   imagePath: imageLink,

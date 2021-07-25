@@ -21,7 +21,7 @@ class AboutMeCard extends StatelessWidget {
         margin: const EdgeInsets.symmetric(horizontal: 2.5, vertical: 10),
         elevation: 5,
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(10),
+          borderRadius: BorderRadius.circular(30),
         ),
         child: Padding(
           padding: const EdgeInsets.only(
@@ -35,25 +35,34 @@ class AboutMeCard extends StatelessWidget {
               Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
-                  Text(
-                    firstText,
-                    style: userCardTitle,
+                  Padding(
+                    padding: EdgeInsets.fromLTRB(5, 5, 0, 0),
+                    child: Text(
+                      firstText,
+                      style: userCardTitle,
+                    ),
                   ),
                   SizedBox(
                     width: 5,
                   ),
-                  Icon(
-                    Icons.info,
-                    size: 20,
-                    color: Colors.black.withOpacity(0.75),
+                  Padding(
+                    padding: const EdgeInsets.only(top: 5),
+                    child: Icon(
+                      Icons.info,
+                      size: 18,
+                      color: secondaryColor,
+                    ),
                   )
                 ],
               ),
               SizedBox(height: 10),
               Row(
                 children: [
-                  Text(
-                    secondText,
+                  Padding(
+                    padding: const EdgeInsets.only(left: 5),
+                    child: Text(
+                      secondText,
+                    ),
                   ),
                 ],
               ),

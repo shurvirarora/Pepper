@@ -22,6 +22,7 @@ void main() async {
 }
 
 class MyApp extends StatelessWidget {
+  static bool isDarkModeActive = false;
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
@@ -47,6 +48,16 @@ class MyApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         title: 'Pepper',
         theme: themeData,
+        darkTheme: ThemeData(
+            textTheme: Theme.of(context)
+                .textTheme
+                .apply(displayColor: secondaryColor, bodyColor: secondaryColor),
+            backgroundColor: secondaryColor,
+            cardColor: Colors.black,
+            primaryColor: Colors.black,
+            scaffoldBackgroundColor: secondaryColor),
+
+        //themeMode: ThemeMode.light,
         //Defines home
         initialRoute: '/main',
         routes: {

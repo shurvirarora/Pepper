@@ -117,7 +117,7 @@ class _HomeState extends State<Home> {
                 Icons.person,
                 size: 25,
               ),
-              selectedColor: Color(0xfffe3c72),
+              selectedColor: primaryColor,
             ),
 
             /// Home
@@ -126,7 +126,7 @@ class _HomeState extends State<Home> {
                   Icons.home,
                   size: 25,
                 ),
-                selectedColor: Color(0xfffe3c72)),
+                selectedColor: primaryColor),
 
             /// Search
             DotNavigationBarItem(
@@ -134,7 +134,7 @@ class _HomeState extends State<Home> {
                 FontAwesomeIcons.comment,
                 size: 25,
               ),
-              selectedColor: Color(0xfffe3c72),
+              selectedColor: primaryColor,
             ),
 
             /// Profile
