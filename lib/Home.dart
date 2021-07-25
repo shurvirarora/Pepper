@@ -18,6 +18,7 @@ import 'pages/swipePage.dart';
 
 // RESPONSIBLE FOR NAVIGATION BETWEEN THE 3 MAIN TABS
 final List<Widget> _children = [profilePage(), swipePage(), messagePage()];
+// final String uid = FirebaseAuth.instance.currentUser.uid.toString();
 
 class Home extends StatefulWidget {
   @override
@@ -39,6 +40,7 @@ class _HomeState extends State<Home> {
             .pushReplacement(MaterialPageRoute(builder: (context) => Login()));
       }
     });
+    // userCollection.doc(uid).get().then((doc) => doc.data())
     super.initState();
   }
 

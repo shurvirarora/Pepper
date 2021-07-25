@@ -1,17 +1,16 @@
 import 'dart:collection';
 import 'dart:convert';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:myapp/Decorations/constants.dart';
+import 'package:myapp/pages/loginPage.dart';
 import 'package:myapp/services/triviaApi.dart';
 import 'package:myapp/styleguide/colors.dart';
 import 'package:provider/provider.dart';
 import 'package:intl/intl.dart';
 
-// import '../Decorations/constants.dart';
 final FirebaseAuth firebaseAuth = FirebaseAuth.instance;
 final User user = firebaseAuth.currentUser;
 final String uid = user.uid.toString();
@@ -20,7 +19,7 @@ final messageCollection = FirebaseFirestore.instance.collection('Messages');
 // String myImageUrl;
 int numberOfMessages;
 String otherPersonId;
-// Map qnIdTracker = Map();
+Map<String, String> imageLinks = Map();
 
 class chatPage extends StatefulWidget {
   String userID;
@@ -38,6 +37,13 @@ class _chatPageState extends State<chatPage> {
   void initState() {
     // TODO: implement initState
     otherPersonId = widget.userID;
+    imageLinks[widget.userID] = widget.imgUrl;
+    userCollection.doc(uid).get().then((doc) {
+      Map userData = doc.data();
+      // print('HERERER');
+      // print(userData['DownloadUrl']);
+      imageLinks[uid] = userData['DownloadUrl'];
+    });
     super.initState();
   }
 
@@ -59,25 +65,32 @@ class _chatPageState extends State<chatPage> {
         'Text': data,
         'Trivia': true,
         'Timestamp': DateTime.now(),
-        'Answer': 'none'
+        'True': [],
+        'False': []
       });
-      // String qn = jsonDecode(data)['question'];
-      // docRef.then((value) {
-      // qnIdTracker[qn] = value.id;
-      // messageCollection.doc(uid).collection(widget.userID).doc(value.id).update({})
-      // });
-
-      // print(docRef.id);
     });
     Navigator.pop(context);
+  }
+
+  List helper(var a) {
+    try {
+      return List.of(a['True']);
+    } catch (e) {
+      return [];
+    }
+  }
+
+  List helper2(var a) {
+    try {
+      return List.of(a['False']);
+    } catch (e) {
+      return [];
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     // var userSnaps = Provider.of<DocumentSnapshot>(context, listen: false);
-    // Map data = userSnaps.data();
-    // myImageUrl = data['DownloadUrl'];
-    // print(userSnaps);
     return SafeArea(
         child: Scaffold(
             appBar: AppBar(
@@ -96,7 +109,7 @@ class _chatPageState extends State<chatPage> {
                   icon: Icon(FontAwesomeIcons.angleLeft),
                   onPressed: () {
                     onBack();
-                    print(fullListOfMessages.last.text);
+                    // print(fullListOfMessages.last.text);
                     Navigator.pop(context, fullListOfMessages.last.text);
                   }),
             ),
@@ -112,8 +125,15 @@ class _chatPageState extends State<chatPage> {
                   } else {
                     List messageJson = List.of(snapshot.data.docs);
                     List<ChatCard> chatCardsMe = List.from(messageJson.map(
-                        (e) => ChatCard(widget.imgUrl, e.id, e['Text'],
-                            e['Timestamp'], true, e['Trivia'])));
+                        (e) => ChatCard(
+                            widget.imgUrl,
+                            e.id,
+                            e['Text'],
+                            e['Timestamp'],
+                            true,
+                            e['Trivia'],
+                            helper(e),
+                            helper2(e))));
                     return StreamBuilder(
                         stream: FirebaseFirestore.instance
                             .collection('Messages')
@@ -133,7 +153,9 @@ class _chatPageState extends State<chatPage> {
                                     e['Text'],
                                     e['Timestamp'],
                                     false,
-                                    e['Trivia'])));
+                                    e['Trivia'],
+                                    helper(e),
+                                    helper2(e))));
 
                             fullListOfMessages = chatCardsMe + chatCardsTo;
                             numberOfMessages = fullListOfMessages.length;
@@ -321,8 +343,6 @@ class _chatPageState extends State<chatPage> {
             iconSize: 25.0,
             color: Theme.of(context).primaryColor,
             onPressed: () {
-              // print("HEREREREERE");
-              // print(DateTime.now());
               messageCollection.doc(uid).collection(widget.userID).add({
                 'Text': messageController.text,
                 'Trivia': false,
@@ -340,66 +360,151 @@ class _chatPageState extends State<chatPage> {
   }
 }
 
-class ChatCard extends StatelessWidget {
+Future<String> fetchImageUrl(String id) {
+  userCollection.doc(id).get().then((doc) {
+    if (doc.exists) {
+      Map userData = doc.data();
+      // print(userData['DownloadUrl']);
+      return userData['DownloadUrl'];
+    } else {
+      print('Document doesnt exist!');
+    }
+  });
+}
+
+class ChatCard extends StatefulWidget {
   ChatCard(this.imageUrl, this.docId, this.message, this.timeStamp, this.isMe,
-      this.isTrivia);
+      this.isTrivia, this.selectedTrue, this.selectedFalse);
   bool isTrivia;
   String imageUrl;
   String docId;
   var timeStamp;
   String message;
-  bool isMe; //Determines who is sender
-//Trivia details
-  String qn;
-  String category;
-  String answer;
-  void clickTick() {
-    // String docId = qnIdTracker[qn];
-    messageCollection
-        .doc(uid)
-        .collection(otherPersonId)
-        .doc(docId)
-        .update({'Answer': 'true'});
-  }
-
-  void clickCross() {
-    // String docId = qnIdTracker[qn];
-    messageCollection
-        .doc(uid)
-        .collection(otherPersonId)
-        .doc(docId)
-        .update({'Answer': 'false'});
-  }
-
+  bool isMe;
+  List selectedTrue;
+  List selectedFalse;
+  @override
+  State<ChatCard> createState() => _ChatCardState();
+  get text => this.message;
   get time {
     return this.timeStamp;
   }
+}
 
-  get text => this.message;
+class _ChatCardState extends State<ChatCard> {
+  String qn;
+  String category;
+  String answer;
+  bool falseCorrect;
+  bool trueCorrect;
+  bool falseChosenCorrectly = false;
+  bool trueChosenCorrectly = false;
+
+  void clickTick() {
+    messageCollection
+        .doc(uid)
+        .collection(otherPersonId)
+        .doc(widget.docId)
+        .update({
+      'True': FieldValue.arrayUnion([uid])
+    });
+
+    messageCollection
+        .doc(otherPersonId)
+        .collection(uid)
+        .doc(widget.docId)
+        .update({
+      'True': FieldValue.arrayUnion([uid])
+    });
+    if (trueCorrect) {
+      setState(() {
+        trueChosenCorrectly = true;
+      });
+    }
+  }
+
+  void clickCross() {
+    messageCollection
+        .doc(uid)
+        .collection(otherPersonId)
+        .doc(widget.docId)
+        .update({
+      'False': FieldValue.arrayUnion([uid])
+    });
+    messageCollection
+        .doc(otherPersonId)
+        .collection(uid)
+        .doc(widget.docId)
+        .update({
+      'False': FieldValue.arrayUnion([uid])
+    });
+    if (falseCorrect) {
+      setState(() {
+        falseChosenCorrectly = true;
+      });
+    }
+  }
+
+  @override
+  void initState() {
+    // print(widget.selectedTrue);
+    if (widget.isTrivia) {
+      qn = jsonDecode(widget.message)['question'];
+      category = jsonDecode(widget.message)['category'];
+      answer = jsonDecode(widget.message)['correct_answer'];
+      if (answer == 'True') {
+        trueCorrect = true;
+        falseCorrect = false;
+        if (widget.selectedTrue.length != 0) {
+          trueChosenCorrectly = true;
+        }
+      } else {
+        if (widget.selectedFalse.length != 0) {
+          falseChosenCorrectly = true;
+        }
+        trueCorrect = false;
+        falseCorrect = true;
+      }
+    }
+    super.initState();
+  }
+
+  List<Widget> avatars(List uids) {
+    // print(uids);
+    // if (uids.isEmpty) {
+    //   return [SizedBox()];
+    // }
+    List<Widget> avatars = [];
+    for (String id in uids) {
+      // print(id);
+      // print(imageLinks[id]);
+
+      avatars.add(Padding(
+        padding: const EdgeInsets.only(left: 10),
+        child: CircleAvatar(backgroundImage: NetworkImage(imageLinks[id])),
+      ));
+    }
+    return avatars;
+  }
 
   @override
   Widget build(BuildContext context) {
-    print(isTrivia);
-    var date = timeStamp.toDate();
-    if (isTrivia) {
-      qn = jsonDecode(message)['question'];
-      category = jsonDecode(message)['category'];
-      answer = jsonDecode(message)['correct_answer'];
-    }
+    var date = widget.timeStamp.toDate();
 
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10 * 0.75),
-      child: !isTrivia
+      child: !widget.isTrivia
           ? Align(
-              alignment: isMe ? Alignment.centerRight : Alignment.centerLeft,
+              alignment:
+                  widget.isMe ? Alignment.centerRight : Alignment.centerLeft,
               child:
                   // if (!isMe)
                   //   CircleAvatar(radius: 20, backgroundImage: NetworkImage(imageUrl)),
                   // SizedBox(width: 8),
                   Container(
                 decoration: BoxDecoration(
-                  color: primaryColor.withOpacity(isMe ? 1 : 0.2),
-                  borderRadius: isMe
+                  color: primaryColor.withOpacity(widget.isMe ? 1 : 0.2),
+                  borderRadius: widget.isMe
                       ? BorderRadius.only(
                           topRight: Radius.circular(30),
                           topLeft: Radius.circular(30),
@@ -417,7 +522,7 @@ class ChatCard extends StatelessWidget {
                   child: Column(
                     children: [
                       Text(
-                        message,
+                        widget.message,
                       ),
                     ],
                   ),
@@ -449,34 +554,105 @@ class ChatCard extends StatelessWidget {
                   children: [
                     Text(
                       category,
+                      style: triviaOptionsStyle,
                     ),
                     SizedBox(
                       height: 10,
                     ),
                     Text(
                       qn,
+                      style: triviaOptionsStyle,
                     ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        IconButton(
-                            onPressed: clickCross,
-                            icon: Icon(
-                              FontAwesomeIcons.times,
-                              color: Colors.red,
-                            )),
-                        IconButton(
-                            onPressed: clickTick,
-                            icon: Icon(
-                              FontAwesomeIcons.checkCircle,
-                              color: Colors.green,
-                            ))
-                      ],
-                    )
+                    SizedBox(
+                      height: 10,
+                    ),
+                    GestureDetector(
+                      onTap: clickTick,
+                      child: Card(
+                        shape: RoundedRectangleBorder(
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(20))),
+                        elevation: 2,
+                        shadowColor: Colors.grey,
+                        color: trueChosenCorrectly
+                            ? Colors.green[400].withOpacity(0.9)
+                            : Colors.white,
+                        child: Row(
+                          children: [
+                            SizedBox(
+                              width: 20,
+                            ),
+                            Text(
+                              'True',
+                              style: triviaOptionsStyle,
+                            ),
+                            widget.selectedTrue.length != 0
+                                ? SizedBox(
+                                    height: 75,
+                                    child: ListView.builder(
+                                        scrollDirection: Axis.horizontal,
+                                        itemCount: widget.selectedTrue.length,
+                                        shrinkWrap: true,
+                                        itemBuilder: (context, index) {
+                                          return Row(children: [
+                                            avatars(widget.selectedTrue)[index]
+                                          ]);
+                                        }),
+                                  )
+                                : SizedBox(
+                                    height: 75,
+                                  )
+                          ],
+                        ),
+                      ),
+                    ),
+                    GestureDetector(
+                      onTap: clickCross,
+                      child: Card(
+                        shape: RoundedRectangleBorder(
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(20))),
+                        elevation: 2,
+                        shadowColor: Colors.grey,
+                        color: falseChosenCorrectly
+                            ? Colors.green[400].withOpacity(0.9)
+                            : Colors.white,
+                        child: Row(
+                          children: [
+                            SizedBox(
+                              width: 20,
+                            ),
+                            Text(
+                              'False',
+                              style: triviaOptionsStyle,
+                            ),
+                            widget.selectedFalse.length != 0
+                                ? SizedBox(
+                                    height: 75,
+                                    child: ListView.builder(
+                                        scrollDirection: Axis.horizontal,
+                                        itemCount: widget.selectedFalse.length,
+                                        shrinkWrap: true,
+                                        itemBuilder: (context, index) {
+                                          return Row(children: [
+                                            avatars(widget.selectedFalse)[index]
+                                          ]);
+                                        }),
+                                  )
+                                : SizedBox(
+                                    height: 75,
+                                  )
+                          ],
+                        ),
+                      ),
+                    ),
                   ],
                 ),
               ),
             ),
     );
   }
+
+  TextStyle triviaOptionsStyle = TextStyle(
+      fontWeight: FontWeight.w800, fontSize: 16, fontFamily: 'PoiretOne');
 }

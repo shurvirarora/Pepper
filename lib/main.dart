@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:myapp/blocs/auth_bloc.dart';
 import 'package:myapp/pages/loginPage.dart';
 import 'package:myapp/home.dart';
+import 'package:myapp/pages/registerPage.dart';
 import 'package:myapp/styleguide/colors.dart';
 import 'package:provider/provider.dart';
 import 'home.dart';
@@ -53,7 +54,7 @@ class MyApp extends StatelessWidget {
           '/login': (context) => Login(),
           '/Phone': (context) => PhoneLogin(),
           '/Email': (context) => EmailLogin(),
-          // '/messages': (context) => messagePage(),
+          '/register': (context) => registerPage(),
         },
       ),
     );
