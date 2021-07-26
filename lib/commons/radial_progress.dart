@@ -11,7 +11,7 @@ class RadialProgress extends StatefulWidget {
   const RadialProgress(
       {Key key,
       @required this.child,
-      this.goalCompleted = 0.7,
+      this.goalCompleted = 1.0,
       this.progressColor = Colors.white,
       this.progressBackgroundColor = Colors.white,
       this.width = 8})
@@ -54,7 +54,7 @@ class _RadialProgressState extends State<RadialProgress>
   }
 
   @override
-Widget build(BuildContext context) {
+  Widget build(BuildContext context) {
     return CustomPaint(
       child: Padding(
         padding: const EdgeInsets.all(2.0),
