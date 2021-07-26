@@ -123,7 +123,10 @@ class _registerPageState extends State<registerPage> {
               child: Center(
                 child: Text(
                   'Create Profile',
-                  style: TextStyle(fontSize: 25, fontWeight: FontWeight.w500),
+                  style: TextStyle(
+                      fontSize: 25,
+                      fontWeight: FontWeight.w500,
+                      color: primaryColor),
                 ),
               ),
             ),
@@ -135,7 +138,7 @@ class _registerPageState extends State<registerPage> {
               padding: EdgeInsets.fromLTRB(8, 10, 8, 10),
               child: Text(
                 "Basic Info",
-                style: titleStyle,
+                style: titleStyle2,
               ),
             ),
             buildTextField('Name', "Name...", 30, TextInputType.text),
@@ -179,7 +182,7 @@ class _registerPageState extends State<registerPage> {
               padding: EdgeInsets.fromLTRB(8, 40, 8, 10),
               child: Text(
                 "Work & Education",
-                style: titleStyle,
+                style: titleStyle2,
               ),
             ),
             buildTextField('Education', '', 30, TextInputType.text),
@@ -188,7 +191,7 @@ class _registerPageState extends State<registerPage> {
               padding: EdgeInsets.fromLTRB(8, 40, 8, 10),
               child: Text(
                 "Additional Info",
-                style: titleStyle,
+                style: titleStyle2,
               ),
             ),
             buildTextField('Height', 'cm', 30, TextInputType.number),

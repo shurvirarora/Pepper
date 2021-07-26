@@ -31,6 +31,16 @@ class _messagePageState extends State<messagePage> {
   List userList = [];
   List matchList = [];
   Map lastMessages = Map();
+  @override
+  void initState() {
+    userReference.doc(uid).get().then((doc) {
+      Map userData = doc.data();
+      // print('HERERER');
+      // print(userData['DownloadUrl']);
+      imageLinks[uid] = userData['DownloadUrl'];
+    });
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -181,7 +191,9 @@ class _messagePageState extends State<messagePage> {
                         Text(
                           name, //Name needs to be here
                           style: TextStyle(
-                              fontSize: 17, fontWeight: FontWeight.w500),
+                              color: Colors.black,
+                              fontSize: 17,
+                              fontWeight: FontWeight.w500),
                         ),
                         SizedBox(
                           height: 5,

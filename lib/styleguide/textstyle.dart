@@ -39,6 +39,11 @@ final TextStyle titleStyle = TextStyle(
   //color: primaryTextColor,
   fontWeight: FontWeight.w600,
 );
+final TextStyle titleStyle2 = TextStyle(
+  fontSize: 18.0,
+  color: Colors.black,
+  fontWeight: FontWeight.w600,
+);
 final TextStyle subTitleStyle = TextStyle(
   fontSize: 18.0,
   color: primaryColor,

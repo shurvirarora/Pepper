@@ -1,12 +1,20 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:myapp/commons/my_info.dart';
 import 'package:myapp/commons/radial_decoration.dart';
 import 'package:myapp/commons/rounded_image.dart';
 import 'package:myapp/main.dart';
+import 'package:myapp/pages/chatPage.dart';
 import 'loginPage.dart';
 import 'package:myapp/styleguide/colors.dart';
 import 'package:myapp/styleguide/textstyle.dart';
+
+CollectionReference userReference =
+    FirebaseFirestore.instance.collection('User');
+final FirebaseAuth firebaseAuth = FirebaseAuth.instance;
+final User user = firebaseAuth.currentUser;
+final String uid = user.uid.toString();
 
 class matchPage extends StatefulWidget {
   String currPersonId;
@@ -17,8 +25,22 @@ class matchPage extends StatefulWidget {
 }
 
 class _matchPageState extends State<matchPage> {
+  String imageLink;
+  String name;
   goBack() {
     Navigator.pop(context);
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    userReference.doc(uid).get().then((doc) {
+      Map userData = doc.data();
+      // print('HERERER');
+      // print(userData['DownloadUrl']);
+      imageLinks[uid] = userData['DownloadUrl'];
+    });
+    super.initState();
   }
 
   @override
@@ -34,26 +56,14 @@ class _matchPageState extends State<matchPage> {
           } else {
             List docs = snapshot.data.docs; //fetches list of documents
             QueryDocumentSnapshot temp = docs[0]; //extracts user document
-            String name = temp["Name"];
-            // String aboutMe = temp["About Me"];
-            // String gender = temp["Gender"];
-            // String education = temp["Education"];
-            // String work = temp["Work"];
-            // int height = temp["Height"];
-            // int age = temp["Age"];
-            String imageLink = temp["DownloadUrl"];
-            // if(snapshot.hasData){s SafeArea(
+            name = temp["Name"];
+            imageLink = temp["DownloadUrl"];
+
             return SafeArea(
                 child: Scaffold(
               backgroundColor: primaryColor.withOpacity(0.92),
               body: Center(
                   child: Container(
-                      /*decoration: BoxDecoration(
-                  gradient: LinearGradient(colors: [
-                Colors.red[100],
-                Colors.red[200],
-                Colors.red[300]
-              ])),*/
                       child: Column(children: [
                 Padding(
                     padding: EdgeInsets.symmetric(
@@ -74,10 +84,6 @@ class _matchPageState extends State<matchPage> {
                         size: Size.fromWidth(120),
                       ),
                     ),
-                    // RoundedImage(
-                    //   imagePath: imageLink,
-                    //   size: Size.fromWidth(120),
-                    // ),
                   ],
                 ),
                 SizedBox(
@@ -103,12 +109,10 @@ class _matchPageState extends State<matchPage> {
                     padding: EdgeInsets.symmetric(vertical: 10, horizontal: 80),
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(20)),
-                    onPressed: () {},
+                    onPressed: startConvo,
                     child: Text("Start a convo",
                         style: TextStyle(fontSize: 16, color: Colors.black)),
                   ),
-                  // child: LoginButton("Start a convo now", Icons.message, goBack,
-                  //     Color(0xfffe3c72), Colors.black),
                 ),
                 SizedBox(
                   height: 5,
@@ -130,5 +134,13 @@ class _matchPageState extends State<matchPage> {
             ));
           }
         });
+  }
+
+  void startConvo() {
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(
+          builder: (context) => chatPage(widget.currPersonId, imageLink, name)),
+    );
   }
 }

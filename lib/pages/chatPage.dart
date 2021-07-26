@@ -1,4 +1,3 @@
-import 'dart:collection';
 import 'dart:convert';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -9,7 +8,6 @@ import 'package:myapp/pages/loginPage.dart';
 import 'package:myapp/services/triviaApi.dart';
 import 'package:myapp/styleguide/colors.dart';
 import 'package:provider/provider.dart';
-import 'package:intl/intl.dart';
 
 final FirebaseAuth firebaseAuth = FirebaseAuth.instance;
 final User user = firebaseAuth.currentUser;
@@ -25,6 +23,7 @@ class chatPage extends StatefulWidget {
   String userID;
   String imgUrl; //Person talking to
   String name;
+  String myImageUrl;
   chatPage(this.userID, this.imgUrl, this.name);
   @override
   _chatPageState createState() => _chatPageState();
@@ -38,12 +37,13 @@ class _chatPageState extends State<chatPage> {
     // TODO: implement initState
     otherPersonId = widget.userID;
     imageLinks[widget.userID] = widget.imgUrl;
-    userCollection.doc(uid).get().then((doc) {
-      Map userData = doc.data();
-      // print('HERERER');
-      // print(userData['DownloadUrl']);
-      imageLinks[uid] = userData['DownloadUrl'];
-    });
+    // imageLinks[uid] = widget.myImageUrl;
+    // userCollection.doc(uid).get().then((doc) {
+    //   Map userData = doc.data();
+    //   // print('HERERER');
+    //   // print(userData['DownloadUrl']);
+    //   imageLinks[uid] = userData['DownloadUrl'];
+    // });
     super.initState();
   }
 
@@ -334,6 +334,7 @@ class _chatPageState extends State<chatPage> {
           ),
           Expanded(
             child: TextField(
+              style: TextStyle(color: Colors.black),
               controller: messageController,
               keyboardType: TextInputType.text,
               textCapitalization: TextCapitalization.sentences,
@@ -528,6 +529,7 @@ class _ChatCardState extends State<ChatCard> {
                     children: [
                       Text(
                         widget.message,
+                        style: TextStyle(color: Colors.black),
                       ),
                     ],
                   ),
@@ -659,5 +661,8 @@ class _ChatCardState extends State<ChatCard> {
   }
 
   TextStyle triviaOptionsStyle = TextStyle(
-      fontWeight: FontWeight.w800, fontSize: 16, fontFamily: 'PoiretOne');
+      color: Colors.black,
+      fontWeight: FontWeight.w800,
+      fontSize: 16,
+      fontFamily: 'PoiretOne');
 }

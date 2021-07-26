@@ -12,7 +12,6 @@ import 'phoneLogin.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'emailLogin.dart';
 import 'services/FirebaseServices.dart';
-import 'pages/messagePage.dart';
 
 // import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 void main() async {
@@ -55,7 +54,7 @@ class MyApp extends StatelessWidget {
             backgroundColor: secondaryColor,
             cardColor: Colors.black,
             primaryColor: Colors.black,
-            scaffoldBackgroundColor: secondaryColor),
+            scaffoldBackgroundColor: Colors.white),
 
         //themeMode: ThemeMode.light,
         //Defines home
